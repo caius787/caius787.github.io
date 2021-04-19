@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "My Day Today"
-date:   2021-04-19 15:28:24 +0700
+title:  "Apr 19 Day Today"
+date:   2021-04-19 09:28:24 +0700
 categories: jekyll update
 ---
 Hello everyone

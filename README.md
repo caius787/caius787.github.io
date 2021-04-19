@@ -6,7 +6,7 @@ Follow along at:
 https://caius787.github.io
 
 
-Now a blog at:
+Now a Jekyll blog at:
 https://caius787.github.io/docs
 
 blah
