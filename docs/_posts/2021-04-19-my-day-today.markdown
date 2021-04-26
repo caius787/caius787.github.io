@@ -9,14 +9,14 @@ Hello everyone
 
 
 
-<iframe src="https://giphy.com/embed/AnPLEAwdoU1sk" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/mrw-phone-camera-AnPLEAwdoU1sk">via GIPHY</a></p>
+<iframe src="https://giphy.com/embed/AnPLEAwdoU1sk" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/mrw-phone-camera-AnPLEAwdoU1sk">lots of chins!</a></p>
 
 
 quadriple chin!
 
 
 
-<iframe src="https://giphy.com/embed/NUevhWb3aWuSyXz3FP" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/funny-interesting-sheep-NUevhWb3aWuSyXz3FP">via GIPHY</a></p>
+<iframe src="https://giphy.com/embed/NUevhWb3aWuSyXz3FP" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/funny-interesting-sheep-NUevhWb3aWuSyXz3FP">i cant move!</a></p>
 
 
 so funny
