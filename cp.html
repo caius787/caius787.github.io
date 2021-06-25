@@ -11,7 +11,7 @@
     <title>Prodigy Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
     <!-- Segment -->
-<script nonce="nvmqyH/b6l704KJ3MLSg+g==">
+<script nonce="iBjTUqUN8VNptbkTQ5D65w==">
 //<![CDATA[
   !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn-frontend-events.prodigygame.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="chWWiipPK6nATltSTRHgE6Z7eiZrq4ry";analytics.SNIPPET_VERSION="4.13.2";
     analytics.load("chWWiipPK6nATltSTRHgE6Z7eiZrq4ry");
@@ -20,7 +20,7 @@
 //]]>
 </script>
     <!-- Google Tag Manager -->
-<script nonce="nvmqyH/b6l704KJ3MLSg+g==">
+<script nonce="iBjTUqUN8VNptbkTQ5D65w==">
 //<![CDATA[
 
   var dataLayer = [{
@@ -29,7 +29,7 @@
   }]
 
 //]]>
-</script><script nonce="nvmqyH/b6l704KJ3MLSg+g==">
+</script><script nonce="iBjTUqUN8VNptbkTQ5D65w==">
 //<![CDATA[
   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -45,26 +45,50 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7TSN5K"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-    <div class="game event-trigger" data-event-type=load-identity>
+
+<div class="game">
 
   <div class="container-fluid">
   <header class="game-header">
     <nav class="nav">
       <a class="logo-link" aria-label="Prodigy Homepage" href="https://www.prodigygame.com">
         <img class="logo" alt="" src="https://d3h1l1vctey2se.cloudfront.net/assets/prodigy-orange-logo-865cc7e9261a66f05c04b188e000fc3514c3777233be44dafb2f4fe08cf31f5c.png" />
-</a>    </nav>
+</a>        <div class="header-container">
+          <span class="header-hint game-header-hint">Don&#39;t have an account?</span>
+          <a class="signup-button" href="https://sso.prodigygame.com/game/signup?rid=b36ea18e-2d37-45d4-8b42-edee08ab1096">Sign up</a>
+        </div>
+    </nav>
   </header>
 </div>
 
-  <div class="container start-page-container">
-    <div class="game-start-options">
-      <div class="game-start-paper-middle">
-        <a class="game-button game-button-sapphire game-student-start-login" href="cp.html">
-          <span class="game-button-inner game-student-start-button-inner">Log in</span>
-</a>        <a class="game-button game-button-emerald game-student-start-signup" href="https://sso.prodigygame.com/game/signup?rid=a38a60b2-d16a-4517-93bc-45287ca26bc3">
-          <span class="game-button-inner game-student-start-button-inner">Sign up</span>
-</a>      </div>
-    </div>
+  <div class="container">
+    <div class="game-login">
+      <div class="disable-on-submit">
+        <h1 class="game-login-heading">Log in<br>(It Doesn't Have To Be Your Real Username Or Password)</h1>
+
+
+      </div>
+      <form action="/game/login?rid=4f5dd0ca-8f18-49be-8026-1391f12015d6" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="AZti9UbzPY57RlaA3jakKrIyTIKzEJKKu84w4b3xxiOBlt6w0MZnwa8LiCdJJdArGx/FnZ6AyswKR1KqXdUBQg==" />
+        <div class="disable-on-submit">
+          <div class="game-login-username-container">
+            <label class="game-login-label" for="unauthenticated_game_login_form_username">Username</label>
+            <input class="game-login-username " aria-required="true" type="text" name="unauthenticated_game_login_form[username]" id="unauthenticated_game_login_form_username" />
+          </div>
+          <label class="game-login-label" for="unauthenticated_game_login_form_password">Password</label>
+          <div class="game-login-password-container">
+            <span id="js-show-password" class="game-password-show">
+              <em class="fa fa-eye game-password-show-icon" id="js-password-show-icon"></em>
+              <span id="js-password-show-text">
+                Show
+              </span>
+            </span>
+            <input class="game-login-password js-password-input " aria-required="true" type="password" name="unauthenticated_game_login_form[password]" id="unauthenticated_game_login_form_password" />
+          </div>
+          <a class="game-login-reset-password-link" id="js-forgot-password-link" data-event-type="click-student-password-reset" href="youhavebadmem.html">Forgot your password? Well Too Bad</a>
+        </div>
+        <a class="game-button game-button-emerald game-student-start-signup" href="Loading.html">
+                  <span class="game-button-inner game-student-start-button-inner">Submit</span>
+</form>    </div>
   </div>
 </div>
 
