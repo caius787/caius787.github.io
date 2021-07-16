@@ -1,0 +1,18 @@
+title: MinecraftHopper
+email: admin@minecrafthopper.net
+description: >-
+  Get community help for Minecraft
+baseurl: ""
+url: "https://minecrafthopper.net"
+twitter_username: ""
+github_username:  ""
+
+markdown: kramdown
+theme: jekyll-theme-cayman
+
+collections:
+    help:
+        output: true
+
+plugins:
+  - jekyll-redirect-from
