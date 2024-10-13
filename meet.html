@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Game with Score and Stopwatch</title>
+    <title>Typing Game with Score</title>
     <style>
         body, html {
             margin: 0;
@@ -16,27 +16,14 @@
             background-color: #f4f4f4;
         }
 
-        #startScreen, #gameScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f4f4f4;
-        }
-
-        #startScreen h1 {
-            font-size: 36px;
-            color: black;
-        }
-
         #gameScreen {
-            display: none;
+            display: flex;
             flex-direction: column;
             text-align: center;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
         }
 
         #letterContainer {
@@ -59,7 +46,7 @@
             background-color: lightcoral;
         }
 
-        #congratulations, #youFailed, #scoreCounter, #stopwatch {
+        #congratulations, #youFailed, #scoreCounter {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -71,7 +58,7 @@
             z-index: 100;
         }
 
-        #scoreCounter, #stopwatch {
+        #scoreCounter {
             font-size: 24px;
             top: 70%;
         }
@@ -110,11 +97,6 @@
 </head>
 <body>
 
-    <!-- Start Screen -->
-    <div id="startScreen">
-        <h1>Daddy or Aunt Tacee, click anywhere to start.</h1>
-    </div>
-
     <!-- Game Screen -->
     <div id="gameScreen">
         <h1>Type the Words</h1>
@@ -122,47 +104,12 @@
         <div id="congratulations">CONGRATULATIONS</div>
         <div id="youFailed">YOU FAILED</div>
         <div id="scoreCounter">Score: <span id="scoreValue"></span></div>
-        <div id="stopwatch">Time: <span id="timeValue">00:00</span></div>
         <canvas id="fallingCanvas"></canvas>
     </div>
 
     <script>
         let correctLetters = 0;
         const totalLetters = 18; // Number of total letters (this will update dynamically based on the word count)
-
-        let seconds = 0;
-        let minutes = 0;
-        let stopwatchInterval = null;
-        let stopwatchStarted = false;
-
-        // Start the stopwatch
-        function startStopwatch() {
-            stopwatchInterval = setInterval(() => {
-                seconds++;
-                if (seconds === 60) {
-                    seconds = 0;
-                    minutes++;
-                }
-                document.getElementById('timeValue').textContent = 
-                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            }, 1000);
-        }
-
-        // Stop the stopwatch
-        function stopStopwatch() {
-            clearInterval(stopwatchInterval);
-            const stopwatchDisplay = document.getElementById('stopwatch');
-            stopwatchDisplay.style.display = 'block';  // Continue displaying the final time
-        }
-
-        // Switch from start screen to game screen
-        const startScreen = document.getElementById('startScreen');
-        const gameScreen = document.getElementById('gameScreen');
-
-        startScreen.addEventListener('click', function () {
-            startScreen.style.display = 'none'; // Hide start screen
-            gameScreen.style.display = 'flex';  // Show game screen
-        });
 
         // Word database
         const wordsDatabase = ["Minecraft", "game", "coding", "stupid", "why", "speaker", "computer", "taco", 
@@ -262,4 +209,57 @@
             scoreCounter.style.display = 'block';
         }
 
-        // Check if all letters are
+        // Check if all letters are correctly typed
+        function checkAllCorrect() {
+            const letters = document.querySelectorAll('.letter');
+            for (let i = 0; i < letters.length; i++) {
+                if (!letters[i].classList.contains('correct')) {
+                    return false; // At least one letter is incorrect
+                }
+            }
+            return true; // All letters are correct
+        }
+
+        // Listen for key presses
+        document.addEventListener('keydown', (event) => {
+            const letters = document.querySelectorAll('.letter');
+
+            if (event.key === 'Backspace' && currentIndex > 0) {
+                // If the letter is red (wrong), allow deletion
+                if (letters[currentIndex - 1].classList.contains('wrong')) {
+                    currentIndex--;
+                    letters[currentIndex].classList.remove('correct', 'wrong');
+                }
+            } else if (currentIndex < combinedLetters.length) {
+                const typedLetter = event.key === ' ' ? ' ' : event.key.toUpperCase();
+                if (typedLetter === combinedLetters[currentIndex].toUpperCase()) {
+                    letters[currentIndex].classList.add('correct');
+                    correctLetters++;
+                } else {
+                    letters[currentIndex].classList.add('wrong');
+                }
+                currentIndex++;
+
+                // Check if all letters have been typed
+                if (currentIndex === combinedLetters.length && !animationTriggered) {
+                    animationTriggered = true;
+
+                    if (checkAllCorrect()) {
+                        triggerFallingCircles(); // Start falling circles
+                        showCongratulations(); // Show "CONGRATULATIONS"
+                    } else {
+                        showYouFailed(); // Show "YOU FAILED"
+                    }
+                    showScore(); // Display the score at the end
+                }
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+
+</body>
+</html>
