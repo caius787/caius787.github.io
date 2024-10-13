@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Type the Letters</title>
+    <title>Type the Letters - Falling Circles</title>
     <style>
         body {
             font-family: sans-serif;
@@ -41,7 +41,7 @@
 
     <h1>Type the Letters</h1>
     <div id="letterContainer"></div>
-    <canvas id="fireworksCanvas"></canvas>
+    <canvas id="fallingCanvas"></canvas>
 
     <script>
         // Generate 24 random letters
@@ -57,61 +57,64 @@
         }
 
         let currentIndex = 0;
-        let fireworksTriggered = false;
+        let animationTriggered = false;
 
-        // Fireworks canvas setup
-        const canvas = document.getElementById('fireworksCanvas');
+        // Falling circles canvas setup
+        const canvas = document.getElementById('fallingCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        let fireworks = [];
+        let fallingCircles = [];
 
-        function createFirework(x, y) {
+        function createFallingCircles() {
             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
-            for (let i = 0; i < 50; i++) {
-                fireworks.push({
-                    x: x,
-                    y: y,
-                    radius: Math.random() * 3 + 2,
+            // Increase the number of circles generated (200 at a time)
+            for (let i = 0; i < 200; i++) {
+                fallingCircles.push({
+                    x: Math.random() * canvas.width,
+                    y: -10, // Start above the canvas
+                    radius: Math.random() * 10 + 5,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    speedX: (Math.random() - 0.5) * 10,
-                    speedY: (Math.random() - 0.5) * 10,
-                    alpha: 1
+                    speedY: Math.random() * 2 + 1, // Slow down to make circles last longer
+                    lifespan: 0 // Keep track of how long each circle has been falling
                 });
             }
         }
 
-        function animateFireworks() {
+        function animateFallingCircles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            fireworks.forEach((firework, index) => {
-                firework.x += firework.speedX;
-                firework.y += firework.speedY;
-                firework.alpha -= 0.02;
+            fallingCircles.forEach((circle, index) => {
+                circle.y += circle.speedY;
+                circle.lifespan += 1;
 
-                if (firework.alpha <= 0) {
-                    fireworks.splice(index, 1);
+                // Remove circles after they have existed for longer (increased lifespan)
+                if (circle.lifespan > 500) {
+                    fallingCircles.splice(index, 1);
                 }
 
-                ctx.globalAlpha = firework.alpha;
                 ctx.beginPath();
-                ctx.arc(firework.x, firework.y, firework.radius, 0, Math.PI * 2);
-                ctx.fillStyle = firework.color;
+                ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+                ctx.fillStyle = circle.color;
                 ctx.fill();
             });
 
-            ctx.globalAlpha = 1;
-
-            if (fireworks.length > 0) {
-                requestAnimationFrame(animateFireworks);
+            // Continue animation while there are still circles falling
+            if (fallingCircles.length > 0) {
+                requestAnimationFrame(animateFallingCircles);
             }
         }
 
-        function triggerFireworks() {
-            createFirework(Math.random() * canvas.width, Math.random() * canvas.height);
-            createFirework(Math.random() * canvas.width, Math.random() * canvas.height);
-            createFirework(Math.random() * canvas.width, Math.random() * canvas.height);
-            animateFireworks();
+        function triggerFallingCircles() {
+            createFallingCircles(); // Create initial set of circles
+            animateFallingCircles(); // Start animation
+            // Create new falling circles every 500ms for continuous effect
+            const intervalId = setInterval(createFallingCircles, 500);
+
+            // Stop creating circles after 10 seconds to let the current ones finish falling
+            setTimeout(() => {
+                clearInterval(intervalId);
+            }, 10000);
         }
 
         // Listen for key presses
@@ -134,4 +137,20 @@
                 }
                 currentIndex++;
 
-                // Check if all letters are typed
+                // Check if all letters are typed correctly and trigger the falling circles
+                if (currentIndex === randomLetters.length && !animationTriggered) {
+                    animationTriggered = true;
+                    triggerFallingCircles();
+                }
+            }
+        });
+
+        // Resize canvas when window resizes
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+
+</body>
+</html>
