@@ -61,7 +61,7 @@
 
         #congratulations, #youFailed {
             position: fixed;
-            top: 50%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 100px;
@@ -80,6 +80,22 @@
             -webkit-background-clip: border-box;
             color: white;
             animation: none;
+        }
+
+        #restartMessage {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            color: transparent;
+            z-index: 100;
+            display: none;
+            animation: gradientAnimation 2s linear infinite;
         }
 
         /* Gradient animation */
@@ -111,6 +127,7 @@
         <h1>Type the Letters</h1>
         <div id="letterContainer"></div>
         <div id="congratulations">CONGRATULATIONS</div>
+        <div id="restartMessage">Command R to restart</div>
         <div id="youFailed">YOU FAILED</div>
         <canvas id="fallingCanvas"></canvas>
     </div>
@@ -202,12 +219,16 @@
 
         function showCongratulations() {
             const congratulations = document.getElementById('congratulations');
+            const restartMessage = document.getElementById('restartMessage');
             congratulations.style.display = 'block';
+            restartMessage.style.display = 'block';
         }
 
         function showYouFailed() {
             const youFailed = document.getElementById('youFailed');
+            const restartMessage = document.getElementById('restartMessage');
             youFailed.style.display = 'block';
+            restartMessage.style.display = 'block';
         }
 
         // Check if all letters are correctly typed
@@ -250,15 +271,4 @@
                     } else {
                         showYouFailed(); // Show "YOU FAILED"
                     }
-                }
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
-
-</body>
-</html>
+               
