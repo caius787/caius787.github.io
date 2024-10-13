@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Type the Letters - Falling Circles with Congratulations</title>
+    <title>Type the Letters - Falling Circles with Gradient Congratulations</title>
     <style>
         body {
             font-family: sans-serif;
@@ -34,9 +34,12 @@
             transform: translate(-50%, -50%);
             font-size: 100px;
             font-weight: bold;
-            color: black;
+            background: linear-gradient(90deg, #FF0000, #00FF00);
+            -webkit-background-clip: text;
+            color: transparent;
             z-index: 100; /* Make sure it's on top of everything */
             display: none; /* Initially hidden */
+            animation: gradientAnimation 0.2s infinite;
         }
         canvas {
             position: fixed;
@@ -46,6 +49,12 @@
             height: 100%;
             pointer-events: none;
             z-index: 10; /* Behind the congratulations text */
+        }
+
+        /* Gradient animation */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
     </style>
 </head>
@@ -138,23 +147,12 @@
             }, 10000);
         }
 
-        // Change color of the congratulations text every 0.5 seconds
-        function changeCongratulationsColor() {
-            const congratulations = document.getElementById('congratulations');
-            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
-            let colorIndex = 0;
-
-            setInterval(() => {
-                congratulations.style.color = colors[colorIndex];
-                colorIndex = (colorIndex + 1) % colors.length;
-            }, 500);
-        }
-
         // Show the congratulations text
         function showCongratulations() {
             const congratulations = document.getElementById('congratulations');
             congratulations.style.display = 'block'; // Show the text
-            changeCongratulationsColor(); // Start color change animation
+            congratulations.style.background = `linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF)`;
+            congratulations.style.backgroundSize = '200% 200%'; // For smooth gradient transition
         }
 
         // Listen for key presses
