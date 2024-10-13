@@ -50,10 +50,15 @@
 
         // Listen for key presses
         document.addEventListener('keydown', (event) => {
-            const typedLetter = event.key.toUpperCase(); // Handle case insensitivity
             const letters = document.querySelectorAll('.letter');
 
-            if (currentIndex < randomLetters.length) {
+            if (event.key === 'Backspace' && currentIndex > 0) {
+                // If the user presses backspace, go back one step
+                currentIndex--;
+                letters[currentIndex].classList.remove('correct', 'wrong');
+            } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
+                // Check if it's a letter key
+                const typedLetter = event.key.toUpperCase(); // Handle case insensitivity
                 if (typedLetter === randomLetters[currentIndex]) {
                     letters[currentIndex].classList.add('correct');
                 } else {
