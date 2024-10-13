@@ -3,38 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full ASCII Dog</title>
+    <title>Random Moving Button</title>
     <style>
         body {
-            font-family: monospace;
-            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
-        pre {
+        button {
+            position: absolute;
+            padding: 10px 20px;
             font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <h1>Full ASCII Dog</h1>
-    <pre>
-           / \__
-          (    @\___
-          /         O
-        /   (_____/
-/_____/     U
+    <button id="randomButton" onclick="moveButton()">Press me: 0</button>
 
-           /|
-         /   |
-        /   /|
-       |   | |
-       |   |/|
-      /    | |
-     /    /  |
-    /     |  |
-    \     \  \
-     \_____\__\
-    </pre>
+    <script>
+        let count = 0;
+
+        function moveButton() {
+            count++;
+            const button = document.getElementById('randomButton');
+            button.textContent = `Press me: ${count}`;
+
+            // Get the dimensions of the viewport
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Generate random positions
+            const randomX = Math.floor(Math.random() * (viewportWidth - button.offsetWidth));
+            const randomY = Math.floor(Math.random() * (viewportHeight - button.offsetHeight));
+
+            // Move the button to the random position
+            button.style.left = `${randomX}px`;
+            button.style.top = `${randomY}px`;
+        }
+    </script>
 
 </body>
 </html>
