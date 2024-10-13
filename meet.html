@@ -3,61 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Moving Button</title>
+    <title>Type the Letters</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
         }
-        button {
-            position: absolute;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: font-size 0.2s, padding 0.2s;
+        #letterContainer {
+            font-size: 24px;
+            letter-spacing: 10px;
+        }
+        .letter {
+            display: inline-block;
+            padding: 5px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        .correct {
+            background-color: lightgreen;
+        }
+        .wrong {
+            background-color: lightcoral;
         }
     </style>
 </head>
 <body>
 
-    <button id="randomButton" onclick="moveButton()">Reasons why I should play Minecraft instead of making a code: 0</button>
+    <h1>Type the Letters</h1>
+    <div id="letterContainer"></div>
 
     <script>
-        let count = 0;
-        let maxPresses = 15;
-        let button = document.getElementById('randomButton');
-        let isMoving = true;
-
-        function moveButton() {
-            count++;
-            button.textContent = `Reasons why I should play Minecraft instead of making a code: ${count}`;
-
-            if (count < maxPresses) {
-                // Move the button to a random position before reaching 15 presses
-                const viewportWidth = window.innerWidth;
-                const viewportHeight = window.innerHeight;
-
-                const randomX = Math.floor(Math.random() * (viewportWidth - button.offsetWidth));
-                const randomY = Math.floor(Math.random() * (viewportHeight - button.offsetHeight));
-
-                button.style.left = `${randomX}px`;
-                button.style.top = `${randomY}px`;
-            } else {
-                // Stop moving the button and start making it larger
-                isMoving = false;
-                const currentFontSize = parseInt(window.getComputedStyle(button).fontSize);
-                const newFontSize = currentFontSize + 2; // Increase font size
-                const newPadding = parseInt(window.getComputedStyle(button).padding) + 2; // Increase padding
-
-                button.style.fontSize = `${newFontSize}px`;
-                button.style.padding = `${newPadding}px`;
-            }
+        // Generate 24 random letters
+        const letterContainer = document.getElementById('letterContainer');
+        const randomLetters = [];
+        for (let i = 0; i < 24; i++) {
+            const randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
+            randomLetters.push(randomLetter);
+            const span = document.createElement('span');
+            span.className = 'letter';
+            span.textContent = randomLetter;
+            letterContainer.appendChild(span);
         }
+
+        let currentIndex = 0;
+
+        // Listen for key presses
+        document.addEventListener('keydown', (event) => {
+            const typedLetter = event.key.toUpperCase(); // Handle case insensitivity
+            const letters = document.querySelectorAll('.letter');
+
+            if (currentIndex < randomLetters.length) {
+                if (typedLetter === randomLetters[currentIndex]) {
+                    letters[currentIndex].classList.add('correct');
+                } else {
+                    letters[currentIndex].classList.add('wrong');
+                }
+                currentIndex++;
+            }
+        });
     </script>
 
 </body>
