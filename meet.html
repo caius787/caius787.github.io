@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Type the Letters - Falling Circles</title>
+    <title>Type the Letters - Falling Circles with Congratulations</title>
     <style>
         body {
             font-family: sans-serif;
@@ -27,6 +27,17 @@
         .wrong {
             background-color: lightcoral;
         }
+        #congratulations {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            font-weight: bold;
+            color: black;
+            z-index: 100; /* Make sure it's on top of everything */
+            display: none; /* Initially hidden */
+        }
         canvas {
             position: fixed;
             top: 0;
@@ -34,6 +45,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: 10; /* Behind the congratulations text */
         }
     </style>
 </head>
@@ -41,6 +53,7 @@
 
     <h1>Type the Letters</h1>
     <div id="letterContainer"></div>
+    <div id="congratulations">CONGRATULATIONS</div>
     <canvas id="fallingCanvas"></canvas>
 
     <script>
@@ -125,6 +138,25 @@
             }, 10000);
         }
 
+        // Change color of the congratulations text every 0.5 seconds
+        function changeCongratulationsColor() {
+            const congratulations = document.getElementById('congratulations');
+            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            let colorIndex = 0;
+
+            setInterval(() => {
+                congratulations.style.color = colors[colorIndex];
+                colorIndex = (colorIndex + 1) % colors.length;
+            }, 500);
+        }
+
+        // Show the congratulations text
+        function showCongratulations() {
+            const congratulations = document.getElementById('congratulations');
+            congratulations.style.display = 'block'; // Show the text
+            changeCongratulationsColor(); // Start color change animation
+        }
+
         // Listen for key presses
         document.addEventListener('keydown', (event) => {
             const letters = document.querySelectorAll('.letter');
@@ -148,7 +180,8 @@
                 // Check if all letters are typed correctly and trigger the falling circles
                 if (currentIndex === randomLetters.length && !animationTriggered) {
                     animationTriggered = true;
-                    triggerFallingCircles();
+                    triggerFallingCircles(); // Start falling circles
+                    showCongratulations(); // Display congratulations text
                 }
             }
         });
