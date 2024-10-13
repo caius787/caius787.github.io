@@ -82,6 +82,26 @@
             animation: none;
         }
 
+        #retryButton {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            z-index: 100;
+        }
+
+        #retryButton:hover {
+            background-color: #0056b3;
+        }
+
         /* Gradient animation */
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
@@ -113,36 +133,51 @@
         <div id="congratulations">CONGRATULATIONS</div>
         <div id="youFailed">YOU FAILED</div>
         <canvas id="fallingCanvas"></canvas>
+        <button id="retryButton">RETRY</button>
     </div>
 
     <script>
         // Switch from start screen to game screen when clicking anywhere
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
+        const retryButton = document.getElementById('retryButton');
+        const congratulations = document.getElementById('congratulations');
+        const youFailed = document.getElementById('youFailed');
+        const letterContainer = document.getElementById('letterContainer');
 
         startScreen.addEventListener('click', function() {
             startScreen.style.display = 'none'; // Hide start screen
             gameScreen.style.display = 'flex';  // Show game screen
+            initializeGame();  // Initialize the game with random letters
         });
 
-        // Generate 24 random letters without immediate repeats
-        const letterContainer = document.getElementById('letterContainer');
-        const randomLetters = [];
-        let previousLetter = null;
+        // Function to initialize/reset the game
+        function initializeGame() {
+            currentIndex = 0;
+            animationTriggered = false;
+            retryButton.style.display = 'none'; // Hide retry button
+            congratulations.style.display = 'none'; // Hide congratulations text
+            youFailed.style.display = 'none'; // Hide you failed text
+            letterContainer.innerHTML = ''; // Clear the previous letters
 
-        for (let i = 0; i < 24; i++) {
-            let randomLetter;
-            do {
-                randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
-            } while (randomLetter === previousLetter); // Ensure no immediate repeat
+            // Generate 24 random letters without immediate repeats
+            const randomLetters = [];
+            let previousLetter = null;
 
-            randomLetters.push(randomLetter);
-            previousLetter = randomLetter;
+            for (let i = 0; i < 24; i++) {
+                let randomLetter;
+                do {
+                    randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
+                } while (randomLetter === previousLetter); // Ensure no immediate repeat
 
-            const span = document.createElement('span');
-            span.className = 'letter';
-            span.textContent = randomLetter;
-            letterContainer.appendChild(span);
+                randomLetters.push(randomLetter);
+                previousLetter = randomLetter;
+
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.textContent = randomLetter;
+                letterContainer.appendChild(span);
+            }
         }
 
         let currentIndex = 0;
@@ -188,6 +223,9 @@
 
             if (fallingCircles.length > 0) {
                 requestAnimationFrame(animateFallingCircles);
+            } else {
+                // Once all circles have fallen, show the retry button
+                retryButton.style.display = 'block';
             }
         }
 
@@ -201,13 +239,12 @@
         }
 
         function showCongratulations() {
-            const congratulations = document.getElementById('congratulations');
             congratulations.style.display = 'block';
         }
 
         function showYouFailed() {
-            const youFailed = document.getElementById('youFailed');
             youFailed.style.display = 'block';
+            retryButton.style.display = 'block'; // Show retry button instantly on failure
         }
 
         // Check if all letters are correctly typed
@@ -229,36 +266,4 @@
                 // If the letter is red (wrong), allow deletion
                 if (letters[currentIndex - 1].classList.contains('wrong')) {
                     currentIndex--;
-                    letters[currentIndex].classList.remove('correct', 'wrong');
-                }
-            } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
-                const typedLetter = event.key.toUpperCase();
-                if (typedLetter === randomLetters[currentIndex]) {
-                    letters[currentIndex].classList.add('correct');
-                } else {
-                    letters[currentIndex].classList.add('wrong');
-                }
-                currentIndex++;
-
-                // Check if all letters have been typed
-                if (currentIndex === randomLetters.length && !animationTriggered) {
-                    animationTriggered = true;
-
-                    if (checkAllCorrect()) {
-                        triggerFallingCircles(); // Start falling circles
-                        showCongratulations(); // Show "CONGRATULATIONS"
-                    } else {
-                        showYouFailed(); // Show "YOU FAILED"
-                    }
-                }
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
-
-</body>
-</html>
+                    letters[currentIndex].classList.remove('
