@@ -137,21 +137,30 @@
     </div>
 
     <script>
-        // Switch from start screen to game screen when clicking anywhere
+        // Elements
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
         const retryButton = document.getElementById('retryButton');
         const congratulations = document.getElementById('congratulations');
         const youFailed = document.getElementById('youFailed');
         const letterContainer = document.getElementById('letterContainer');
+        const canvas = document.getElementById('fallingCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // State variables
+        let currentIndex = 0;
+        let animationTriggered = false;
+        let fallingCircles = [];
+        let randomLetters = [];
 
+        // Start game
         startScreen.addEventListener('click', function() {
             startScreen.style.display = 'none'; // Hide start screen
             gameScreen.style.display = 'flex';  // Show game screen
             initializeGame();  // Initialize the game with random letters
         });
 
-        // Function to initialize/reset the game
+        // Initialize game with random letters
         function initializeGame() {
             currentIndex = 0;
             animationTriggered = false;
@@ -159,9 +168,11 @@
             congratulations.style.display = 'none'; // Hide congratulations text
             youFailed.style.display = 'none'; // Hide you failed text
             letterContainer.innerHTML = ''; // Clear the previous letters
+            fallingCircles = []; // Reset falling circles
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
 
             // Generate 24 random letters without immediate repeats
-            const randomLetters = [];
+            randomLetters = [];
             let previousLetter = null;
 
             for (let i = 0; i < 24; i++) {
@@ -180,17 +191,7 @@
             }
         }
 
-        let currentIndex = 0;
-        let animationTriggered = false;
-
-        // Falling circles canvas setup
-        const canvas = document.getElementById('fallingCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let fallingCircles = [];
-
+        // Create falling circles
         function createFallingCircles() {
             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
             for (let i = 0; i < 200; i++) {
@@ -205,6 +206,7 @@
             }
         }
 
+        // Animate falling circles
         function animateFallingCircles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             fallingCircles.forEach((circle, index) => {
@@ -224,11 +226,11 @@
             if (fallingCircles.length > 0) {
                 requestAnimationFrame(animateFallingCircles);
             } else {
-                // Once all circles have fallen, show the retry button
-                retryButton.style.display = 'block';
+                retryButton.style.display = 'block'; // Show retry button when circles stop falling
             }
         }
 
+        // Trigger falling circles
         function triggerFallingCircles() {
             createFallingCircles();
             animateFallingCircles();
@@ -238,16 +240,18 @@
             }, 10000);
         }
 
+        // Show congratulations
         function showCongratulations() {
             congratulations.style.display = 'block';
         }
 
+        // Show failure
         function showYouFailed() {
             youFailed.style.display = 'block';
             retryButton.style.display = 'block'; // Show retry button instantly on failure
         }
 
-        // Check if all letters are correctly typed
+        // Check if all letters are correct
         function checkAllCorrect() {
             const letters = document.querySelectorAll('.letter');
             for (let i = 0; i < letters.length; i++) {
@@ -258,12 +262,17 @@
             return true; // All letters are correct
         }
 
-        // Listen for key presses
+        // Handle key presses
         document.addEventListener('keydown', (event) => {
             const letters = document.querySelectorAll('.letter');
 
             if (event.key === 'Backspace' && currentIndex > 0) {
-                // If the letter is red (wrong), allow deletion
+                // Allow deletion if the letter is incorrect
                 if (letters[currentIndex - 1].classList.contains('wrong')) {
                     currentIndex--;
-                    letters[currentIndex].classList.remove('
+                    letters[currentIndex].classList.remove('correct', 'wrong');
+                }
+            } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
+                const typedLetter = event.key.toUpperCase();
+                if (typedLetter === randomLetters[currentIndex]) {
+                    letters[currentIndex].classList.add('
