@@ -82,17 +82,6 @@
             animation: none;
         }
 
-        #instructionText {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 20px;
-            color: #555;
-            z-index: 100;
-            display: none;
-        }
-
         /* Gradient animation */
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
@@ -124,65 +113,49 @@
         <div id="congratulations">CONGRATULATIONS</div>
         <div id="youFailed">YOU FAILED</div>
         <canvas id="fallingCanvas"></canvas>
-        <div id="instructionText">Command R to restart</div>
     </div>
 
     <script>
-        // Elements
+        // Switch from start screen to game screen when clicking anywhere
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
-        const congratulations = document.getElementById('congratulations');
-        const youFailed = document.getElementById('youFailed');
-        const letterContainer = document.getElementById('letterContainer');
-        const instructionText = document.getElementById('instructionText');
-        const canvas = document.getElementById('fallingCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        // State variables
-        let currentIndex = 0;
-        let animationTriggered = false;
-        let fallingCircles = [];
-        let randomLetters = [];
 
-        // Start game
         startScreen.addEventListener('click', function() {
             startScreen.style.display = 'none'; // Hide start screen
             gameScreen.style.display = 'flex';  // Show game screen
-            initializeGame();  // Initialize the game with random letters
         });
 
-        // Initialize game with random letters
-        function initializeGame() {
-            currentIndex = 0;
-            animationTriggered = false;
-            congratulations.style.display = 'none'; // Hide congratulations text
-            youFailed.style.display = 'none'; // Hide you failed text
-            instructionText.style.display = 'none'; // Hide the instruction text
-            letterContainer.innerHTML = ''; // Clear the previous letters
-            fallingCircles = []; // Reset falling circles
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+        // Generate 24 random letters without immediate repeats
+        const letterContainer = document.getElementById('letterContainer');
+        const randomLetters = [];
+        let previousLetter = null;
 
-            // Generate 24 random letters without immediate repeats
-            randomLetters = [];
-            let previousLetter = null;
+        for (let i = 0; i < 24; i++) {
+            let randomLetter;
+            do {
+                randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
+            } while (randomLetter === previousLetter); // Ensure no immediate repeat
 
-            for (let i = 0; i < 24; i++) {
-                let randomLetter;
-                do {
-                    randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
-                } while (randomLetter === previousLetter); // Ensure no immediate repeat
+            randomLetters.push(randomLetter);
+            previousLetter = randomLetter;
 
-                randomLetters.push(randomLetter);
-                previousLetter = randomLetter;
-
-                const span = document.createElement('span');
-                span.className = 'letter';
-                span.textContent = randomLetter;
-                letterContainer.appendChild(span);
-            }
+            const span = document.createElement('span');
+            span.className = 'letter';
+            span.textContent = randomLetter;
+            letterContainer.appendChild(span);
         }
 
-        // Create falling circles
+        let currentIndex = 0;
+        let animationTriggered = false;
+
+        // Falling circles canvas setup
+        const canvas = document.getElementById('fallingCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let fallingCircles = [];
+
         function createFallingCircles() {
             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
             for (let i = 0; i < 200; i++) {
@@ -197,7 +170,6 @@
             }
         }
 
-        // Animate falling circles
         function animateFallingCircles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             fallingCircles.forEach((circle, index) => {
@@ -216,12 +188,9 @@
 
             if (fallingCircles.length > 0) {
                 requestAnimationFrame(animateFallingCircles);
-            } else {
-                instructionText.style.display = 'block'; // Show "Command R to restart" text
             }
         }
 
-        // Trigger falling circles
         function triggerFallingCircles() {
             createFallingCircles();
             animateFallingCircles();
@@ -231,18 +200,17 @@
             }, 10000);
         }
 
-        // Show congratulations
         function showCongratulations() {
+            const congratulations = document.getElementById('congratulations');
             congratulations.style.display = 'block';
         }
 
-        // Show failure
         function showYouFailed() {
+            const youFailed = document.getElementById('youFailed');
             youFailed.style.display = 'block';
-            instructionText.style.display = 'block'; // Show "Command R to restart" text instantly on failure
         }
 
-        // Check if all letters are correct
+        // Check if all letters are correctly typed
         function checkAllCorrect() {
             const letters = document.querySelectorAll('.letter');
             for (let i = 0; i < letters.length; i++) {
@@ -253,14 +221,44 @@
             return true; // All letters are correct
         }
 
-        // Handle key presses
+        // Listen for key presses
         document.addEventListener('keydown', (event) => {
             const letters = document.querySelectorAll('.letter');
 
             if (event.key === 'Backspace' && currentIndex > 0) {
-                // Allow deletion if the letter is incorrect
+                // If the letter is red (wrong), allow deletion
                 if (letters[currentIndex - 1].classList.contains('wrong')) {
                     currentIndex--;
                     letters[currentIndex].classList.remove('correct', 'wrong');
                 }
-            } else if (currentIndex < randomLetters.length
+            } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
+                const typedLetter = event.key.toUpperCase();
+                if (typedLetter === randomLetters[currentIndex]) {
+                    letters[currentIndex].classList.add('correct');
+                } else {
+                    letters[currentIndex].classList.add('wrong');
+                }
+                currentIndex++;
+
+                // Check if all letters have been typed
+                if (currentIndex === randomLetters.length && !animationTriggered) {
+                    animationTriggered = true;
+
+                    if (checkAllCorrect()) {
+                        triggerFallingCircles(); // Start falling circles
+                        showCongratulations(); // Show "CONGRATULATIONS"
+                    } else {
+                        showYouFailed(); // Show "YOU FAILED"
+                    }
+                }
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+
+</body>
+</html>
