@@ -30,6 +30,24 @@
             text-decoration: underline; /* underline on hover for emphasis */
         }
 
+        /* Style the Christmas List link */
+        .christmas-list {
+            display: inline-block;
+            margin: 20px 0; /* add space around the link */
+            padding: 10px 20px; /* increase clickable area */
+            background-color: white; /* make the link stand out */
+            color: #9370DB; /* purple text color */
+            font-size: 1.5em; /* increase font size */
+            font-weight: bold; /* make the text bold */
+            border-radius: 10px; /* rounded corners */
+            text-decoration: none; /* no underline */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow */
+        }
+
+        .christmas-list:hover {
+            background-color: #f0e6ff; /* lighter purple on hover */
+        }
+
         .container {
             display: grid; /* set up grid layout */
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* responsive columns */
@@ -73,7 +91,7 @@
     <h1>Welcome to my website!</h1>
     <h2>Where the most wonderful people are!</h2>
 
-    <h2><a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI">2024 Christmas List</a></h2>
+    <a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="christmas-list">2024 Christmas List</a>
 
     <h2><a href="meet.html">Typing Game</a></h2>
 
