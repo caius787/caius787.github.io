@@ -59,43 +59,50 @@
             background-color: lightcoral;
         }
 
-        #congratulations, #youFailed {
+        #congratulationsContainer {
             position: fixed;
-            top: 40%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 100px;
+            text-align: center;
+            z-index: 100;
+            display: none;
+        }
+
+        #congratulations {
+            font-size: 80px;
             font-weight: bold;
             background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             color: transparent;
-            z-index: 100; /* Make sure it's on top of everything */
-            display: none; /* Initially hidden */
             animation: gradientAnimation 2s linear infinite;
         }
 
-        #youFailed {
-            background: red;
-            -webkit-background-clip: border-box;
-            color: white;
-            animation: none;
-        }
-
         #restartMessage {
-            position: fixed;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             font-size: 24px;
             font-weight: bold;
             background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             color: transparent;
+            animation: gradientAnimation 2s linear infinite;
+            margin-top: 10px;
+        }
+
+        #youFailed {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            font-weight: bold;
+            background: red;
+            -webkit-background-clip: border-box;
+            color: white;
+            animation: none;
             z-index: 100;
             display: none;
-            animation: gradientAnimation 2s linear infinite;
         }
 
         /* Gradient animation */
@@ -126,8 +133,10 @@
     <div id="gameScreen">
         <h1>Type the Letters</h1>
         <div id="letterContainer"></div>
-        <div id="congratulations">CONGRATULATIONS</div>
-        <div id="restartMessage">Command R to restart</div>
+        <div id="congratulationsContainer">
+            <div id="congratulations">CONGRATULATIONS</div>
+            <div id="restartMessage">Command R to restart</div>
+        </div>
         <div id="youFailed">YOU FAILED</div>
         <canvas id="fallingCanvas"></canvas>
     </div>
@@ -136,6 +145,8 @@
         // Switch from start screen to game screen when clicking anywhere
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
+        const congratulationsContainer = document.getElementById('congratulationsContainer');
+        const youFailed = document.getElementById('youFailed');
 
         startScreen.addEventListener('click', function() {
             startScreen.style.display = 'none'; // Hide start screen
@@ -218,17 +229,11 @@
         }
 
         function showCongratulations() {
-            const congratulations = document.getElementById('congratulations');
-            const restartMessage = document.getElementById('restartMessage');
-            congratulations.style.display = 'block';
-            restartMessage.style.display = 'block';
+            congratulationsContainer.style.display = 'block';
         }
 
         function showYouFailed() {
-            const youFailed = document.getElementById('youFailed');
-            const restartMessage = document.getElementById('restartMessage');
             youFailed.style.display = 'block';
-            restartMessage.style.display = 'block';
         }
 
         // Check if all letters are correctly typed
@@ -267,8 +272,15 @@
 
                     if (checkAllCorrect()) {
                         triggerFallingCircles(); // Start falling circles
-                        showCongratulations(); // Show "CONGRATULATIONS"
+                        showCongratulations(); // Show "CONGRATULATIONS" with "Command R to restart"
                     } else {
                         showYouFailed(); // Show "YOU FAILED"
                     }
-               
+                }
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+       
