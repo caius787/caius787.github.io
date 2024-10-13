@@ -22,7 +22,7 @@
         }
 
         a {
-            color: white; /* links in white */
+            color: #9370DB; /* links in darker purple */
             text-decoration: none; /* remove underline from links */
         }
 
@@ -30,16 +30,35 @@
             text-decoration: underline; /* underline on hover for emphasis */
         }
 
+        .container {
+            display: flex; /* create a flexbox container */
+            justify-content: center; /* center the items */
+            gap: 20px; /* space between the boxes */
+            margin-top: 30px; /* spacing from other content */
+        }
+
+        .box {
+            background-color: white; /* white box background */
+            color: #9370DB; /* purple text color */
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px; /* fixed width for each box */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow */
+            text-align: left; /* left-align content inside the boxes */
+        }
+
+        .box h4 {
+            text-align: center; /* center the titles */
+        }
+
         ul {
             list-style-type: none; /* remove bullets from lists */
             padding: 0;
-            margin: 0 auto; /* center the ul block */
-            display: inline-block; /* treat ul as an inline element */
-            text-align: left; /* ensure links align properly */
+            margin: 0;
         }
 
         ul li {
-            margin: 10px 0; /* add spacing between the list items */
+            margin: 10px 0; /* space between list items */
         }
     </style>
 </head>
@@ -48,25 +67,34 @@
     <h1>Welcome to my website!</h1>
     <h2>Where the most wonderful people are!</h2>
 
-    <h2><a href="Christmas-List-Caius.html">|/\UPDATED/\| Christmas List</a></h2>
+    <h2><a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI">2024 Christmas List</a></h2>
 
     <h2><a href="meet.html">Typing Game</a></h2>
 
-    <h4>Minecraft Links</h4>
-    <ul>
-        <li><a target="_blank" href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/">_cactusplayz</a></li>
-        <li><a target="_blank" href="https://www.minecraftskins.com/">Minecraft Skins</a></li>
-        <li><a target="_blank" href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png">Potion Table</a></li>
-        <li><a target="_blank" href="https://www.minecraft.net/en-us">Download Minecraft</a></li>
-        <li><a href="passenger.html">How To Make An Entity Ride An Entity</a></li>
-    </ul>
+    <div class="container">
+        <!-- Minecraft Links Box -->
+        <div class="box">
+            <h4>Minecraft Links</h4>
+            <ul>
+                <li><a target="_blank" href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/">_cactusplayz</a></li>
+                <li><a target="_blank" href="https://www.minecraftskins.com/">Minecraft Skins</a></li>
+                <li><a target="_blank" href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png">Potion Table</a></li>
+                <li><a target="_blank" href="https://www.minecraft.net/en-us">Download Minecraft</a></li>
+                <li><a href="passenger.html">How To Make An Entity Ride An Entity</a></li>
+            </ul>
+        </div>
 
-    <h6>Other Stuff</h6>
-    <ul>
-        <li><a href="dad.html">Dad's Page</a></li>
-        <li><a href="meet.html">Typing Game</a></li>
-        <li><a href="Christmas-List-Caius.html">Christmas List</a></li>
-    </ul>
+        <!-- Other Stuff Box -->
+        <div class="box">
+            <h4>Other Stuff</h4>
+            <ul>
+                <li><a href="dad.html">Dad's Page</a></li>
+                <li><a href="https://inthaiguy.github.io/">Dad's Website</a></li>
+                <li><a href="meet.html">Typing Game</a></li>
+                <li><a href="Christmas-List-Caius.html">Christmas List</a></li>
+            </ul>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 </body>
