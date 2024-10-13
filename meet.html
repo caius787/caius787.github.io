@@ -9,6 +9,7 @@
             font-family: sans-serif;
             text-align: center;
             margin-top: 50px;
+            overflow: hidden;
         }
         #letterContainer {
             font-size: 24px;
@@ -26,12 +27,21 @@
         .wrong {
             background-color: lightcoral;
         }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
     <h1>Type the Letters</h1>
     <div id="letterContainer"></div>
+    <canvas id="fireworksCanvas"></canvas>
 
     <script>
         // Generate 24 random letters
@@ -47,6 +57,62 @@
         }
 
         let currentIndex = 0;
+        let fireworksTriggered = false;
+
+        // Fireworks canvas setup
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let fireworks = [];
+
+        function createFirework(x, y) {
+            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            for (let i = 0; i < 50; i++) {
+                fireworks.push({
+                    x: x,
+                    y: y,
+                    radius: Math.random() * 3 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedX: (Math.random() - 0.5) * 10,
+                    speedY: (Math.random() - 0.5) * 10,
+                    alpha: 1
+                });
+            }
+        }
+
+        function animateFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            fireworks.forEach((firework, index) => {
+                firework.x += firework.speedX;
+                firework.y += firework.speedY;
+                firework.alpha -= 0.02;
+
+                if (firework.alpha <= 0) {
+                    fireworks.splice(index, 1);
+                }
+
+                ctx.globalAlpha = firework.alpha;
+                ctx.beginPath();
+                ctx.arc(firework.x, firework.y, firework.radius, 0, Math.PI * 2);
+                ctx.fillStyle = firework.color;
+                ctx.fill();
+            });
+
+            ctx.globalAlpha = 1;
+
+            if (fireworks.length > 0) {
+                requestAnimationFrame(animateFireworks);
+            }
+        }
+
+        function triggerFireworks() {
+            createFirework(Math.random() * canvas.width, Math.random() * canvas.height);
+            createFirework(Math.random() * canvas.width, Math.random() * canvas.height);
+            createFirework(Math.random() * canvas.width, Math.random() * canvas.height);
+            animateFireworks();
+        }
 
         // Listen for key presses
         document.addEventListener('keydown', (event) => {
@@ -67,9 +133,5 @@
                     letters[currentIndex].classList.add('wrong');
                 }
                 currentIndex++;
-            }
-        });
-    </script>
 
-</body>
-</html>
+                // Check if all letters are typed
