@@ -103,7 +103,7 @@
         <h1>Type the Words</h1>
         <div id="letterContainer"></div>
         <div id="congratulations">CONGRATULATIONS</div>
-        <div id="youFailed">YOU FAILED, but you're still a nice person</div>
+        <div id="youFailed">YOU FAILED, but your a person</div>
         <div id="scoreCounter">Score: <span id="scoreValue"></span></div>
         <canvas id="fallingCanvas"></canvas>
     </div>
@@ -113,13 +113,7 @@
         const totalLetters = 18; // Number of total letters (this will update dynamically based on the word count)
 
         // Word database
-        const wordsDatabase = ["Minecraft", "game", "coding", "stupid", "why", "speaker", "computer", "taco", 
-            "hotdog", "phone", "corn", "pumpkin", "play", "pneumonoultramicroscopicsilicovolcanoconiosis", 
-            "scooter", "pogo", "TV", "disgrace", "twitch", "ladder", "neighborhood", "veteran", "compete",
-            "coffin", "marsh", "precedent", "explain", "formula", "depressed", "excess", "endorse", "bite", 
-            "freckle", "projection", "lifestyle", "polish", "decline", "stab", "privacy", "spare", "agent", 
-            "coincide", "rage", "fail", "drum", "flight", "personality", "team", "wilderness", "rotten", "lid", 
-            "recovery", "appoint", "minor", "quotation", "parade", "stunning", "graze", "allowance", "parameter"];
+        const wordsDatabase = [];
 
         // Pick 3 random words
         function getRandomWords() {
@@ -217,7 +211,7 @@
         function checkAllCorrect() {
             const letters = document.querySelectorAll('.letter');
             for (let i = 0; i < letters.length; i++) {
-                if (!letters[i].classList.contains('correct')) {z
+                if (!letters[i].classList.contains('correct')) {
                     return false; // At least one letter is incorrect
                 }
             }
