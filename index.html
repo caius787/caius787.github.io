@@ -19,6 +19,7 @@
             padding: 20px;
             text-align: center; /* center all text */
             color: white; /* make text white for contrast */
+            box-sizing: border-box; /* ensure padding is included in element width */
         }
 
         a {
@@ -30,29 +31,12 @@
             text-decoration: underline; /* underline on hover for emphasis */
         }
 
-        /* Style the Christmas List link */
-        .christmas-list {
-            display: inline-block;
-            margin: 20px 0; /* add space around the link */
-            padding: 10px 20px; /* increase clickable area */
-            background-color: white; /* make the link stand out */
-            color: #9370DB; /* purple text color */
-            font-size: 1.5em; /* increase font size */
-            font-weight: bold; /* make the text bold */
-            border-radius: 10px; /* rounded corners */
-            text-decoration: none; /* no underline */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow */
-        }
-
-        .christmas-list:hover {
-            background-color: #f0e6ff; /* lighter purple on hover */
-        }
-
         .container {
             display: grid; /* set up grid layout */
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* responsive columns */
             gap: 20px; /* space between the boxes */
             margin-top: 20px; /* spacing from other content */
+            padding: 0 10px; /* add padding to prevent overflow on mobile */
         }
 
         .box {
@@ -62,6 +46,8 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow */
             text-align: left; /* left-align content inside the boxes */
+            max-width: 100%; /* ensure box doesn't overflow on small screens */
+            box-sizing: border-box; /* include padding and border in box size */
         }
 
         .box h4 {
@@ -82,6 +68,10 @@
         @media (max-width: 600px) {
             .box {
                 text-align: center; /* center text on smaller screens */
+            }
+
+            .container {
+                padding: 0 20px; /* increase padding to avoid side overflow */
             }
         }
     </style>
