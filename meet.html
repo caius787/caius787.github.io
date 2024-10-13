@@ -103,7 +103,7 @@
         <h1>Type the Words</h1>
         <div id="letterContainer"></div>
         <div id="congratulations">CONGRATULATIONS</div>
-        <div id="youFailed">YOU FAILED</div>
+        <div id="youFailed">YOU FAILED, but you're still a nice person</div>
         <div id="scoreCounter">Score: <span id="scoreValue"></span></div>
         <canvas id="fallingCanvas"></canvas>
     </div>
@@ -200,7 +200,7 @@
         }
 
         function showYouFailed() {
-            const youFailed = document.getElementById('youFailed, but youre still a nice person');
+            const youFailed = document.getElementById('youFailed');
             youFailed.style.display = 'block';
         }
 
@@ -217,7 +217,7 @@
         function checkAllCorrect() {
             const letters = document.querySelectorAll('.letter');
             for (let i = 0; i < letters.length; i++) {
-                if (!letters[i].classList.contains('correct')) {
+                if (!letters[i].classList.contains('correct')) {z
                     return false; // At least one letter is incorrect
                 }
             }
