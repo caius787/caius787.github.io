@@ -3,30 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Type the Letters - Success or Failure</title>
+    <title>Typing Game</title>
     <style>
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-family: sans-serif;
-            text-align: center;
-            margin-top: 50px;
-            overflow: hidden;
+            background-color: #f4f4f4;
         }
+
+        #startScreen, #gameScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+
+        #startScreen h1 {
+            font-size: 36px;
+            color: black;
+        }
+
+        #gameScreen {
+            display: none;
+            flex-direction: column;
+            text-align: center;
+        }
+
         #letterContainer {
             font-size: 24px;
             letter-spacing: 10px;
         }
-        .letter {
-            display: inline-block;
-            padding: 5px;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-        .correct {
-            background-color: lightgreen;
-        }
-        .wrong {
-            background-color: lightcoral;
-        }
+
         #congratulations, #youFailed {
             position: fixed;
             top: 50%;
@@ -42,12 +59,20 @@
             display: none; /* Initially hidden */
             animation: gradientAnimation 2s linear infinite;
         }
+
         #youFailed {
             background: red;
             -webkit-background-clip: border-box;
             color: white;
             animation: none;
         }
+
+        /* Gradient animation */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
         canvas {
             position: fixed;
             top: 0;
@@ -57,23 +82,34 @@
             pointer-events: none;
             z-index: 10; /* Behind the congratulations text */
         }
-
-        /* Gradient animation */
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
     </style>
 </head>
 <body>
 
-    <h1>Type the Letters</h1>
-    <div id="letterContainer"></div>
-    <div id="congratulations">CONGRATULATIONS</div>
-    <div id="youFailed">YOU FAILED</div>
-    <canvas id="fallingCanvas"></canvas>
+    <!-- Start Screen -->
+    <div id="startScreen">
+        <h1>Daddy or Aunt Tacee, click anywhere to start.</h1>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen">
+        <h1>Type the Letters</h1>
+        <div id="letterContainer"></div>
+        <div id="congratulations">CONGRATULATIONS</div>
+        <div id="youFailed">YOU FAILED</div>
+        <canvas id="fallingCanvas"></canvas>
+    </div>
 
     <script>
+        // Switch from start screen to game screen when clicking anywhere
+        const startScreen = document.getElementById('startScreen');
+        const gameScreen = document.getElementById('gameScreen');
+
+        startScreen.addEventListener('click', function() {
+            startScreen.style.display = 'none'; // Hide start screen
+            gameScreen.style.display = 'flex';  // Show game screen
+        });
+
         // Generate 24 random letters without immediate repeats
         const letterContainer = document.getElementById('letterContainer');
         const randomLetters = [];
@@ -110,7 +146,7 @@
             for (let i = 0; i < 200; i++) {
                 fallingCircles.push({
                     x: Math.random() * canvas.width,
-                    y: -10, // Start above the canvas
+                    y: -10,
                     radius: Math.random() * 10 + 5,
                     color: colors[Math.floor(Math.random() * colors.length)],
                     speedY: Math.random() * 5 + 3,
