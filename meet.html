@@ -108,7 +108,7 @@
 
     <!-- Game Screen -->
     <div id="gameScreen">
-        <h1>Type the Letters</h1>
+        <h1>Type the Words</h1>
         <div id="letterContainer"></div>
         <div id="congratulations">CONGRATULATIONS</div>
         <div id="youFailed">YOU FAILED</div>
@@ -125,24 +125,29 @@
             gameScreen.style.display = 'flex';  // Show game screen
         });
 
-        // Generate 24 random letters without immediate repeats
+        // Generate 3 random words with lengths varying between 2-6 letters
         const letterContainer = document.getElementById('letterContainer');
-        const randomLetters = [];
-        let previousLetter = null;
+        const randomWords = [];
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        for (let i = 0; i < 24; i++) {
-            let randomLetter;
-            do {
-                randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
-            } while (randomLetter === previousLetter); // Ensure no immediate repeat
+        function getRandomWord(minLength, maxLength) {
+            const wordLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+            let word = '';
+            for (let i = 0; i < wordLength; i++) {
+                word += alphabet[Math.floor(Math.random() * alphabet.length)];
+            }
+            return word;
+        }
 
-            randomLetters.push(randomLetter);
-            previousLetter = randomLetter;
+        // Generate 3 random words
+        for (let i = 0; i < 3; i++) {
+            const randomWord = getRandomWord(2, 6);
+            randomWords.push(randomWord);
 
-            const span = document.createElement('span');
-            span.className = 'letter';
-            span.textContent = randomLetter;
-            letterContainer.appendChild(span);
+            const wordSpan = document.createElement('span');
+            wordSpan.className = 'letter';
+            wordSpan.textContent = randomWord + ' '; // Adding a space between words
+            letterContainer.appendChild(wordSpan);
         }
 
         let currentIndex = 0;
@@ -210,7 +215,7 @@
             youFailed.style.display = 'block';
         }
 
-        // Check if all letters are correctly typed
+        // Check if all words are correctly typed
         function checkAllCorrect() {
             const letters = document.querySelectorAll('.letter');
             for (let i = 0; i < letters.length; i++) {
@@ -218,7 +223,7 @@
                     return false; // At least one letter is incorrect
                 }
             }
-            return true; // All letters are correct
+            return true; // All words are correct
         }
 
         // Listen for key presses
@@ -226,14 +231,15 @@
             const letters = document.querySelectorAll('.letter');
 
             if (event.key === 'Backspace' && currentIndex > 0) {
-                // If the letter is red (wrong), allow deletion
+                // If the word is wrong, allow deletion
                 if (letters[currentIndex - 1].classList.contains('wrong')) {
                     currentIndex--;
                     letters[currentIndex].classList.remove('correct', 'wrong');
                 }
-            } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
+            } else if (currentIndex < randomWords.join(' ').length && /^[a-zA-Z]$/.test(event.key)) {
                 const typedLetter = event.key.toUpperCase();
-                if (typedLetter === randomLetters[currentIndex]) {
+                const expectedLetter = randomWords.join(' ')[currentIndex];
+                if (typedLetter === expectedLetter) {
                     letters[currentIndex].classList.add('correct');
                 } else {
                     letters[currentIndex].classList.add('wrong');
@@ -241,7 +247,7 @@
                 currentIndex++;
 
                 // Check if all letters have been typed
-                if (currentIndex === randomLetters.length && !animationTriggered) {
+                if (currentIndex === randomWords.join(' ').length && !animationTriggered) {
                     animationTriggered = true;
 
                     if (checkAllCorrect()) {
