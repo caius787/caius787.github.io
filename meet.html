@@ -82,24 +82,15 @@
             animation: none;
         }
 
-        #retryButton {
+        #instructionText {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 20px;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: none;
+            color: #555;
             z-index: 100;
-        }
-
-        #retryButton:hover {
-            background-color: #0056b3;
+            display: none;
         }
 
         /* Gradient animation */
@@ -133,17 +124,17 @@
         <div id="congratulations">CONGRATULATIONS</div>
         <div id="youFailed">YOU FAILED</div>
         <canvas id="fallingCanvas"></canvas>
-        <button id="retryButton">RETRY</button>
+        <div id="instructionText">Command R to restart</div>
     </div>
 
     <script>
         // Elements
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
-        const retryButton = document.getElementById('retryButton');
         const congratulations = document.getElementById('congratulations');
         const youFailed = document.getElementById('youFailed');
         const letterContainer = document.getElementById('letterContainer');
+        const instructionText = document.getElementById('instructionText');
         const canvas = document.getElementById('fallingCanvas');
         const ctx = canvas.getContext('2d');
         
@@ -164,9 +155,9 @@
         function initializeGame() {
             currentIndex = 0;
             animationTriggered = false;
-            retryButton.style.display = 'none'; // Hide retry button
             congratulations.style.display = 'none'; // Hide congratulations text
             youFailed.style.display = 'none'; // Hide you failed text
+            instructionText.style.display = 'none'; // Hide the instruction text
             letterContainer.innerHTML = ''; // Clear the previous letters
             fallingCircles = []; // Reset falling circles
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
@@ -226,7 +217,7 @@
             if (fallingCircles.length > 0) {
                 requestAnimationFrame(animateFallingCircles);
             } else {
-                retryButton.style.display = 'block'; // Show retry button when circles stop falling
+                instructionText.style.display = 'block'; // Show "Command R to restart" text
             }
         }
 
@@ -248,7 +239,7 @@
         // Show failure
         function showYouFailed() {
             youFailed.style.display = 'block';
-            retryButton.style.display = 'block'; // Show retry button instantly on failure
+            instructionText.style.display = 'block'; // Show "Command R to restart" text instantly on failure
         }
 
         // Check if all letters are correct
@@ -272,7 +263,4 @@
                     currentIndex--;
                     letters[currentIndex].classList.remove('correct', 'wrong');
                 }
-            } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
-                const typedLetter = event.key.toUpperCase();
-                if (typedLetter === randomLetters[currentIndex]) {
-                    letters[currentIndex].classList.add('
+            } else if (currentIndex < randomLetters.length
