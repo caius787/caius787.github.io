@@ -19,32 +19,44 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            transition: font-size 0.2s, padding 0.2s;
         }
     </style>
 </head>
 <body>
 
-    <button id="randomButton" onclick="moveButton()">Press me: 0</button>
+    <button id="randomButton" onclick="moveButton()">Reasons why I should play Minecraft instead of making a code: 0</button>
 
     <script>
         let count = 0;
+        let maxPresses = 15;
+        let button = document.getElementById('randomButton');
+        let isMoving = true;
 
         function moveButton() {
             count++;
-            const button = document.getElementById('randomButton');
-            button.textContent = `Press me: ${count}`;
+            button.textContent = `Reasons why I should play Minecraft instead of making a code: ${count}`;
 
-            // Get the dimensions of the viewport
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+            if (count < maxPresses) {
+                // Move the button to a random position before reaching 15 presses
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
 
-            // Generate random positions
-            const randomX = Math.floor(Math.random() * (viewportWidth - button.offsetWidth));
-            const randomY = Math.floor(Math.random() * (viewportHeight - button.offsetHeight));
+                const randomX = Math.floor(Math.random() * (viewportWidth - button.offsetWidth));
+                const randomY = Math.floor(Math.random() * (viewportHeight - button.offsetHeight));
 
-            // Move the button to the random position
-            button.style.left = `${randomX}px`;
-            button.style.top = `${randomY}px`;
+                button.style.left = `${randomX}px`;
+                button.style.top = `${randomY}px`;
+            } else {
+                // Stop moving the button and start making it larger
+                isMoving = false;
+                const currentFontSize = parseInt(window.getComputedStyle(button).fontSize);
+                const newFontSize = currentFontSize + 2; // Increase font size
+                const newPadding = parseInt(window.getComputedStyle(button).padding) + 2; // Increase padding
+
+                button.style.fontSize = `${newFontSize}px`;
+                button.style.padding = `${newPadding}px`;
+            }
         }
     </script>
 
