@@ -41,7 +41,7 @@
 
         #letterContainer {
             font-size: 24px;
-            letter-spacing: 2px;
+            letter-spacing: 5px;
         }
 
         .letter {
@@ -64,14 +64,14 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 100px;
+            font-size: 80px;
             font-weight: bold;
             background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             color: transparent;
-            z-index: 100; /* Make sure it's on top of everything */
-            display: none; /* Initially hidden */
+            z-index: 100;
+            display: none;
             animation: gradientAnimation 2s linear infinite;
         }
 
@@ -95,7 +95,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 10; /* Behind the congratulations text */
+            z-index: 10;
         }
     </style>
 </head>
@@ -116,40 +116,37 @@
     </div>
 
     <script>
-        // Switch from start screen to game screen when clicking anywhere
+        // Switch from start screen to game screen
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
-        const letterContainer = document.getElementById('letterContainer');
-        const congratulations = document.getElementById('congratulations');
-        const youFailed = document.getElementById('youFailed');
 
         startScreen.addEventListener('click', function () {
             startScreen.style.display = 'none'; // Hide start screen
             gameScreen.style.display = 'flex';  // Show game screen
         });
 
-        // Generate 3 random words with lengths varying between 2-6 letters
-        const randomWords = [];
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        // Word database
+        const wordsDatabase = ["Minecraft", "game", "coding", "stupid", "why", "speaker", "computer", "taco", 
+                               "hotdog", "phone", "corn", "pumpkin", "play", 
+                               "pneumonoultramicroscopicsilicovolcanoconiosis", 
+                               "scooter", "pogo", "TV"];
 
-        function getRandomWord(minLength, maxLength) {
-            const wordLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
-            let word = '';
-            for (let i = 0; i < wordLength; i++) {
-                word += alphabet[Math.floor(Math.random() * alphabet.length)];
-            }
-            return word;
+        // Pick 3 random words
+        function getRandomWords() {
+            const shuffled = wordsDatabase.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, 3);  // Select first 3 words from the shuffled list
         }
 
-        // Generate 3 random words
-        for (let i = 0; i < 3; i++) {
-            const randomWord = getRandomWord(2, 6);
-            randomWords.push(randomWord);
+        const words = getRandomWords();
+        const letterContainer = document.getElementById('letterContainer');
 
-            const wordSpan = document.createElement('span');
-            wordSpan.className = 'letter';
-            wordSpan.textContent = randomWord + ' '; // Adding a space between words
-            letterContainer.appendChild(wordSpan);
+        // Display the words as individual letters
+        let combinedLetters = words.join(' ');  // Combine the words with spaces
+        for (let letter of combinedLetters) {
+            const span = document.createElement('span');
+            span.className = 'letter';
+            span.textContent = letter;  // Display each character including spaces
+            letterContainer.appendChild(span);
         }
 
         let currentIndex = 0;
@@ -208,49 +205,47 @@
         }
 
         function showCongratulations() {
+            const congratulations = document.getElementById('congratulations');
             congratulations.style.display = 'block';
         }
 
         function showYouFailed() {
+            const youFailed = document.getElementById('youFailed');
             youFailed.style.display = 'block';
         }
 
         // Check if all letters are correctly typed
         function checkAllCorrect() {
-            const letters = document.querySelectorAll('.letter span');
+            const letters = document.querySelectorAll('.letter');
             for (let i = 0; i < letters.length; i++) {
                 if (!letters[i].classList.contains('correct')) {
                     return false; // At least one letter is incorrect
                 }
             }
-            return true; // All words are correct
+            return true; // All letters are correct
         }
 
         // Listen for key presses
         document.addEventListener('keydown', (event) => {
-            const letters = randomWords.join(' ').split('');
+            const letters = document.querySelectorAll('.letter');
 
             if (event.key === 'Backspace' && currentIndex > 0) {
-                // If the letter is wrong, allow deletion
-                const currentSpan = document.querySelectorAll('.letter span')[currentIndex - 1];
-                if (currentSpan && currentSpan.classList.contains('wrong')) {
+                // If the letter is red (wrong), allow deletion
+                if (letters[currentIndex - 1].classList.contains('wrong')) {
                     currentIndex--;
-                    currentSpan.classList.remove('correct', 'wrong');
+                    letters[currentIndex].classList.remove('correct', 'wrong');
                 }
-            } else if (currentIndex < letters.length && /^[a-zA-Z]$/.test(event.key)) {
+            } else if (currentIndex < combinedLetters.length && /^[a-zA-Z]$/.test(event.key)) {
                 const typedLetter = event.key.toUpperCase();
-                const expectedLetter = letters[currentIndex];
-                const currentSpan = document.querySelectorAll('.letter span')[currentIndex];
-
-                if (typedLetter === expectedLetter) {
-                    currentSpan.classList.add('correct');
+                if (typedLetter === combinedLetters[currentIndex].toUpperCase()) {
+                    letters[currentIndex].classList.add('correct');
                 } else {
-                    currentSpan.classList.add('wrong');
+                    letters[currentIndex].classList.add('wrong');
                 }
                 currentIndex++;
 
                 // Check if all letters have been typed
-                if (currentIndex === letters.length && !animationTriggered) {
+                if (currentIndex === combinedLetters.length && !animationTriggered) {
                     animationTriggered = true;
 
                     if (checkAllCorrect()) {
