@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Type the Letters - Falling Circles with Gradient Congratulations</title>
+    <title>Type the Letters - Success or Failure</title>
     <style>
         body {
             font-family: sans-serif;
@@ -27,7 +27,7 @@
         .wrong {
             background-color: lightcoral;
         }
-        #congratulations {
+        #congratulations, #youFailed {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -41,6 +41,12 @@
             z-index: 100; /* Make sure it's on top of everything */
             display: none; /* Initially hidden */
             animation: gradientAnimation 2s linear infinite;
+        }
+        #youFailed {
+            background: red;
+            -webkit-background-clip: border-box;
+            color: white;
+            animation: none;
         }
         canvas {
             position: fixed;
@@ -64,6 +70,7 @@
     <h1>Type the Letters</h1>
     <div id="letterContainer"></div>
     <div id="congratulations">CONGRATULATIONS</div>
+    <div id="youFailed">YOU FAILED</div>
     <canvas id="fallingCanvas"></canvas>
 
     <script>
@@ -100,15 +107,14 @@
 
         function createFallingCircles() {
             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
-            // Increase the number of circles generated (200 at a time)
             for (let i = 0; i < 200; i++) {
                 fallingCircles.push({
                     x: Math.random() * canvas.width,
                     y: -10, // Start above the canvas
                     radius: Math.random() * 10 + 5,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    speedY: Math.random() * 5 + 3, // Increased speed for faster falling
-                    lifespan: 0 // Keep track of how long each circle has been falling
+                    speedY: Math.random() * 5 + 3,
+                    lifespan: 0
                 });
             }
         }
@@ -119,7 +125,6 @@
                 circle.y += circle.speedY;
                 circle.lifespan += 1;
 
-                // Remove circles after they have existed for longer (increased lifespan)
                 if (circle.lifespan > 500) {
                     fallingCircles.splice(index, 1);
                 }
@@ -130,28 +135,39 @@
                 ctx.fill();
             });
 
-            // Continue animation while there are still circles falling
             if (fallingCircles.length > 0) {
                 requestAnimationFrame(animateFallingCircles);
             }
         }
 
         function triggerFallingCircles() {
-            createFallingCircles(); // Create initial set of circles
-            animateFallingCircles(); // Start animation
-            // Create new falling circles every 500ms for continuous effect
+            createFallingCircles();
+            animateFallingCircles();
             const intervalId = setInterval(createFallingCircles, 500);
-
-            // Stop creating circles after 10 seconds to let the current ones finish falling
             setTimeout(() => {
                 clearInterval(intervalId);
             }, 10000);
         }
 
-        // Show the congratulations text
         function showCongratulations() {
             const congratulations = document.getElementById('congratulations');
-            congratulations.style.display = 'block'; // Show the text
+            congratulations.style.display = 'block';
+        }
+
+        function showYouFailed() {
+            const youFailed = document.getElementById('youFailed');
+            youFailed.style.display = 'block';
+        }
+
+        // Check if all letters are correctly typed
+        function checkAllCorrect() {
+            const letters = document.querySelectorAll('.letter');
+            for (let i = 0; i < letters.length; i++) {
+                if (!letters[i].classList.contains('correct')) {
+                    return false; // At least one letter is incorrect
+                }
+            }
+            return true; // All letters are correct
         }
 
         // Listen for key presses
@@ -165,8 +181,7 @@
                     letters[currentIndex].classList.remove('correct', 'wrong');
                 }
             } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
-                // Check if it's a letter key
-                const typedLetter = event.key.toUpperCase(); // Handle case insensitivity
+                const typedLetter = event.key.toUpperCase();
                 if (typedLetter === randomLetters[currentIndex]) {
                     letters[currentIndex].classList.add('correct');
                 } else {
@@ -174,16 +189,20 @@
                 }
                 currentIndex++;
 
-                // Check if all letters are typed correctly and trigger the falling circles
+                // Check if all letters have been typed
                 if (currentIndex === randomLetters.length && !animationTriggered) {
                     animationTriggered = true;
-                    triggerFallingCircles(); // Start falling circles
-                    showCongratulations(); // Display congratulations text
+
+                    if (checkAllCorrect()) {
+                        triggerFallingCircles(); // Start falling circles
+                        showCongratulations(); // Show "CONGRATULATIONS"
+                    } else {
+                        showYouFailed(); // Show "YOU FAILED"
+                    }
                 }
             }
         });
 
-        // Resize canvas when window resizes
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
