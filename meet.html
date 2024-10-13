@@ -59,50 +59,27 @@
             background-color: lightcoral;
         }
 
-        #congratulationsContainer {
+        #congratulations, #youFailed {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 100;
-            display: none;
-        }
-
-        #congratulations {
-            font-size: 80px;
+            font-size: 100px;
             font-weight: bold;
             background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             color: transparent;
+            z-index: 100; /* Make sure it's on top of everything */
+            display: none; /* Initially hidden */
             animation: gradientAnimation 2s linear infinite;
-        }
-
-        #restartMessage {
-            font-size: 24px;
-            font-weight: bold;
-            background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: gradientAnimation 2s linear infinite;
-            margin-top: 10px;
         }
 
         #youFailed {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 80px;
-            font-weight: bold;
             background: red;
             -webkit-background-clip: border-box;
             color: white;
             animation: none;
-            z-index: 100;
-            display: none;
         }
 
         /* Gradient animation */
@@ -133,10 +110,7 @@
     <div id="gameScreen">
         <h1>Type the Letters</h1>
         <div id="letterContainer"></div>
-        <div id="congratulationsContainer">
-            <div id="congratulations">CONGRATULATIONS</div>
-            <div id="restartMessage">Command R to restart</div>
-        </div>
+        <div id="congratulations">CONGRATULATIONS</div>
         <div id="youFailed">YOU FAILED</div>
         <canvas id="fallingCanvas"></canvas>
     </div>
@@ -145,8 +119,6 @@
         // Switch from start screen to game screen when clicking anywhere
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
-        const congratulationsContainer = document.getElementById('congratulationsContainer');
-        const youFailed = document.getElementById('youFailed');
 
         startScreen.addEventListener('click', function() {
             startScreen.style.display = 'none'; // Hide start screen
@@ -229,10 +201,12 @@
         }
 
         function showCongratulations() {
-            congratulationsContainer.style.display = 'block';
+            const congratulations = document.getElementById('congratulations');
+            congratulations.style.display = 'block';
         }
 
         function showYouFailed() {
+            const youFailed = document.getElementById('youFailed');
             youFailed.style.display = 'block';
         }
 
@@ -272,7 +246,7 @@
 
                     if (checkAllCorrect()) {
                         triggerFallingCircles(); // Start falling circles
-                        showCongratulations(); // Show "CONGRATULATIONS" with "Command R to restart"
+                        showCongratulations(); // Show "CONGRATULATIONS"
                     } else {
                         showYouFailed(); // Show "YOU FAILED"
                     }
@@ -283,4 +257,8 @@
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-       
+        });
+    </script>
+
+</body>
+</html>
