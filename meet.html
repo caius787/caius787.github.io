@@ -44,12 +44,20 @@
     <canvas id="fallingCanvas"></canvas>
 
     <script>
-        // Generate 24 random letters
+        // Generate 24 random letters without immediate repeats
         const letterContainer = document.getElementById('letterContainer');
         const randomLetters = [];
+        let previousLetter = null;
+
         for (let i = 0; i < 24; i++) {
-            const randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
+            let randomLetter;
+            do {
+                randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
+            } while (randomLetter === previousLetter); // Ensure no immediate repeat
+
             randomLetters.push(randomLetter);
+            previousLetter = randomLetter;
+
             const span = document.createElement('span');
             span.className = 'letter';
             span.textContent = randomLetter;
@@ -76,7 +84,7 @@
                     y: -10, // Start above the canvas
                     radius: Math.random() * 10 + 5,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    speedY: Math.random() * 2 + 1, // Slow down to make circles last longer
+                    speedY: Math.random() * 5 + 3, // Increased speed for faster falling
                     lifespan: 0 // Keep track of how long each circle has been falling
                 });
             }
