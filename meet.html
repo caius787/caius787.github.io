@@ -34,12 +34,13 @@
             transform: translate(-50%, -50%);
             font-size: 100px;
             font-weight: bold;
-            background: linear-gradient(90deg, #FF0000, #00FF00);
+            background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             color: transparent;
             z-index: 100; /* Make sure it's on top of everything */
             display: none; /* Initially hidden */
-            animation: gradientAnimation 0.2s infinite;
+            animation: gradientAnimation 2s linear infinite;
         }
         canvas {
             position: fixed;
@@ -151,8 +152,6 @@
         function showCongratulations() {
             const congratulations = document.getElementById('congratulations');
             congratulations.style.display = 'block'; // Show the text
-            congratulations.style.background = `linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF)`;
-            congratulations.style.backgroundSize = '200% 200%'; // For smooth gradient transition
         }
 
         // Listen for key presses
