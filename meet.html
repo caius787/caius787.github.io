@@ -53,9 +53,11 @@
             const letters = document.querySelectorAll('.letter');
 
             if (event.key === 'Backspace' && currentIndex > 0) {
-                // If the user presses backspace, go back one step
-                currentIndex--;
-                letters[currentIndex].classList.remove('correct', 'wrong');
+                // If the letter is red (wrong), allow deletion
+                if (letters[currentIndex - 1].classList.contains('wrong')) {
+                    currentIndex--;
+                    letters[currentIndex].classList.remove('correct', 'wrong');
+                }
             } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
                 // Check if it's a letter key
                 const typedLetter = event.key.toUpperCase(); // Handle case insensitivity
