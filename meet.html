@@ -41,7 +41,7 @@
 
         #letterContainer {
             font-size: 24px;
-            letter-spacing: 5px;
+            letter-spacing: 2px;
         }
 
         .letter {
@@ -140,12 +140,12 @@
         const words = getRandomWords();
         const letterContainer = document.getElementById('letterContainer');
 
-        // Display the words as individual letters
+        // Display the words as individual letters with spaces between the words
         let combinedLetters = words.join(' ');  // Combine the words with spaces
         for (let letter of combinedLetters) {
             const span = document.createElement('span');
             span.className = 'letter';
-            span.textContent = letter;  // Display each character including spaces
+            span.textContent = letter === ' ' ? '␣' : letter; // Display "␣" symbol for space
             letterContainer.appendChild(span);
         }
 
@@ -235,8 +235,8 @@
                     currentIndex--;
                     letters[currentIndex].classList.remove('correct', 'wrong');
                 }
-            } else if (currentIndex < combinedLetters.length && /^[a-zA-Z]$/.test(event.key)) {
-                const typedLetter = event.key.toUpperCase();
+            } else if (currentIndex < combinedLetters.length) {
+                const typedLetter = event.key === ' ' ? ' ' : event.key.toUpperCase();
                 if (typedLetter === combinedLetters[currentIndex].toUpperCase()) {
                     letters[currentIndex].classList.add('correct');
                 } else {
