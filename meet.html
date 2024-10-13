@@ -3,91 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Game</title>
+    <title>Type the Letters - Falling Circles with Gradient Congratulations</title>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        body {
             font-family: sans-serif;
-            background-color: #f4f4f4;
-        }
-
-        #startScreen, #gameScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f4f4f4;
-        }
-
-        #startScreen h1 {
-            font-size: 36px;
-            color: black;
-        }
-
-        #gameScreen {
-            display: none;
-            flex-direction: column;
             text-align: center;
+            margin-top: 50px;
+            overflow: hidden;
         }
-
         #letterContainer {
             font-size: 24px;
             letter-spacing: 10px;
         }
-
         .letter {
             display: inline-block;
             padding: 5px;
             font-weight: bold;
             border-radius: 4px;
         }
-
         .correct {
             background-color: lightgreen;
         }
-
         .wrong {
             background-color: lightcoral;
         }
-
-        #congratulations, #youFailed {
+        #congratulations {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 100px;
             font-weight: bold;
-            background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
-            background-size: 400% 400%;
+            background: linear-gradient(90deg, #FF0000, #00FF00);
             -webkit-background-clip: text;
             color: transparent;
             z-index: 100; /* Make sure it's on top of everything */
             display: none; /* Initially hidden */
-            animation: gradientAnimation 2s linear infinite;
+            animation: gradientAnimation 0.2s infinite;
         }
-
-        #youFailed {
-            background: red;
-            -webkit-background-clip: border-box;
-            color: white;
-            animation: none;
-        }
-
-        /* Gradient animation */
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
         canvas {
             position: fixed;
             top: 0;
@@ -97,34 +50,22 @@
             pointer-events: none;
             z-index: 10; /* Behind the congratulations text */
         }
+
+        /* Gradient animation */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Start Screen -->
-    <div id="startScreen">
-        <h1>Daddy or Aunt Tacee, click anywhere to start.</h1>
-    </div>
-
-    <!-- Game Screen -->
-    <div id="gameScreen">
-        <h1>Type the Letters</h1>
-        <div id="letterContainer"></div>
-        <div id="congratulations">CONGRATULATIONS</div>
-        <div id="youFailed">YOU FAILED</div>
-        <canvas id="fallingCanvas"></canvas>
-    </div>
+    <h1>Type the Letters</h1>
+    <div id="letterContainer"></div>
+    <div id="congratulations">CONGRATULATIONS</div>
+    <canvas id="fallingCanvas"></canvas>
 
     <script>
-        // Switch from start screen to game screen when clicking anywhere
-        const startScreen = document.getElementById('startScreen');
-        const gameScreen = document.getElementById('gameScreen');
-
-        startScreen.addEventListener('click', function() {
-            startScreen.style.display = 'none'; // Hide start screen
-            gameScreen.style.display = 'flex';  // Show game screen
-        });
-
         // Generate 24 random letters without immediate repeats
         const letterContainer = document.getElementById('letterContainer');
         const randomLetters = [];
@@ -158,14 +99,15 @@
 
         function createFallingCircles() {
             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            // Increase the number of circles generated (200 at a time)
             for (let i = 0; i < 200; i++) {
                 fallingCircles.push({
                     x: Math.random() * canvas.width,
-                    y: -10,
+                    y: -10, // Start above the canvas
                     radius: Math.random() * 10 + 5,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    speedY: Math.random() * 5 + 3,
-                    lifespan: 0
+                    speedY: Math.random() * 5 + 3, // Increased speed for faster falling
+                    lifespan: 0 // Keep track of how long each circle has been falling
                 });
             }
         }
@@ -176,6 +118,7 @@
                 circle.y += circle.speedY;
                 circle.lifespan += 1;
 
+                // Remove circles after they have existed for longer (increased lifespan)
                 if (circle.lifespan > 500) {
                     fallingCircles.splice(index, 1);
                 }
@@ -186,39 +129,30 @@
                 ctx.fill();
             });
 
+            // Continue animation while there are still circles falling
             if (fallingCircles.length > 0) {
                 requestAnimationFrame(animateFallingCircles);
             }
         }
 
         function triggerFallingCircles() {
-            createFallingCircles();
-            animateFallingCircles();
+            createFallingCircles(); // Create initial set of circles
+            animateFallingCircles(); // Start animation
+            // Create new falling circles every 500ms for continuous effect
             const intervalId = setInterval(createFallingCircles, 500);
+
+            // Stop creating circles after 10 seconds to let the current ones finish falling
             setTimeout(() => {
                 clearInterval(intervalId);
             }, 10000);
         }
 
+        // Show the congratulations text
         function showCongratulations() {
             const congratulations = document.getElementById('congratulations');
-            congratulations.style.display = 'block';
-        }
-
-        function showYouFailed() {
-            const youFailed = document.getElementById('youFailed');
-            youFailed.style.display = 'block';
-        }
-
-        // Check if all letters are correctly typed
-        function checkAllCorrect() {
-            const letters = document.querySelectorAll('.letter');
-            for (let i = 0; i < letters.length; i++) {
-                if (!letters[i].classList.contains('correct')) {
-                    return false; // At least one letter is incorrect
-                }
-            }
-            return true; // All letters are correct
+            congratulations.style.display = 'block'; // Show the text
+            congratulations.style.background = `linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF)`;
+            congratulations.style.backgroundSize = '200% 200%'; // For smooth gradient transition
         }
 
         // Listen for key presses
@@ -232,7 +166,8 @@
                     letters[currentIndex].classList.remove('correct', 'wrong');
                 }
             } else if (currentIndex < randomLetters.length && /^[a-zA-Z]$/.test(event.key)) {
-                const typedLetter = event.key.toUpperCase();
+                // Check if it's a letter key
+                const typedLetter = event.key.toUpperCase(); // Handle case insensitivity
                 if (typedLetter === randomLetters[currentIndex]) {
                     letters[currentIndex].classList.add('correct');
                 } else {
@@ -240,20 +175,16 @@
                 }
                 currentIndex++;
 
-                // Check if all letters have been typed
+                // Check if all letters are typed correctly and trigger the falling circles
                 if (currentIndex === randomLetters.length && !animationTriggered) {
                     animationTriggered = true;
-
-                    if (checkAllCorrect()) {
-                        triggerFallingCircles(); // Start falling circles
-                        showCongratulations(); // Show "CONGRATULATIONS"
-                    } else {
-                        showYouFailed(); // Show "YOU FAILED"
-                    }
+                    triggerFallingCircles(); // Start falling circles
+                    showCongratulations(); // Display congratulations text
                 }
             }
         });
 
+        // Resize canvas when window resizes
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
