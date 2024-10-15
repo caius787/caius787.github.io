@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full-Screen Responsive Countdown Grid</title>
+    <title>Countdown to October 31</title>
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
@@ -12,69 +12,47 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             box-sizing: border-box;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 20px;
-            width: 100vw;
-            height: 100vh;
-            padding: 20px;
+            color: white;
+            text-align: center;
         }
 
         .countdown-box {
             background-color: white;
             color: #9370DB;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            font-size: 1.5em;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .countdown-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            width: 500px;
         }
 
         .countdown-title {
-            font-size: 1.5em;
-            margin-bottom: 15px;
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
 
         .countdown-time {
-            font-size: 2em;
+            font-size: 4em;
             font-weight: bold;
         }
 
-        .placeholder {
-            font-size: 1.2em;
-            color: #777;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(3, 1fr);
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+            .countdown-title {
+                font-size: 2em;
             }
-        }
 
-        @media (max-width: 480px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(6, 1fr);
+            .countdown-time {
+                font-size: 3em;
+            }
+
+            .countdown-box {
+                width: 90%;
             }
         }
     </style>
@@ -82,50 +60,9 @@
 
 <body>
 
-    <div class="grid-container">
-        <!-- Countdown to October 31 -->
-        <a href="countdown1.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Countdown to October 31, 00:00</div>
-                <div class="countdown-time" id="countdown1"></div>
-            </div>
-        </a>
-
-        <!-- Placeholder countdowns -->
-        <a href="countdown2.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Event 2 Placeholder</div>
-                <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
-            </div>
-        </a>
-
-        <a href="countdown3.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Event 3 Placeholder</div>
-                <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
-            </div>
-        </a>
-
-        <a href="countdown4.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Event 4 Placeholder</div>
-                <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
-            </div>
-        </a>
-
-        <a href="countdown5.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Event 5 Placeholder</div>
-                <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
-            </div>
-        </a>
-
-        <a href="countdown6.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Event 6 Placeholder</div>
-                <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
-            </div>
-        </a>
+    <div class="countdown-box">
+        <div class="countdown-title">Countdown to October 31, 00:00</div>
+        <div class="countdown-time" id="countdown1">00:00:00:00</div>
     </div>
 
     <script>
@@ -147,7 +84,7 @@
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
             document.getElementById('countdown1').innerHTML =
-                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+                `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
             // Repeat every second
             setTimeout(countdownToHalloween, 1000);
