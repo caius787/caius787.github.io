@@ -14,7 +14,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
             box-sizing: border-box;
         }
 
@@ -23,8 +24,8 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             grid-auto-rows: 1fr;
             gap: 20px;
-            width: 100%;
-            max-width: 1200px;
+            width: 100vw;
+            height: 100vh;
             padding: 20px;
             box-sizing: border-box;
         }
@@ -43,8 +44,7 @@
             font-size: 1.5em;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            height: 200px;
-            overflow: hidden;
+            height: 100%; /* Ensure the boxes take the full height of the grid cell */
         }
 
         .countdown-box:hover {
@@ -94,10 +94,6 @@
             h7 {
                 font-size: 0.5em;
             }
-
-            .countdown-box {
-                height: 180px; /* Adjust box height for smaller screens */
-            }
         }
 
         @media (max-width: 480px) {
@@ -107,10 +103,6 @@
 
             h7 {
                 font-size: 0.45em;
-            }
-
-            .countdown-box {
-                height: 150px;
             }
         }
     </style>
