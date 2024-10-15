@@ -20,7 +20,7 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             grid-auto-rows: 1fr;
             gap: 20px;
             width: 100%;
@@ -39,10 +39,12 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             font-size: 1.5em;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            height: 100%;
+            height: 200px;
+            overflow: hidden;
         }
 
         .countdown-box:hover {
@@ -54,6 +56,7 @@
             text-decoration: none;
             color: inherit;
             height: 100%;
+            width: 100%;
         }
 
         .countdown-title {
@@ -62,11 +65,12 @@
         }
 
         .countdown-time {
-            font-size: 2em;
+            font-size: 1.5em;
             font-weight: bold;
             display: flex;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .countdown-item {
@@ -84,21 +88,29 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .countdown-time {
-                font-size: 1.5em;
+                font-size: 1.2em;
             }
 
             h7 {
                 font-size: 0.5em;
+            }
+
+            .countdown-box {
+                height: 180px; /* Adjust box height for smaller screens */
             }
         }
 
         @media (max-width: 480px) {
             .countdown-time {
-                font-size: 1.3em;
+                font-size: 1.1em;
             }
 
             h7 {
-                font-size: 0.5em;
+                font-size: 0.45em;
+            }
+
+            .countdown-box {
+                height: 150px;
             }
         }
     </style>
