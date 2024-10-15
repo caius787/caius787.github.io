@@ -61,6 +61,21 @@
         .countdown-time {
             font-size: 2em;
             font-weight: bold;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h7 {
+            font-size: 0.75em;
+            margin-top: 5px;
+            color: #555;
         }
 
         /* Responsive adjustments */
@@ -153,11 +168,32 @@
             const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            let countdownText = "";
+            // Create HTML structure for each countdown unit
+            let countdownText = '';
             if (years > 0) {
-                countdownText += `${years.toString().padStart(2, '0')} Years `;
+                countdownText += `
+                <div class="countdown-item">
+                    <div>${years.toString().padStart(2, '0')}</div>
+                    <h7>Years</h7>
+                </div>`;
             }
-            countdownText += `${days.toString().padStart(2, '0')} Days ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            countdownText += `
+            <div class="countdown-item">
+                <div>${days.toString().padStart(2, '0')}</div>
+                <h7>Days</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${hours.toString().padStart(2, '0')}</div>
+                <h7>Hours</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${minutes.toString().padStart(2, '0')}</div>
+                <h7>Minutes</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${seconds.toString().padStart(2, '0')}</div>
+                <h7>Seconds</h7>
+            </div>`;
 
             document.getElementById(elementId).innerHTML = countdownText;
         }
