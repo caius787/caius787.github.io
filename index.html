@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draw on the Whiteboard and Confetti</title>
+    <title>Confetti on Links</title>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -91,38 +91,6 @@
             margin: 10px 0;
         }
 
-        /* Whiteboard style */
-        .whiteboard {
-            background-color: white;
-            color: black;
-            width: 90%;
-            height: 300px;
-            margin: 50px auto;
-            position: relative;
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            z-index: 5;
-        }
-
-        .whiteboard-label {
-            position: absolute;
-            top: -25px;
-            left: 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-            color: white;
-        }
-
-        /* Style for drawing dots */
-        .dot {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background-color: red;
-            border-radius: 50%;
-            z-index: 1;
-        }
-
         /* Confetti style */
         .confetti {
             position: absolute;
@@ -184,43 +152,8 @@
         </div>
     </div>
 
-    <!-- Whiteboard area -->
-    <div class="whiteboard" id="whiteboard">
-        <div class="whiteboard-label">Whiteboard</div>
-    </div>
-
     <script>
-        // Handle whiteboard drawing
-        let isDrawing = false;
-        let whiteboard = document.getElementById('whiteboard'); // Reference to the whiteboard
-
-        whiteboard.addEventListener('mousedown', function (e) {
-            isDrawing = true;
-            drawDot(e.clientX - whiteboard.offsetLeft, e.clientY - whiteboard.offsetTop);
-        });
-
-        whiteboard.addEventListener('mousemove', function (e) {
-            if (!isDrawing) return;
-            drawDot(e.clientX - whiteboard.offsetLeft, e.clientY - whiteboard.offsetTop);
-        });
-
-        whiteboard.addEventListener('mouseup', function () {
-            isDrawing = false;
-        });
-
-        whiteboard.addEventListener('mouseleave', function () {
-            isDrawing = false;
-        });
-
-        function drawDot(x, y) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            dot.style.left = x + 'px';
-            dot.style.top = y + 'px';
-            whiteboard.appendChild(dot);
-        }
-
-        // Handle confetti effect
+        // Handle confetti effect on links
         document.querySelectorAll('.confetti-link').forEach(link => {
             link.addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent the link from redirecting immediately
@@ -239,8 +172,9 @@
 
                     confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
+                    // Position confetti at the center of the clicked link
                     confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
-                    confetti.style.top = linkRect.top + 'px';
+                    confetti.style.top = linkRect.top + linkRect.height / 2 + 'px';
 
                     // Random direction
                     let x = (Math.random() - 0.5) * 500 + 'px';
