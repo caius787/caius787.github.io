@@ -23,10 +23,10 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* 3 columns */
             grid-template-rows: repeat(2, 1fr); /* 2 rows */
-            gap: 10px; /* Smaller gap between boxes */
-            width: 100%;
-            height: 100%;
-            padding: 10px; /* Smaller padding */
+            gap: 20px; /* Gap between boxes */
+            width: 80vw; /* Smaller grid width */
+            height: 60vh; /* Smaller grid height */
+            padding: 10px;
             box-sizing: border-box;
         }
 
@@ -34,14 +34,14 @@
             background-color: white;
             color: #9370DB;
             border-radius: 10px;
-            padding: 10px; /* Reduced padding */
+            padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 1.2em; /* Reduced font size */
+            font-size: 1.5em; /* Same font size */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             height: 100%; /* Full height for each box */
@@ -53,12 +53,12 @@
         }
 
         .countdown-title {
-            font-size: 1em; /* Reduced title font size */
-            margin-bottom: 10px;
+            font-size: 1.2em;
+            margin-bottom: 15px;
         }
 
         .countdown-time {
-            font-size: 1.2em; /* Reduced countdown font size */
+            font-size: 1.5em; /* Same font size for countdown */
             font-weight: bold;
         }
 
@@ -67,10 +67,12 @@
             .grid-container {
                 grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
                 grid-template-rows: repeat(3, 1fr); /* 3 rows for smaller screens */
+                width: 90vw; /* More width for smaller screens */
+                height: 70vh; /* More height for smaller screens */
             }
 
             .countdown-time {
-                font-size: 1em;
+                font-size: 1.5em;
             }
         }
 
@@ -78,10 +80,12 @@
             .grid-container {
                 grid-template-columns: 1fr; /* 1 column for very small screens */
                 grid-template-rows: repeat(6, 1fr); /* 6 rows for very small screens */
+                width: 100vw; /* Full width for very small screens */
+                height: 100vh; /* Full height for very small screens */
             }
 
             .countdown-time {
-                font-size: 0.9em; /* Reduced font size for very small screens */
+                font-size: 1.5em;
             }
         }
     </style>
