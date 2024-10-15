@@ -14,17 +14,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             box-sizing: border-box;
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-auto-rows: 1fr;
             gap: 20px;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            max-width: 1200px;
             padding: 20px;
             box-sizing: border-box;
         }
@@ -42,12 +42,11 @@
             font-size: 1.5em;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            height: 100%; /* Take full height of the grid cell */
-            overflow: hidden; /* Prevent content overflow */
+            height: 100%;
         }
 
         .countdown-box:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
@@ -82,13 +81,8 @@
             color: #777;
         }
 
-        /* Ensure the boxes adjust for smaller screens */
-        @media (max-width: 1024px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(3, 1fr);
-            }
-
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
             .countdown-time {
                 font-size: 1.5em;
             }
@@ -98,12 +92,7 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(6, 1fr);
-            }
-
+        @media (max-width: 480px) {
             .countdown-time {
                 font-size: 1.3em;
             }
