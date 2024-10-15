@@ -65,6 +65,13 @@
             text-align: left; /* left-align content inside the boxes */
             max-width: 100%; /* ensure box doesn't overflow on small screens */
             box-sizing: border-box; /* include padding and border in box size */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* smooth transition */
+        }
+
+        /* Hover effect to make the box grow */
+        .box:hover {
+            transform: scale(1.05); /* slightly grow the box */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* deeper shadow on hover */
         }
 
         .box h4 {
