@@ -93,17 +93,17 @@
             position: absolute;
             border-radius: 50%;
             opacity: 0;
-            animation: fallConfetti 1.5s ease forwards;
+            animation: spreadConfetti 0.6s ease forwards; /* Faster animation */
         }
 
-        @keyframes fallConfetti {
+        @keyframes spreadConfetti {
             0% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translate(0, 0) scale(1);
             }
             100% {
                 opacity: 0;
-                transform: translateY(300px) rotate(360deg);
+                transform: translate(var(--x), var(--y)) scale(0.5); /* Move in random direction */
             }
         }
 
@@ -167,7 +167,7 @@
                 const linkRect = this.getBoundingClientRect();
 
                 // Generate confetti effect
-                for (let i = 0; i < 30; i++) {  // Increased quantity
+                for (let i = 0; i < 50; i++) {  // Increased quantity to 50
                     let confetti = document.createElement('div');
                     confetti.classList.add('confetti');
                     document.body.appendChild(confetti);
@@ -182,10 +182,16 @@
                     confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
                     confetti.style.top = linkRect.top + 'px';
 
+                    // Random direction
+                    let x = (Math.random() - 0.5) * 500 + 'px';
+                    let y = (Math.random() - 0.5) * 500 + 'px';
+                    confetti.style.setProperty('--x', x);
+                    confetti.style.setProperty('--y', y);
+
                     // Remove the confetti after animation
                     setTimeout(() => {
                         confetti.remove();
-                    }, 1500);
+                    }, 600); // Same duration as the animation
                 }
 
                 // Delay the actual link navigation
