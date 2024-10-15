@@ -4,80 +4,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown to October 31</title>
-    <link rel="stylesheet" href="./css/main.css">
+    <title>Responsive Countdown Grid</title>
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
             background-color: #9370DB;
             margin: 0;
-            padding: 20px;
-            text-align: center;
-            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             box-sizing: border-box;
         }
 
-        h1 {
-            font-size: 4em;
-            margin-bottom: 20px;
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            padding: 20px;
+            max-width: 1200px;
         }
 
-        /* Countdown Box Style */
         .countdown-box {
-            display: inline-block;
-            margin: 20px auto;
-            padding: 25px 50px;
             background-color: white;
             color: #9370DB;
-            font-size: 2.5em;
-            font-weight: bold;
             border-radius: 10px;
-            text-decoration: none;
+            padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .countdown-box:hover {
-            background-color: #f0e6ff;
-        }
-
-        /* Countdown Display Style */
-        #countdown {
+        .countdown-title {
             font-size: 1.5em;
+            margin-bottom: 15px;
         }
 
-        /* Confetti style */
-        .confetti {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0;
-            z-index: 1000;
-            animation: spreadConfetti 0.8s ease forwards;
+        .countdown-time {
+            font-size: 2em;
+            font-weight: bold;
         }
 
-        @keyframes spreadConfetti {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--x), var(--y)) scale(0.5);
-            }
+        .placeholder {
+            font-size: 1.2em;
+            color: #777;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Countdown to October 31, 00:01</h1>
-    <div class="countdown-box" id="countdown"></div>
+    <div class="grid-container">
+        <!-- Countdown to October 31 -->
+        <div class="countdown-box">
+            <div class="countdown-title">Countdown to October 31, 00:00</div>
+            <div class="countdown-time" id="countdown1"></div>
+        </div>
+
+        <!-- Placeholder countdowns -->
+        <div class="countdown-box">
+            <div class="countdown-title">Event 2 Placeholder</div>
+            <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
+        </div>
+
+        <div class="countdown-box">
+            <div class="countdown-title">Event 3 Placeholder</div>
+            <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
+        </div>
+
+        <div class="countdown-box">
+            <div class="countdown-title">Event 4 Placeholder</div>
+            <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
+        </div>
+
+        <div class="countdown-box">
+            <div class="countdown-title">Event 5 Placeholder</div>
+            <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
+        </div>
+
+        <div class="countdown-box">
+            <div class="countdown-title">Event 6 Placeholder</div>
+            <div class="placeholder">00 Days 00 Hours 00 Minutes 00 Seconds</div>
+        </div>
+    </div>
 
     <script>
         function countdownToHalloween() {
             const now = new Date();
             const currentYear = now.getFullYear();
-            const nextHalloween = new Date(`October 31, ${currentYear} 00:01:00`);
+            const nextHalloween = new Date(`October 31, ${currentYear} 00:00:00`);
 
+            // If the current time is past Halloween this year, countdown to next year's Halloween
             if (now > nextHalloween) {
                 nextHalloween.setFullYear(currentYear + 1);
             }
@@ -89,9 +110,10 @@
             const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            document.getElementById('countdown').innerHTML =
+            document.getElementById('countdown1').innerHTML = 
                 `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
 
+            // Repeat every second
             setTimeout(countdownToHalloween, 1000);
         }
 
