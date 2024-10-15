@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full-Screen Responsive Countdown Grid</title>
+    <title>Countdown to October 31</title>
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
@@ -12,74 +12,47 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             box-sizing: border-box;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 20px;
-            width: 100vw;
-            height: 100vh;
-            padding: 20px;
+            color: white;
+            text-align: center;
         }
 
         .countdown-box {
             background-color: white;
             color: #9370DB;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            font-size: 1.5em;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .countdown-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            width: 500px;
         }
 
         .countdown-title {
-            font-size: 1.5em;
-            margin-bottom: 15px;
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
 
         .countdown-time {
-            font-size: 2em;
+            font-size: 4em;
             font-weight: bold;
         }
 
-        .placeholder {
-            font-size: 1.2em;
-            color: #777;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(3, 1fr);
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+            .countdown-title {
+                font-size: 2em;
             }
-        }
 
-        @media (max-width: 480px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(6, 1fr);
+            .countdown-time {
+                font-size: 3em;
+            }
+
+            .countdown-box {
+                width: 90%;
             }
         }
     </style>
@@ -87,106 +60,37 @@
 
 <body>
 
-    <div class="grid-container">
-        <!-- Countdown to October 31 -->
-        <a href="countdown1.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Countdown to October 31, 00:00</div>
-                <div class="countdown-time" id="countdown1"></div>
-            </div>
-        </a>
-
-        <!-- Countdown to December 25 -->
-        <a href="countdown2.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Countdown to December 25, 00:00</div>
-                <div class="countdown-time" id="countdown2"></div>
-            </div>
-        </a>
-
-        <!-- Countdown to March 13 -->
-        <a href="countdown3.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Countdown to March 13, 00:00</div>
-                <div class="countdown-time" id="countdown3"></div>
-            </div>
-        </a>
-
-        <!-- Countdown to March 13, 2028 -->
-        <a href="countdown4.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Countdown to March 13, 2028, 00:00</div>
-                <div class="countdown-time" id="countdown4"></div>
-            </div>
-        </a>
-
-        <!-- Countdown to January 1 -->
-        <a href="countdown5.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Countdown to January 1, 00:00</div>
-                <div class="countdown-time" id="countdown5"></div>
-            </div>
-        </a>
-
-        <!-- Countdown to January 1 (Leap Year) -->
-        <a href="countdown6.html">
-            <div class="countdown-box">
-                <div class="countdown-title">Countdown to January 1 (Leap Year), 00:00</div>
-                <div class="countdown-time" id="countdown6"></div>
-            </div>
-        </a>
+    <div class="countdown-box">
+        <div class="countdown-title">Countdown to October 31, 00:00</div>
+        <div class="countdown-time" id="countdown1">00:00:00:00</div>
     </div>
 
     <script>
-        // Countdown logic for various dates
-
-        // Helper function to calculate time difference and display it
-        function updateCountdown(elementId, targetDate) {
+        function countdownToHalloween() {
             const now = new Date();
-            const timeDifference = targetDate - now;
+            const currentYear = now.getFullYear();
+            const nextHalloween = new Date(`October 31, ${currentYear} 00:00:00`);
+
+            // If the current time is past Halloween this year, countdown to next year's Halloween
+            if (now > nextHalloween) {
+                nextHalloween.setFullYear(currentYear + 1);
+            }
+
+            const timeDifference = nextHalloween - now;
 
             const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            document.getElementById(elementId).innerHTML =
+            document.getElementById('countdown1').innerHTML =
                 `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        // Initialize all countdowns
-        function startCountdowns() {
-            // Countdown to October 31, 00:00
-            const halloween = new Date(`${new Date().getFullYear()}-10-31T00:00:00`);
-            if (new Date() > halloween) halloween.setFullYear(halloween.getFullYear() + 1);
-            updateCountdown('countdown1', halloween);
-
-            // Countdown to December 25, 00:00
-            const christmas = new Date(`${new Date().getFullYear()}-12-25T00:00:00`);
-            updateCountdown('countdown2', christmas);
-
-            // Countdown to March 13, 00:00
-            const march13 = new Date(`${new Date().getFullYear()}-03-13T00:00:00`);
-            if (new Date() > march13) march13.setFullYear(march13.getFullYear() + 1);
-            updateCountdown('countdown3', march13);
-
-            // Countdown to March 13, 2028, 00:00
-            const march13_2028 = new Date(`2028-03-13T00:00:00`);
-            updateCountdown('countdown4', march13_2028);
-
-            // Countdown to January 1, 00:00
-            const jan1 = new Date(`${new Date().getFullYear() + 1}-01-01T00:00:00`);
-            updateCountdown('countdown5', jan1);
-
-            // Countdown to January 1, Leap Year, 00:00
-            let leapYear = new Date(`${new Date().getFullYear() + (new Date().getFullYear() % 4 === 0 ? 0 : 4 - (new Date().getFullYear() % 4))}-01-01T00:00:00`);
-            updateCountdown('countdown6', leapYear);
 
             // Repeat every second
-            setTimeout(startCountdowns, 1000);
+            setTimeout(countdownToHalloween, 1000);
         }
 
-        startCountdowns();
+        countdownToHalloween();
     </script>
 
 </body>
