@@ -73,9 +73,9 @@
         }
 
         h7 {
-            font-size: 0.75em;
+            font-size: 0.6em; /* Smaller labels */
             margin-top: 5px;
-            color: #555;
+            color: #777;
         }
 
         /* Responsive adjustments */
@@ -84,12 +84,28 @@
                 grid-template-columns: repeat(2, 1fr);
                 grid-template-rows: repeat(3, 1fr);
             }
+
+            .countdown-time {
+                font-size: 1.5em;
+            }
+
+            h7 {
+                font-size: 0.5em; /* Further smaller labels for smaller screens */
+            }
         }
 
         @media (max-width: 480px) {
             .grid-container {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(6, 1fr);
+            }
+
+            .countdown-time {
+                font-size: 1.2em;
+            }
+
+            h7 {
+                font-size: 0.45em;
             }
         }
     </style>
