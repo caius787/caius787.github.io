@@ -21,8 +21,8 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns */
-            grid-template-rows: repeat(2, 1fr); /* 2 rows */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+            grid-template-rows: auto;
             gap: 20px;
             width: 100vw;
             height: 100vh;
