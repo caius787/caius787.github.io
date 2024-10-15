@@ -23,10 +23,10 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* 3 columns */
             grid-template-rows: repeat(2, 1fr); /* 2 rows */
-            gap: 20px; /* Gap between boxes */
+            gap: 30px; /* Increased gap between boxes */
             width: 80vw; /* Smaller grid width */
             height: 60vh; /* Smaller grid height */
-            padding: 10px;
+            padding: 20px; /* Extra padding for breathing space */
             box-sizing: border-box;
         }
 
@@ -34,7 +34,7 @@
             background-color: white;
             color: #9370DB;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px; /* Reduced padding */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             display: flex;
@@ -69,6 +69,7 @@
                 grid-template-rows: repeat(3, 1fr); /* 3 rows for smaller screens */
                 width: 90vw; /* More width for smaller screens */
                 height: 70vh; /* More height for smaller screens */
+                gap: 20px; /* Smaller gap for medium screens */
             }
 
             .countdown-time {
@@ -82,6 +83,7 @@
                 grid-template-rows: repeat(6, 1fr); /* 6 rows for very small screens */
                 width: 100vw; /* Full width for very small screens */
                 height: 100vh; /* Full height for very small screens */
+                gap: 15px; /* Reduced gap for very small screens */
             }
 
             .countdown-time {
