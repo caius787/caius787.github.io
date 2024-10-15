@@ -1,11 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta name="chrome://newtab" 1content="">
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to October 31</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20%;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        #countdown {
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
 
-  </body>
+    <h1>Countdown to October 31, 00:01</h1>
+    <div id="countdown"></div>
+
+    <script>
+        function countdownToHalloween() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const nextHalloween = new Date(`October 31, ${currentYear} 00:01:00`);
+
+            // If it's past Halloween this year, countdown to next year's Halloween
+            if (now > nextHalloween) {
+                nextHalloween.setFullYear(currentYear + 1);
+            }
+
+            const timeDifference = nextHalloween - now;
+
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = 
+                days + " Days " + hours + " Hours " + minutes + " Minutes " + seconds + " Seconds ";
+
+            // Repeat every second
+            setTimeout(countdownToHalloween, 1000);
+        }
+
+        countdownToHalloween();
+    </script>
+
+</body>
 </html>
