@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draw on the Page</title>
+    <title>Draw on the Whiteboard</title>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -25,7 +25,7 @@
             color: #9370DB;
             text-decoration: none;
             position: relative;
-            z-index: 10; /* Ensure links are above drawing */
+            z-index: 10;
         }
 
         a:hover {
@@ -43,7 +43,7 @@
             border-radius: 10px;
             text-decoration: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 10; /* Keep above the dots */
+            z-index: 10;
         }
 
         .christmas-list:hover {
@@ -56,7 +56,7 @@
             gap: 20px;
             margin-top: 20px;
             padding: 0 10px;
-            z-index: 10; /* Ensure boxes are above the drawing */
+            z-index: 10;
         }
 
         .box {
@@ -69,7 +69,7 @@
             max-width: 100%;
             box-sizing: border-box;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            z-index: 10; /* Keep above the dots */
+            z-index: 10;
         }
 
         .box:hover {
@@ -91,6 +91,28 @@
             margin: 10px 0;
         }
 
+        /* Whiteboard style */
+        .whiteboard {
+            background-color: white;
+            color: black;
+            width: 90%;
+            height: 300px;
+            margin: 50px auto;
+            position: relative;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            z-index: 5;
+        }
+
+        .whiteboard-label {
+            position: absolute;
+            top: -25px;
+            left: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+        }
+
         /* Style for drawing dots */
         .dot {
             position: absolute;
@@ -98,7 +120,7 @@
             height: 4px;
             background-color: red;
             border-radius: 50%;
-            z-index: 1; /* Ensure dots are beneath links and boxes */
+            z-index: 1;
         }
     </style>
 </head>
@@ -143,31 +165,30 @@
         </div>
     </div>
 
+    <!-- Whiteboard area -->
+    <div class="whiteboard" id="whiteboard">
+        <div class="whiteboard-label">Whiteboard</div>
+    </div>
+
     <script>
-        let isDrawing = false; // Track drawing state
-        let lastX, lastY; // Store last position for drawing lines
+        let isDrawing = false;
+        let whiteboard = document.getElementById('whiteboard'); // Reference to the whiteboard
 
-        document.body.addEventListener('mousedown', function (e) {
-            if (e.target.tagName === 'A') return; // Prevent drawing on links
-
+        whiteboard.addEventListener('mousedown', function (e) {
             isDrawing = true;
-            lastX = e.clientX;
-            lastY = e.clientY;
-
-            // Draw the first dot
-            drawDot(e.clientX, e.clientY);
+            drawDot(e.clientX - whiteboard.offsetLeft, e.clientY - whiteboard.offsetTop);
         });
 
-        document.body.addEventListener('mousemove', function (e) {
-            if (!isDrawing || e.target.tagName === 'A') return; // Skip if not drawing or over a link
-
-            drawDot(e.clientX, e.clientY);
-
-            lastX = e.clientX;
-            lastY = e.clientY;
+        whiteboard.addEventListener('mousemove', function (e) {
+            if (!isDrawing) return;
+            drawDot(e.clientX - whiteboard.offsetLeft, e.clientY - whiteboard.offsetTop);
         });
 
-        document.body.addEventListener('mouseup', function () {
+        whiteboard.addEventListener('mouseup', function () {
+            isDrawing = false;
+        });
+
+        whiteboard.addEventListener('mouseleave', function () {
             isDrawing = false;
         });
 
@@ -176,7 +197,7 @@
             dot.classList.add('dot');
             dot.style.left = x + 'px';
             dot.style.top = y + 'px';
-            document.body.appendChild(dot);
+            whiteboard.appendChild(dot);
         }
     </script>
 </body>
