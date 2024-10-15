@@ -20,8 +20,8 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns */
-            grid-template-rows: 1fr 1fr; /* 2 rows */
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: 1fr 1fr;
             gap: 20px;
             width: 100vw;
             height: 100vh;
@@ -42,17 +42,19 @@
             font-size: 1.5em;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            height: 100%; /* Ensure the boxes take the full height of the grid cell */
+            height: 100%; /* Take full height of the grid cell */
+            overflow: hidden; /* Prevent content overflow */
         }
 
         .countdown-box:hover {
-            transform: scale(1.05);
+            transform: scale(1.02);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         a {
             text-decoration: none;
             color: inherit;
+            height: 100%;
         }
 
         .countdown-title {
@@ -80,11 +82,11 @@
             color: #777;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
+        /* Ensure the boxes adjust for smaller screens */
+        @media (max-width: 1024px) {
             .grid-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns */
-                grid-template-rows: repeat(3, 1fr); /* 3 rows */
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
             }
 
             .countdown-time {
@@ -96,18 +98,18 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .grid-container {
-                grid-template-columns: 1fr; /* 1 column */
-                grid-template-rows: repeat(6, 1fr); /* 6 rows */
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(6, 1fr);
             }
 
             .countdown-time {
-                font-size: 1.2em;
+                font-size: 1.3em;
             }
 
             h7 {
-                font-size: 0.45em;
+                font-size: 0.5em;
             }
         }
     </style>
