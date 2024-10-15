@@ -20,12 +20,13 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            grid-template-rows: 1fr 1fr; /* 2 rows */
             gap: 20px;
             width: 100vw;
             height: 100vh;
             padding: 20px;
+            box-sizing: border-box;
         }
 
         .countdown-box {
@@ -41,6 +42,7 @@
             font-size: 1.5em;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            height: 100%; /* Ensure the boxes take the full height of the grid cell */
         }
 
         .countdown-box:hover {
@@ -73,7 +75,7 @@
         }
 
         h7 {
-            font-size: 0.6em; /* Smaller labels */
+            font-size: 0.6em;
             margin-top: 5px;
             color: #777;
         }
@@ -81,8 +83,8 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr); /* 2 columns */
+                grid-template-rows: repeat(3, 1fr); /* 3 rows */
             }
 
             .countdown-time {
@@ -90,14 +92,14 @@
             }
 
             h7 {
-                font-size: 0.5em; /* Further smaller labels for smaller screens */
+                font-size: 0.5em;
             }
         }
 
         @media (max-width: 480px) {
             .grid-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(6, 1fr);
+                grid-template-columns: 1fr; /* 1 column */
+                grid-template-rows: repeat(6, 1fr); /* 6 rows */
             }
 
             .countdown-time {
