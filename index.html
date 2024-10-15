@@ -93,20 +93,17 @@
             position: absolute;
             border-radius: 50%;
             opacity: 0;
-            animation: popConfetti 0.8s ease forwards;
+            animation: fallConfetti 1.5s ease forwards;
         }
 
-        @keyframes popConfetti {
+        @keyframes fallConfetti {
             0% {
-                transform: scale(0);
                 opacity: 1;
-            }
-            50% {
-                transform: scale(1.2);
+                transform: translateY(0);
             }
             100% {
-                transform: translate(var(--x), var(--y)) scale(0.5);
                 opacity: 0;
+                transform: translateY(300px) rotate(360deg);
             }
         }
 
@@ -170,30 +167,25 @@
                 const linkRect = this.getBoundingClientRect();
 
                 // Generate confetti effect
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 30; i++) {  // Increased quantity
                     let confetti = document.createElement('div');
                     confetti.classList.add('confetti');
                     document.body.appendChild(confetti);
 
                     // Randomize the size, position, and direction of the confetti
-                    let size = Math.random() * 6 + 4 + 'px';
+                    let size = Math.random() * 8 + 4 + 'px';
                     confetti.style.width = size;
                     confetti.style.height = size;
-
-                    let x = (Math.random() - 0.5) * 200 + 'px';
-                    let y = (Math.random() - 0.5) * 200 + 'px';
-                    confetti.style.setProperty('--x', x);
-                    confetti.style.setProperty('--y', y);
 
                     confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
                     confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
-                    confetti.style.top = linkRect.top + linkRect.height / 2 + 'px';
+                    confetti.style.top = linkRect.top + 'px';
 
                     // Remove the confetti after animation
                     setTimeout(() => {
                         confetti.remove();
-                    }, 800);
+                    }, 1500);
                 }
 
                 // Delay the actual link navigation
