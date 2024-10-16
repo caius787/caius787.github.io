@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive 3x2 Countdown Grid</title>
+    <title>Fullscreen Responsive 3x2 Countdown Grid</title>
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
@@ -23,10 +23,10 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* 3 columns */
             grid-template-rows: repeat(2, 1fr); /* 2 rows */
-            gap: 50px; /* Increased gap between boxes to prevent overlap */
-            width: 80vw; /* Smaller grid width */
-            height: 60vh; /* Smaller grid height */
-            padding: 20px; /* Extra padding for breathing space */
+            gap: 40px; /* Sufficient gap between boxes */
+            width: 100vw; /* Fullscreen width */
+            height: 100vh; /* Fullscreen height */
+            padding: 20px; /* Padding around the grid */
             box-sizing: border-box;
         }
 
@@ -41,14 +41,14 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 1.5em; /* Same font size */
+            font-size: 1.5em; /* Consistent font size */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             height: 100%; /* Full height for each box */
         }
 
         .countdown-box:hover {
-            transform: scale(1.03); /* Slightly reduced scale to avoid overlap */
+            transform: scale(1.03); /* Hover effect */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
@@ -58,7 +58,7 @@
         }
 
         .countdown-time {
-            font-size: 1.5em; /* Same font size for countdown */
+            font-size: 1.5em; /* Font size for countdown */
             font-weight: bold;
         }
 
@@ -67,13 +67,7 @@
             .grid-container {
                 grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
                 grid-template-rows: repeat(3, 1fr); /* 3 rows for smaller screens */
-                width: 90vw; /* More width for smaller screens */
-                height: 70vh; /* More height for smaller screens */
-                gap: 40px; /* Smaller gap for medium screens */
-            }
-
-            .countdown-time {
-                font-size: 1.5em;
+                gap: 30px; /* Smaller gap for medium screens */
             }
         }
 
@@ -81,13 +75,7 @@
             .grid-container {
                 grid-template-columns: 1fr; /* 1 column for very small screens */
                 grid-template-rows: repeat(6, 1fr); /* 6 rows for very small screens */
-                width: 100vw; /* Full width for very small screens */
-                height: 100vh; /* Full height for very small screens */
-                gap: 30px; /* Reduced gap for very small screens */
-            }
-
-            .countdown-time {
-                font-size: 1.5em;
+                gap: 20px; /* Reduced gap for very small screens */
             }
         }
     </style>
