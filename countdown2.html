@@ -11,140 +11,71 @@
             background-color: #9370DB;
             margin: 0;
             padding: 0;
-            height: 100vh;
-            width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            height: 100vh;
             box-sizing: border-box;
             color: white;
-            text-align: center;
         }
 
-        .countdown-container {
+        .countdown-box {
+            text-align: center;
             background-color: white;
             color: #9370DB;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            font-size: 2em;
         }
 
         .countdown-title {
             font-size: 2.5em;
-            font-weight: bold;
             margin-bottom: 20px;
         }
 
         .countdown-time {
-            font-size: 2em;
+            font-size: 3em;
             font-weight: bold;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .countdown-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h7 {
-            font-size: 1em;
-            color: #777;
-            font-weight: bold;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .countdown-time {
-                font-size: 1.5em;
-            }
-
-            h7 {
-                font-size: 0.8em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .countdown-time {
-                font-size: 1.2em;
-            }
-
-            h7 {
-                font-size: 0.7em;
-            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="countdown-container">
-        <div class="countdown-title">Christmas</div>
-        <div class="countdown-time" id="countdown"></div>
+    <div class="countdown-box">
+        <div class="countdown-title">Countdown to Christmas, 00:00</div>
+        <div class="countdown-time" id="countdown2"></div>
     </div>
 
     <script>
-        // Countdown to Christmas logic
-        function updateCountdown() {
+        function countdownToChristmas() {
             const now = new Date();
-            const targetDate = new Date(`${new Date().getFullYear()}-12-25T00:00:00`);
-            const timeDifference = targetDate - now;
+            const currentYear = now.getFullYear();
+            const nextChristmas = new Date(`December 25, ${currentYear} 00:00:00`);
 
-            let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-            let years = 0;
-
-            if (days > 365) {
-                years = Math.floor(days / 365);
-                days = days % 365;
+            // If the current time is past Christmas this year, countdown to next year's Christmas
+            if (now > nextChristmas) {
+                nextChristmas.setFullYear(currentYear + 1);
             }
 
+            const timeDifference = nextChristmas - now;
+
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            let countdownText = '';
-            if (years > 0) {
-                countdownText += `
-                <div class="countdown-item">
-                    <div>${years.toString().padStart(2, '0')}</div>
-                    <h7>Years</h7>
-                </div>`;
-            }
-            countdownText += `
-            <div class="countdown-item">
-                <div>${days.toString().padStart(2, '0')}</div>
-                <h7>Days</h7>
-            </div>
-            <div class="countdown-item">
-                <div>${hours.toString().padStart(2, '0')}</div>
-                <h7>Hours</h7>
-            </div>
-            <div class="countdown-item">
-                <div>${minutes.toString().padStart(2, '0')}</div>
-                <h7>Minutes</h7>
-            </div>
-            <div class="countdown-item">
-                <div>${seconds.toString().padStart(2, '0')}</div>
-                <h7>Seconds</h7>
-            </div>`;
+            document.getElementById('countdown2').innerHTML =
+                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
 
-            document.getElementById('countdown').innerHTML = countdownText;
+            // Repeat every second
+            setTimeout(countdownToChristmas, 1000);
         }
 
-        function startCountdown() {
-            updateCountdown();
-            setInterval(updateCountdown, 1000); // Update every second
-        }
-
-        startCountdown();
+        countdownToChristmas();
     </script>
 
 </body>
 
-</html> 
+</html>
