@@ -73,6 +73,7 @@
         h7 {
             font-size: 0.8em;
             color: #777;
+            font-weight: bold; /* Make labels bold */
         }
 
         /* Responsive adjustments */
@@ -100,37 +101,37 @@
     <div class="grid-container">
         <!-- Countdown 1 -->
         <a href="countdown1.html" class="countdown-box">
-            <div class="countdown-title">Countdown to October 31, 00:00</div>
+            <div class="countdown-title">Halloween</div>
             <div class="countdown-time" id="countdown1"></div>
         </a>
 
         <!-- Countdown 2 -->
         <a href="countdown2.html" class="countdown-box">
-            <div class="countdown-title">Countdown to December 25, 00:00</div>
+            <div class="countdown-title">Christmas</div>
             <div class="countdown-time" id="countdown2"></div>
         </a>
 
         <!-- Countdown 3 -->
         <a href="countdown3.html" class="countdown-box">
-            <div class="countdown-title">Countdown to March 13, 00:00</div>
+            <div class="countdown-title">My Birthday</div>
             <div class="countdown-time" id="countdown3"></div>
         </a>
 
         <!-- Countdown 4 -->
         <a href="countdown4.html" class="countdown-box">
-            <div class="countdown-title">Countdown to March 13, 2029, 00:00</div>
+            <div class="countdown-title">My 16th Birthday</div>
             <div class="countdown-time" id="countdown4"></div>
         </a>
 
         <!-- Countdown 5 -->
         <a href="countdown5.html" class="countdown-box">
-            <div class="countdown-title">Countdown to January 1, 00:00</div>
+            <div class="countdown-title">New Year's</div>
             <div class="countdown-time" id="countdown5"></div>
         </a>
 
         <!-- Countdown 6 -->
         <a href="countdown6.html" class="countdown-box">
-            <div class="countdown-title">Countdown to June 18, 2025</div>
+            <div class="countdown-title">Last Day of School</div>
             <div class="countdown-time" id="countdown6"></div>
         </a>
     </div>
@@ -183,29 +184,29 @@
         }
 
         function startCountdowns() {
-            // Countdown to October 31
+            // Countdown to Halloween (October 31)
             const halloween = new Date(`${new Date().getFullYear()}-10-31T00:00:00`);
             updateCountdown('countdown1', halloween);
 
-            // Countdown to December 25
+            // Countdown to Christmas (December 25)
             const christmas = new Date(`${new Date().getFullYear()}-12-25T00:00:00`);
             updateCountdown('countdown2', christmas);
 
-            // Countdown to March 13
+            // Countdown to My Birthday (March 13)
             const march13 = new Date(`${new Date().getFullYear()}-03-13T00:00:00`);
             updateCountdown('countdown3', march13);
 
-            // Countdown to March 13, 2029
+            // Countdown to My 16th Birthday (March 13, 2029)
             const march13_2029 = new Date(`2029-03-13T00:00:00`);
             updateCountdown('countdown4', march13_2029);
 
-            // Countdown to January 1
+            // Countdown to New Year's (January 1)
             const jan1 = new Date(`${new Date().getFullYear() + 1}-01-01T00:00:00`);
             updateCountdown('countdown5', jan1);
 
-            // Countdown to June 18, 2025
-            const leapYear = new Date('2025-06-18T00:00:00');
-            updateCountdown('countdown6', leapYear);
+            // Countdown to Last Day of School (June 18, 2025)
+            const lastDayOfSchool = new Date('2025-06-18T00:00:00');
+            updateCountdown('countdown6', lastDayOfSchool);
 
             setTimeout(startCountdowns, 1000); // Update every second
         }
