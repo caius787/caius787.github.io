@@ -137,7 +137,14 @@
     </div>
 
     <script>
-        // Countdown logic
+        // Redirect to index.html when clicking on the background (excluding the boxes)
+        document.body.addEventListener('click', function (event) {
+            // Check if the click target is outside the countdown-box
+            if (!event.target.closest('.countdown-box')) {
+                window.location.href = 'index.html'; // Redirect to index.html
+            }
+        });
+
         function updateCountdown(elementId, targetDate) {
             const now = new Date();
             const timeDifference = targetDate - now;
