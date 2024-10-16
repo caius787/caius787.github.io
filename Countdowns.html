@@ -4,214 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fullscreen Responsive 3x2 Countdown Grid</title>
+    <title>Countdown to My Birthday</title>
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
             background-color: #9370DB;
             margin: 0;
             padding: 0;
-            height: 100vh;
-            width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
+            height: 100vh;
             box-sizing: border-box;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns */
-            grid-template-rows: repeat(2, 1fr); /* 2 rows */
-            column-gap: 40px; /* Horizontal gap between columns */
-            row-gap: 80px; /* Larger gap between the top and bottom rows */
-            width: 100vw; /* Fullscreen width */
-            height: 100vh; /* Fullscreen height */
-            padding: 20px; /* Padding around the grid */
-            box-sizing: border-box;
+            color: white;
         }
 
         .countdown-box {
+            text-align: center;
             background-color: white;
             color: #9370DB;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5em; /* Consistent font size */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            height: 100%; /* Full height for each box */
-            text-decoration: none;
-        }
-
-        .countdown-box:hover {
-            transform: scale(1.03); /* Hover effect */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            font-size: 2em;
         }
 
         .countdown-title {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            font-weight: bold; /* Bold countdown titles */
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
 
         .countdown-time {
-            font-size: 1.5em; /* Font size for countdown */
+            font-size: 2em;
             font-weight: bold;
-            display: flex;
-            gap: 10px;
-        }
-
-        .countdown-item {
-            text-align: center;
-        }
-
-        h7 {
-            font-size: 0.8em;
-            color: #777;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
-                grid-template-rows: repeat(3, 1fr); /* 3 rows for smaller screens */
-                column-gap: 30px; /* Adjust horizontal gap */
-                row-gap: 60px; /* Adjust vertical gap */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .grid-container {
-                grid-template-columns: 1fr; /* 1 column for very small screens */
-                grid-template-rows: repeat(6, 1fr); /* 6 rows for very small screens */
-                gap: 20px; /* Unified gap for small screens */
-            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="grid-container">
-        <!-- Countdown 1 -->
-        <a href="countdown1.html" class="countdown-box">
-            <div class="countdown-title">Halloween</div>
-            <div class="countdown-time" id="countdown1"></div>
-        </a>
-
-        <!-- Countdown 2 -->
-        <a href="countdown2.html" class="countdown-box">
-            <div class="countdown-title">Christmas</div>
-            <div class="countdown-time" id="countdown2"></div>
-        </a>
-
-        <!-- Countdown 3 -->
-        <a href="countdown3.html" class="countdown-box">
-            <div class="countdown-title">My Birthday</div>
-            <div class="countdown-time" id="countdown3"></div>
-        </a>
-
-        <!-- Countdown 4 -->
-        <a href="countdown4.html" class="countdown-box">
-            <div class="countdown-title">My 16th Birthday</div>
-            <div class="countdown-time" id="countdown4"></div>
-        </a>
-
-        <!-- Countdown 5 -->
-        <a href="countdown5.html" class="countdown-box">
-            <div class="countdown-title">New Year's</div>
-            <div class="countdown-time" id="countdown5"></div>
-        </a>
-
-        <!-- Countdown 6 -->
-        <a href="countdown6.html" class="countdown-box">
-            <div class="countdown-title">Last Day of School</div>
-            <div class="countdown-time" id="countdown6"></div>
-        </a>
+    <div class="countdown-box">
+        <div class="countdown-title">My Birthday</div>
+        <div class="countdown-time" id="countdown3"></div>
     </div>
 
     <script>
-        // Countdown logic
-        function updateCountdown(elementId, targetDate) {
+        function countdownToNextBirthday() {
             const now = new Date();
-            const timeDifference = targetDate - now;
+            const currentYear = now.getFullYear();
+            let nextBirthday = new Date(`March 13, ${currentYear} 00:00:00`);
 
-            let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-            let years = 0;
-
-            if (days > 365) {
-                years = Math.floor(days / 365);
-                days = days % 365;
+            // If today's date is past March 13 of the current year, set the countdown to next year's March 13
+            if (now > nextBirthday) {
+                nextBirthday.setFullYear(currentYear + 1);
             }
 
+            const timeDifference = nextBirthday - now;
+
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            let countdownText = '';
-            if (years > 0) {
-                countdownText += `
-                <div class="countdown-item">
-                    <div>${years.toString().padStart(2, '0')}</div>
-                    <h7>Years</h7>
-                </div>`;
-            }
-            countdownText += `
-            <div class="countdown-item">
-                <div>${days.toString().padStart(2, '0')}</div>
-                <h7>Days</h7>
-            </div>
-            <div class="countdown-item">
-                <div>${hours.toString().padStart(2, '0')}</div>
-                <h7>Hours</h7>
-            </div>
-            <div class="countdown-item">
-                <div>${minutes.toString().padStart(2, '0')}</div>
-                <h7>Minutes</h7>
-            </div>
-            <div class="countdown-item">
-                <div>${seconds.toString().padStart(2, '0')}</div>
-                <h7>Seconds</h7>
-            </div>`;
+            document.getElementById('countdown3').innerHTML =
+                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
 
-            document.getElementById(elementId).innerHTML = countdownText;
+            // Update every second
+            setTimeout(countdownToNextBirthday, 1000);
         }
 
-        function startCountdowns() {
-            // Countdown to Halloween (October 31)
-            const halloween = new Date(`${new Date().getFullYear()}-10-31T00:00:00`);
-            updateCountdown('countdown1', halloween);
-
-            // Countdown to Christmas (December 25)
-            const christmas = new Date(`${new Date().getFullYear()}-12-25T00:00:00`);
-            updateCountdown('countdown2', christmas);
-
-            // Countdown to My Birthday (March 13)
-            const march13 = new Date(`${new Date().getFullYear()}-03-13T00:00:00`);
-            updateCountdown('countdown3', march13);
-
-            // Countdown to My 16th Birthday (March 13, 2029)
-            const march13_2029 = new Date(`2029-03-13T00:00:00`);
-            updateCountdown('countdown4', march13_2029);
-
-            // Countdown to New Year's (January 1)
-            const jan1 = new Date(`${new Date().getFullYear() + 1}-01-01T00:00:00`);
-            updateCountdown('countdown5', jan1);
-
-            // Countdown to Last Day of School (June 18, 2025)
-            const lastDayOfSchool = new Date('2025-06-18T00:00:00');
-            updateCountdown('countdown6', lastDayOfSchool);
-
-            setTimeout(startCountdowns, 1000); // Update every second
-        }
-
-        startCountdowns();
+        countdownToNextBirthday();
     </script>
 
 </body>
