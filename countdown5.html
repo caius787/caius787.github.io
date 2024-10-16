@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to New Year's</title>
+    <style>
+        body {
+            font-family: 'Visby Round', sans-serif;
+            background-color: #9370DB;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .countdown-box {
+            text-align: center;
+            background-color: white;
+            color: #9370DB;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            font-size: 2em;
+        }
+
+        .countdown-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-family: 'Visby Round', sans-serif;
+            font-weight: bold;
+        }
+
+        .countdown-time {
+            font-size: 3em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="countdown-box">
+        <div class="countdown-title">New Year's</div> <!-- This title matches the label from the grid -->
+        <div class="countdown-time" id="countdown5"></div>
+    </div>
+
+    <script>
+        function countdownToNewYear() {
+            const now = new Date();
+            const currentYear = now.getFullYear() + 1;
+            const newYears = new Date(`January 1, ${currentYear} 00:00:00`);
+
+            const timeDifference = newYears - now;
+
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown5').innerHTML =
+                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+
+            // Repeat every second
+            setTimeout(countdownToNewYear, 1000);
+        }
+
+        countdownToNewYear();
+    </script>
+
+</body>
+
+</html>
