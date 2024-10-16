@@ -1,112 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="countdown-box"></div>
+    <div class="countdown-title">My Birthday</div>
+    <div class="countdown-time" id="countdown-birthday"></div>
+</div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Countdown Page</title>
-    <style>
-        body {
-            font-family: 'Visby Round', sans-serif;
-            background-color: #9370DB;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
+<script>
+    function countdownToMyBirthday() {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        let nextBirthday = new Date(`March 13, ${currentYear} 00:00:00`);
+
+        // If today's date is after March 13 of the current year, set countdown to next year's March 13
+        if (now > nextBirthday) {
+            nextBirthday.setFullYear(currentYear + 1);
         }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns */
-            grid-template-rows: repeat(2, 1fr); /* 2 rows */
-            column-gap: 40px;
-            row-gap: 80px;
-            width: 100vw;
-            height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+        const timeDifference = nextBirthday - now;
 
-        .countdown-box {
-            background-color: white;
-            color: #9370DB;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5em;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-        .countdown-box:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
+        document.getElementById('countdown-birthday').innerHTML =
+            `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
 
-        .countdown-title {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
+        // Update the countdown every second
+        setTimeout(countdownToMyBirthday, 1000);
+    }
 
-        .countdown-time {
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="grid-container">
-        <!-- Other countdowns here -->
-
-        <!-- Countdown to My Birthday (March 13) -->
-        <div class="countdown-box">
-            <div class="countdown-title">My Birthday</div>
-            <div class="countdown-time" id="countdown-birthday"></div>
-        </div>
-
-        <!-- Other countdowns here -->
-    </div>
-
-    <script>
-        function countdownToMyBirthday() {
-            const now = new Date();
-            const currentYear = now.getFullYear();
-            let nextBirthday = new Date(`March 13, ${currentYear} 00:00:00`);
-
-            // If today's date is after March 13, set countdown to next year's March 13
-            if (now > nextBirthday) {
-                nextBirthday.setFullYear(currentYear + 1);
-            }
-
-            const timeDifference = nextBirthday - now;
-
-            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown-birthday').innerHTML =
-                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
-
-            // Update every second
-            setTimeout(countdownToMyBirthday, 1000);
-        }
-
-        countdownToMyBirthday();
-    </script>
-
-</body>
-
-</html>
+    countdownToMyBirthday();
+</script>
