@@ -4,201 +4,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confetti on Links</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <title>Fullscreen Responsive 3x2 Countdown Grid</title>
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
             background-color: #9370DB;
             margin: 0;
-            padding: 20px;
-            text-align: center;
-            color: white;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-sizing: border-box;
-            position: relative;
         }
 
-        a {
-            color: #9370DB;
-            text-decoration: none;
-            position: relative;
-            z-index: 10;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .christmas-list {
-            display: inline-block;
-            margin: 20px auto;
-            padding: 25px 50px;
-            background-color: white;
-            color: #9370DB;
-            font-size: 2.5em;
-            font-weight: bold;
-            border-radius: 10px;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
-
-        .christmas-list:hover {
-            background-color: #f0e6ff;
-        }
-
-        /* Add margin below the Christmas List */
-        .christmas-list + .container {
-            margin-top: 50px; /* Create space between the button and the boxes */
-        }
-
-        .container {
+        .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-            padding: 0 10px;
-            z-index: 10;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            grid-template-rows: repeat(2, 1fr); /* 2 rows */
+            column-gap: 40px; /* Horizontal gap between columns */
+            row-gap: 80px; /* Larger gap between the top and bottom rows */
+            width: 100vw; /* Fullscreen width */
+            height: 100vh; /* Fullscreen height */
+            padding: 20px; /* Padding around the grid */
+            box-sizing: border-box;
         }
 
-        .box {
+        .countdown-box {
             background-color: white;
             color: #9370DB;
-            padding: 20px;
             border-radius: 10px;
+            padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            max-width: 100%;
-            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em; /* Consistent font size */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            z-index: 10;
+            cursor: pointer;
+            height: 100%; /* Full height for each box */
+            text-decoration: none;
         }
 
-        .box:hover {
-            transform: scale(1.05);
+        .countdown-box:hover {
+            transform: scale(1.03); /* Hover effect */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        .box h4 {
+        .countdown-title {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .countdown-time {
+            font-size: 1.5em; /* Font size for countdown */
+            font-weight: bold;
+            display: flex;
+            gap: 10px;
+        }
+
+        .countdown-item {
             text-align: center;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
+        h7 {
+            font-size: 0.8em;
+            color: #777;
         }
 
-        ul li {
-            margin: 10px 0;
-        }
-
-        /* Confetti style */
-        .confetti {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0;
-            z-index: 1000; /* Ensure confetti appears above everything */
-            animation: spreadConfetti 0.8s ease forwards; /* Increased duration for visibility */
-        }
-
-        @keyframes spreadConfetti {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+                grid-template-rows: repeat(3, 1fr); /* 3 rows for smaller screens */
+                column-gap: 30px; /* Adjust horizontal gap */
+                row-gap: 60px; /* Adjust vertical gap */
             }
-            100% {
-                opacity: 0;
-                transform: translate(var(--x), var(--y)) scale(0.5); /* Move in random direction */
+        }
+
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr; /* 1 column for very small screens */
+                grid-template-rows: repeat(6, 1fr); /* 6 rows for very small screens */
+                gap: 20px; /* Unified gap for small screens */
             }
         }
     </style>
 </head>
 
 <body>
-    <h1>Welcome to my website!</h1>
-    <h2>Where the most wonderful people are!</h2>
 
-    <a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="christmas-list confetti-link">2024 Christmas List</a>
+    <div class="grid-container">
+        <!-- Countdown 1 -->
+        <a href="countdown1.html" class="countdown-box">
+            <div class="countdown-title">Countdown to October 31, 00:00</div>
+            <div class="countdown-time" id="countdown1"></div>
+        </a>
 
-    <div class="container">
-        <!-- Minecraft Links Box -->
-        <div class="box">
-            <h4>Minecraft Links</h4>
-            <ul>
-                <li><a target="_blank" href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/" class="confetti-link">_cactusplayz</a></li>
-                <li><a target="_blank" href="https://www.minecraftskins.com/" class="confetti-link">Minecraft Skins</a></li>
-                <li><a target="_blank" href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png" class="confetti-link">Potion Table</a></li>
-                <li><a target="_blank" href="https://www.minecraft.net/en-us" class="confetti-link">Download Minecraft</a></li>
-                <li><a href="passenger.html" class="confetti-link">How To Make An Entity Ride An Entity</a></li>
-            </ul>
-        </div>
+        <!-- Countdown 2 -->
+        <a href="countdown2.html" class="countdown-box">
+            <div class="countdown-title">Countdown to December 25, 00:00</div>
+            <div class="countdown-time" id="countdown2"></div>
+        </a>
 
-        <!-- Dad's Links Box -->
-        <div class="box">
-            <h4>Dad</h4>
-            <ul>
-                <li><a href="dad.html" class="confetti-link">Dad's Page</a></li>
-                <li><a href="https://inthaiguy.github.io/" class="confetti-link">Dad's Website</a></li>
-            </ul>
-        </div>
+        <!-- Countdown 3 -->
+        <a href="countdown3.html" class="countdown-box">
+            <div class="countdown-title">Countdown to March 13, 00:00</div>
+            <div class="countdown-time" id="countdown3"></div>
+        </a>
 
-        <!-- Other Stuff Box -->
-        <div class="box">
-            <h4>Other Stuff</h4>
-            <ul>
-                <li><a href="meet.html" class="confetti-link">Typing Game</a></li>
-                <li><a href="Christmas-List-Caius.html" class="confetti-link">Christmas List</a></li>
-            </ul>
-        </div>
+        <!-- Countdown 4 -->
+        <a href="countdown4.html" class="countdown-box">
+            <div class="countdown-title">Countdown to March 13, 2029, 00:00</div>
+            <div class="countdown-time" id="countdown4"></div>
+        </a>
+
+        <!-- Countdown 5 -->
+        <a href="countdown5.html" class="countdown-box">
+            <div class="countdown-title">Countdown to January 1, 00:00</div>
+            <div class="countdown-time" id="countdown5"></div>
+        </a>
+
+        <!-- Countdown 6 -->
+        <a href="countdown6.html" class="countdown-box">
+            <div class="countdown-title">Countdown to January 1 (Leap Year), 00:00</div>
+            <div class="countdown-time" id="countdown6"></div>
+        </a>
     </div>
 
     <script>
-        // Handle confetti effect on links
-        document.querySelectorAll('.confetti-link').forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent the link from redirecting immediately
-                const linkRect = this.getBoundingClientRect();
+        // Countdown logic
+        function updateCountdown(elementId, targetDate) {
+            const now = new Date();
+            const timeDifference = targetDate - now;
 
-                // Generate confetti effect
-                for (let i = 0; i < 100; i++) {  // Increased quantity to 100 for more confetti
-                    let confetti = document.createElement('div');
-                    confetti.classList.add('confetti');
-                    document.body.appendChild(confetti);
+            let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            let years = 0;
 
-                    // Randomize the size, position, and direction of the confetti
-                    let size = Math.random() * 12 + 6 + 'px';  // Make confetti larger for better visibility
-                    confetti.style.width = size;
-                    confetti.style.height = size;
+            if (days > 365) {
+                years = Math.floor(days / 365);
+                days = days % 365;
+            }
 
-                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`; // Brighter colors
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-                    // Position confetti at the center of the clicked link
-                    confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
-                    confetti.style.top = linkRect.top + linkRect.height / 2 + 'px';
+            let countdownText = '';
+            if (years > 0) {
+                countdownText += `
+                <div class="countdown-item">
+                    <div>${years.toString().padStart(2, '0')}</div>
+                    <h7>Years</h7>
+                </div>`;
+            }
+            countdownText += `
+            <div class="countdown-item">
+                <div>${days.toString().padStart(2, '0')}</div>
+                <h7>Days</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${hours.toString().padStart(2, '0')}</div>
+                <h7>Hours</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${minutes.toString().padStart(2, '0')}</div>
+                <h7>Minutes</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${seconds.toString().padStart(2, '0')}</div>
+                <h7>Seconds</h7>
+            </div>`;
 
-                    // Random direction
-                    let x = (Math.random() - 0.5) * 700 + 'px';  // Increased spread
-                    let y = (Math.random() - 0.5) * 700 + 'px';
-                    confetti.style.setProperty('--x', x);
-                    confetti.style.setProperty('--y', y);
+            document.getElementById(elementId).innerHTML = countdownText;
+        }
 
-                    // Remove the confetti after animation
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 800); // Slightly longer animation duration
-                }
+        function startCountdowns() {
+            // Countdown to October 31
+            const halloween = new Date(`${new Date().getFullYear()}-10-31T00:00:00`);
+            updateCountdown('countdown1', halloween);
 
-                // Delay the actual link navigation
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 500);
-            });
-        });
+            // Countdown to December 25
+            const christmas = new Date(`${new Date().getFullYear()}-12-25T00:00:00`);
+            updateCountdown('countdown2', christmas);
+
+            // Countdown to March 13
+            const march13 = new Date(`${new Date().getFullYear()}-03-13T00:00:00`);
+            updateCountdown('countdown3', march13);
+
+            // Countdown to March 13, 2029
+            const march13_2029 = new Date(`2029-03-13T00:00:00`);
+            updateCountdown('countdown4', march13_2029);
+
+            // Countdown to January 1
+            const jan1 = new Date(`${new Date().getFullYear() + 1}-01-01T00:00:00`);
+            updateCountdown('countdown5', jan1);
+
+            // Countdown to January 1, Leap Year
+            const leapYear = new Date(`${new Date().getFullYear() + (new Date().getFullYear() % 4 === 0 ? 0 : 4 - (new Date().getFullYear() % 4))}-01-01T00:00:00`);
+            updateCountdown('countdown6', leapYear);
+
+            setTimeout(startCountdowns, 1000); // Update every second
+        }
+
+        startCountdowns();
     </script>
+
 </body>
 
 </html>
