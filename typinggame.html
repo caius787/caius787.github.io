@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Game with Score</title>
+    <title>Typing Game with WPM Counter</title>
     <style>
         body, html {
             margin: 0;
@@ -46,7 +46,7 @@
             background-color: lightcoral;
         }
 
-        #congratulations, #youFailed, #scoreCounter {
+        #congratulations, #youFailed, #wpmCounter {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -59,7 +59,7 @@
         }
 
         #congratulations {
-            font-size: 100px; /* Increased the font size */
+            font-size: 100px;
             background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
             background-size: 400% 400%;
             -webkit-background-clip: text;
@@ -74,7 +74,7 @@
             animation: none;
         }
 
-        #scoreCounter {
+        #wpmCounter {
             font-size: 24px;
             top: 70%;
         }
@@ -104,12 +104,13 @@
         <div id="letterContainer"></div>
         <div id="congratulations">CONGRATULATIONS</div>
         <div id="youFailed">YOU FAILED</div>
-        <div id="scoreCounter">Score: <span id="scoreValue"></span></div>
+        <div id="wpmCounter">WPM: <span id="wpmValue"></span></div>
         <canvas id="fallingCanvas"></canvas>
     </div>
 
     <script>
         let correctLetters = 0;
+        let startTime = null;
         const totalLetters = 18; // Number of total letters (this will update dynamically based on the word count)
 
         // Word database
@@ -204,13 +205,17 @@
             youFailed.style.display = 'block';
         }
 
-        function showScore() {
-            const scoreCounter = document.getElementById('scoreCounter');
-            const scoreValue = document.getElementById('scoreValue');
+        function showWPM() {
+            const wpmCounter = document.getElementById('wpmCounter');
+            const wpmValue = document.getElementById('wpmValue');
             
-            // Display score in the format: "Score: X/Y"
-            scoreValue.textContent = `${correctLetters}/${combinedLetters.length}`;
-            scoreCounter.style.display = 'block';
+            // Calculate WPM (Words Per Minute)
+            const timeElapsed = (new Date() - startTime) / 1000 / 60; // Time in minutes
+            const wordsTyped = combinedLetters.split(' ').length; // Total number of words typed
+            const wpm = Math.round(wordsTyped / timeElapsed);
+            
+            wpmValue.textContent = `${wpm} WPM`;
+            wpmCounter.style.display = 'block';
         }
 
         // Check if all letters are correctly typed
@@ -226,6 +231,10 @@
 
         // Listen for key presses
         document.addEventListener('keydown', (event) => {
+            if (!startTime) {
+                startTime = new Date(); // Record start time on the first key press
+            }
+
             const letters = document.querySelectorAll('.letter');
 
             if (event.key === 'Backspace' && currentIndex > 0) {
@@ -254,7 +263,7 @@
                     } else {
                         showYouFailed(); // Show "YOU FAILED"
                     }
-                    showScore(); // Display the score at the end
+                    showWPM(); // Display the WPM counter at the end
                 }
             }
         });
