@@ -130,7 +130,7 @@
 
         <!-- Countdown 6 -->
         <a href="countdown6.html" class="countdown-box">
-            <div class="countdown-title">Countdown to January 1 (Next Leap Year), 00:00</div>
+            <div class="countdown-title">Countdown to June 18, 2025</div>
             <div class="countdown-time" id="countdown6"></div>
         </a>
     </div>
@@ -182,14 +182,6 @@
             document.getElementById(elementId).innerHTML = countdownText;
         }
 
-        function findNextLeapYear() {
-            let year = new Date().getFullYear();
-            while (!(year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0))) {
-                year++;
-            }
-            return year;
-        }
-
         function startCountdowns() {
             // Countdown to October 31
             const halloween = new Date(`${new Date().getFullYear()}-10-31T00:00:00`);
@@ -211,9 +203,8 @@
             const jan1 = new Date(`${new Date().getFullYear() + 1}-01-01T00:00:00`);
             updateCountdown('countdown5', jan1);
 
-            // Countdown to Next Leap Year
-            const nextLeapYear = findNextLeapYear();
-            const leapYear = new Date(`${nextLeapYear}-01-01T00:00:00`);
+            // Countdown to June 18, 2025
+            const leapYear = new Date('2025-06-18T00:00:00');
             updateCountdown('countdown6', leapYear);
 
             setTimeout(startCountdowns, 1000); // Update every second
