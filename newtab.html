@@ -23,7 +23,8 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* 3 columns */
             grid-template-rows: repeat(2, 1fr); /* 2 rows */
-            gap: 40px; /* Sufficient gap between boxes */
+            column-gap: 40px; /* Horizontal gap between columns */
+            row-gap: 80px; /* Larger gap between the top and bottom rows */
             width: 100vw; /* Fullscreen width */
             height: 100vh; /* Fullscreen height */
             padding: 20px; /* Padding around the grid */
@@ -67,7 +68,8 @@
             .grid-container {
                 grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
                 grid-template-rows: repeat(3, 1fr); /* 3 rows for smaller screens */
-                gap: 30px; /* Smaller gap for medium screens */
+                column-gap: 30px; /* Adjust horizontal gap */
+                row-gap: 60px; /* Adjust vertical gap */
             }
         }
 
@@ -75,7 +77,7 @@
             .grid-container {
                 grid-template-columns: 1fr; /* 1 column for very small screens */
                 grid-template-rows: repeat(6, 1fr); /* 6 rows for very small screens */
-                gap: 20px; /* Reduced gap for very small screens */
+                gap: 20px; /* Unified gap for small screens */
             }
         }
     </style>
