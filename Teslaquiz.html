@@ -87,33 +87,46 @@
         <button class="btn" onclick="nextQuestion(1)">Next</button>
     </div>
 
-    <!-- Question 2 -->
+    <!-- Question 2 (new) -->
     <div id="question2" class="question-page">
-        <h3>2. Who is the CEO of Tesla?</h3>
+        <h3>2. What car is this?</h3>
+        <img src="modelx.png" alt="Tesla Model X" class="quiz-image">
         <ul class="options">
-            <li><input type="radio" name="q2" value="correct"> Elon Musk</li>
-            <li><input type="radio" name="q2" value="wrong"> Jeff Bezos</li>
-            <li><input type="radio" name="q2" value="wrong"> Bill Gates</li>
-            <li><input type="radio" name="q2" value="wrong"> Mark Zuckerberg</li>
+            <li><input type="radio" name="q2" value="Model 3"> Model 3</li>
+            <li><input type="radio" name="q2" value="Model X"> Model X</li>
+            <li><input type="radio" name="q2" value="Model Y"> Model Y</li>
+            <li><input type="radio" name="q2" value="Cybertruck"> Cybertruck</li>
         </ul>
         <button class="btn" onclick="nextQuestion(2)">Next</button>
     </div>
 
     <!-- Question 3 -->
     <div id="question3" class="question-page">
-        <h3>3. In what year was Tesla founded?</h3>
+        <h3>3. Who is the CEO of Tesla?</h3>
         <ul class="options">
-            <li><input type="radio" name="q3" value="wrong"> 2005</li>
-            <li><input type="radio" name="q3" value="correct"> 2003</li>
-            <li><input type="radio" name="q3" value="wrong"> 2010</li>
-            <li><input type="radio" name="q3" value="wrong"> 1999</li>
+            <li><input type="radio" name="q3" value="correct"> Elon Musk</li>
+            <li><input type="radio" name="q3" value="wrong"> Jeff Bezos</li>
+            <li><input type="radio" name="q3" value="wrong"> Bill Gates</li>
+            <li><input type="radio" name="q3" value="wrong"> Mark Zuckerberg</li>
+        </ul>
+        <button class="btn" onclick="nextQuestion(3)">Next</button>
+    </div>
+
+    <!-- Question 4 -->
+    <div id="question4" class="question-page">
+        <h3>4. In what year was Tesla founded?</h3>
+        <ul class="options">
+            <li><input type="radio" name="q4" value="wrong"> 2005</li>
+            <li><input type="radio" name="q4" value="correct"> 2003</li>
+            <li><input type="radio" name="q4" value="wrong"> 2010</li>
+            <li><input type="radio" name="q4" value="wrong"> 1999</li>
         </ul>
         <button class="btn" onclick="submitQuiz()">Submit</button>
     </div>
 
     <!-- Result -->
     <div class="result" id="result">
-        You got <span id="score"></span> out of 3 correct!
+        You got <span id="score"></span> out of 4 correct!
     </div>
 </div>
 
@@ -129,7 +142,7 @@
             document.getElementById(`question${currentQuestion + 1}`).classList.add('active');
 
             // Check if the answer was correct and update the score
-            if (selectedOption.value === 'correct') {
+            if (selectedOption.value === 'correct' || selectedOption.value === 'Model 3' || selectedOption.value === 'Model X') {
                 score++;
             }
         } else {
@@ -139,7 +152,7 @@
 
     function submitQuiz() {
         // Check if an option was selected in the last question
-        const selectedOption = document.querySelector('input[name="q3"]:checked');
+        const selectedOption = document.querySelector('input[name="q4"]:checked');
         if (selectedOption) {
             // Check if the answer was correct and update the score
             if (selectedOption.value === 'correct') {
@@ -147,7 +160,7 @@
             }
 
             // Hide the last question and show the result
-            document.getElementById('question3').classList.remove('active');
+            document.getElementById('question4').classList.remove('active');
             document.getElementById('result').style.display = 'block';
             document.getElementById('score').textContent = score;
         } else {
