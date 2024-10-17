@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesla Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #e82127;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #e82127;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background-color: #bf1a20;
+        }
+        .result {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Tesla Quiz</h1>
+
+    <div class="question">
+        <h3>1. Who is the CEO of Tesla?</h3>
+        <ul class="options">
+            <li><input type="radio" name="q1" value="correct"> Elon Musk</li>
+            <li><input type="radio" name="q1" value="wrong"> Jeff Bezos</li>
+            <li><input type="radio" name="q1" value="wrong"> Bill Gates</li>
+            <li><input type="radio" name="q1" value="wrong"> Mark Zuckerberg</li>
+        </ul>
+    </div>
+
+    <div class="question">
+        <h3>2. In what year was Tesla founded?</h3>
+        <ul class="options">
+            <li><input type="radio" name="q2" value="wrong"> 2005</li>
+            <li><input type="radio" name="q2" value="correct"> 2003</li>
+            <li><input type="radio" name="q2" value="wrong"> 2010</li>
+            <li><input type="radio" name="q2" value="wrong"> 1999</li>
+        </ul>
+    </div>
+
+    <div class="question">
+        <h3>3. Which Tesla model is the most affordable?</h3>
+        <ul class="options">
+            <li><input type="radio" name="q3" value="wrong"> Model X</li>
+            <li><input type="radio" name="q3" value="wrong"> Model S</li>
+            <li><input type="radio" name="q3" value="correct"> Model 3</li>
+            <li><input type="radio" name="q3" value="wrong"> Model Y</li>
+        </ul>
+    </div>
+
+    <button class="btn-submit" onclick="submitQuiz()">Submit Quiz</button>
+
+    <div class="result" id="result">
+        You got <span id="score"></span> out of 3 correct!
+    </div>
+</div>
+
+<script>
+    function submitQuiz() {
+        let score = 0;
+        
+        const q1 = document.querySelector('input[name="q1"]:checked');
+        const q2 = document.querySelector('input[name="q2"]:checked');
+        const q3 = document.querySelector('input[name="q3"]:checked');
+        
+        if (q1 && q1.value === "correct") score++;
+        if (q2 && q2.value === "correct") score++;
+        if (q3 && q3.value === "correct") score++;
+
+        document.getElementById('score').textContent = score;
+        document.getElementById('result').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
