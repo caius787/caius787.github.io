@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Aunt Tacee</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        #message {
+            font-size: 80px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradientAnimation 2s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="message">Happy Birthday Aunt Tacee!</div>
+    <canvas id="confettiCanvas"></canvas>
+
+    <script>
+        let confettiArray = [];
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Confetti setup
+        function createConfetti() {
+            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            for (let i = 0; i < 200; i++) {
+                confettiArray.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    radius: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 5 + 2
+                });
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiArray.forEach((confetti, index) => {
+                confetti.y += confetti.speedY;
+
+                if (confetti.y > canvas.height) {
+                    confettiArray.splice(index, 1);
+                    confettiArray.push({
+                        x: Math.random() * canvas.width,
+                        y: -10,
+                        radius: Math.random() * 10 + 5,
+                        color: confetti.color,
+                        speedY: Math.random() * 5 + 2
+                    });
+                }
+
+                ctx.beginPath();
+                ctx.arc(confetti.x, confetti.y, confetti.radius, 0, Math.PI * 2);
+                ctx.fillStyle = confetti.color;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // Text toggle function
+        const messageElement = document.getElementById('message');
+        let isTacee = true;
+
+        function toggleMessage() {
+            if (isTacee) {
+                messageElement.textContent = "Happy Birthday Aunt Taco";
+            } else {
+                messageElement.textContent = "Happy Birthday Aunt Tacee!";
+            }
+            isTacee = !isTacee;
+        }
+
+        // Start confetti and text toggle
+        createConfetti();
+        animateConfetti();
+        setInterval(toggleMessage, 5000);
+
+        // Adjust canvas size on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+
+</body>
+</html>
