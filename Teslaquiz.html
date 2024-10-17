@@ -8,7 +8,6 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
-            color: #333;
             padding: 20px;
         }
         .quiz-container {
@@ -19,16 +18,12 @@
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
-        h1 {
+        h1, h3 {
             text-align: center;
             color: #e82127;
         }
         .question {
             margin-bottom: 20px;
-        }
-        .question h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
         }
         .options {
             list-style-type: none;
@@ -40,7 +35,7 @@
         .options input {
             margin-right: 10px;
         }
-        .btn-submit {
+        .btn {
             display: block;
             width: 100%;
             padding: 10px;
@@ -50,9 +45,16 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            text-align: center;
         }
-        .btn-submit:hover {
+        .btn:hover {
             background-color: #bf1a20;
+        }
+        .question-page {
+            display: none;
+        }
+        .active {
+            display: block;
         }
         .result {
             display: none;
@@ -61,6 +63,10 @@
             font-size: 20px;
             font-weight: bold;
         }
+        .quiz-image {
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -68,57 +74,85 @@
 <div class="quiz-container">
     <h1>Tesla Quiz</h1>
 
-    <div class="question">
-        <h3>1. Who is the CEO of Tesla?</h3>
+    <!-- Question 1 -->
+    <div id="question1" class="question-page active">
+        <h3>1. What car is this?</h3>
+        <img src="model3.png" alt="Tesla Model 3" class="quiz-image">
         <ul class="options">
-            <li><input type="radio" name="q1" value="correct"> Elon Musk</li>
-            <li><input type="radio" name="q1" value="wrong"> Jeff Bezos</li>
-            <li><input type="radio" name="q1" value="wrong"> Bill Gates</li>
-            <li><input type="radio" name="q1" value="wrong"> Mark Zuckerberg</li>
+            <li><input type="radio" name="q1" value="Model 3 Highland"> Model 3 Highland</li>
+            <li><input type="radio" name="q1" value="Model Y"> Model Y</li>
+            <li><input type="radio" name="q1" value="Model 3"> Model 3</li>
+            <li><input type="radio" name="q1" value="Model X"> Model X</li>
         </ul>
+        <button class="btn" onclick="nextQuestion(1)">Next</button>
     </div>
 
-    <div class="question">
-        <h3>2. In what year was Tesla founded?</h3>
+    <!-- Question 2 -->
+    <div id="question2" class="question-page">
+        <h3>2. Who is the CEO of Tesla?</h3>
         <ul class="options">
-            <li><input type="radio" name="q2" value="wrong"> 2005</li>
-            <li><input type="radio" name="q2" value="correct"> 2003</li>
-            <li><input type="radio" name="q2" value="wrong"> 2010</li>
-            <li><input type="radio" name="q2" value="wrong"> 1999</li>
+            <li><input type="radio" name="q2" value="correct"> Elon Musk</li>
+            <li><input type="radio" name="q2" value="wrong"> Jeff Bezos</li>
+            <li><input type="radio" name="q2" value="wrong"> Bill Gates</li>
+            <li><input type="radio" name="q2" value="wrong"> Mark Zuckerberg</li>
         </ul>
+        <button class="btn" onclick="nextQuestion(2)">Next</button>
     </div>
 
-    <div class="question">
-        <h3>3. Which Tesla model is the most affordable?</h3>
+    <!-- Question 3 -->
+    <div id="question3" class="question-page">
+        <h3>3. In what year was Tesla founded?</h3>
         <ul class="options">
-            <li><input type="radio" name="q3" value="wrong"> Model X</li>
-            <li><input type="radio" name="q3" value="wrong"> Model S</li>
-            <li><input type="radio" name="q3" value="correct"> Model 3</li>
-            <li><input type="radio" name="q3" value="wrong"> Model Y</li>
+            <li><input type="radio" name="q3" value="wrong"> 2005</li>
+            <li><input type="radio" name="q3" value="correct"> 2003</li>
+            <li><input type="radio" name="q3" value="wrong"> 2010</li>
+            <li><input type="radio" name="q3" value="wrong"> 1999</li>
         </ul>
+        <button class="btn" onclick="submitQuiz()">Submit</button>
     </div>
 
-    <button class="btn-submit" onclick="submitQuiz()">Submit Quiz</button>
-
+    <!-- Result -->
     <div class="result" id="result">
         You got <span id="score"></span> out of 3 correct!
     </div>
 </div>
 
 <script>
-    function submitQuiz() {
-        let score = 0;
-        
-        const q1 = document.querySelector('input[name="q1"]:checked');
-        const q2 = document.querySelector('input[name="q2"]:checked');
-        const q3 = document.querySelector('input[name="q3"]:checked');
-        
-        if (q1 && q1.value === "correct") score++;
-        if (q2 && q2.value === "correct") score++;
-        if (q3 && q3.value === "correct") score++;
+    let score = 0;
 
-        document.getElementById('score').textContent = score;
-        document.getElementById('result').style.display = 'block';
+    function nextQuestion(currentQuestion) {
+        // Check if an option was selected
+        const selectedOption = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+        if (selectedOption) {
+            // Move to the next question
+            document.getElementById(`question${currentQuestion}`).classList.remove('active');
+            document.getElementById(`question${currentQuestion + 1}`).classList.add('active');
+
+            // Check if the answer was correct and update the score
+            if (selectedOption.value === 'correct') {
+                score++;
+            }
+        } else {
+            alert("Please select an option before moving to the next question.");
+        }
+    }
+
+    function submitQuiz() {
+        // Check if an option was selected in the last question
+        const selectedOption = document.querySelector('input[name="q3"]:checked');
+        if (selectedOption) {
+            // Check if the answer was correct and update the score
+            if (selectedOption.value === 'correct') {
+                score++;
+            }
+
+            // Hide the last question and show the result
+            document.getElementById('question3').classList.remove('active');
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('score').textContent = score;
+        } else {
+            alert("Please select an option before submitting the quiz.");
+        }
     }
 </script>
 
