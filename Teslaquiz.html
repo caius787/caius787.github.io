@@ -9,6 +9,7 @@
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             padding: 20px;
+            transition: background-color 0.3s ease;
         }
         .quiz-container {
             max-width: 600px;
@@ -103,12 +104,10 @@
             <li><input type="radio" id="q1-c" name="q1" value="Model 3"><label for="q1-c">Model 3</label></li>
             <li><input type="radio" id="q1-d" name="q1" value="Model X"><label for="q1-d">Model X</label></li>
         </ul>
-        <button class="btn" onclick="nextQuestion(1)">Next</button>
+        <button class="btn" onclick="checkAnswer(1, 'Model 3')">Next</button>
     </div>
 
-    <!-- Repeat the structure for each question... -->
-
-    <!-- Example of another question -->
+    <!-- Question 2 -->
     <div id="question2" class="question-page">
         <h3>2. What car is this?</h3>
         <img src="modelx.png" alt="Tesla Model X" class="quiz-image">
@@ -118,10 +117,25 @@
             <li><input type="radio" id="q2-c" name="q2" value="Model Y"><label for="q2-c">Model Y</label></li>
             <li><input type="radio" id="q2-d" name="q2" value="Cybertruck"><label for="q2-d">Cybertruck</label></li>
         </ul>
-        <button class="btn" onclick="nextQuestion(2)">Next</button>
+        <button class="btn" onclick="checkAnswer(2, 'Model X')">Next</button>
     </div>
 
-    <!-- Continue this structure for the remaining questions... -->
+    <!-- Repeat this structure for the remaining questions... -->
+
+    <!-- Example of another question -->
+    <div id="question3" class="question-page">
+        <h3>3. What car is this?</h3>
+        <img src="cybercab.png" alt="Tesla Cybercab" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q3-a" name="q3" value="Robotaxi"><label for="q3-a">Robotaxi</label></li>
+            <li><input type="radio" id="q3-b" name="q3" value="Cybertruck"><label for="q3-b">Cybertruck</label></li>
+            <li><input type="radio" id="q3-c" name="q3" value="Model 3 Highland"><label for="q3-c">Model 3 Highland</label></li>
+            <li><input type="radio" id="q3-d" name="q3" value="Cybercab"><label for="q3-d">Cybercab</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(3, ['Robotaxi', 'Cybercab'])">Next</button>
+    </div>
+
+    <!-- Continue for the remaining questions... -->
 
     <!-- Result -->
     <div class="result" id="result">
@@ -132,36 +146,33 @@
 <script>
     let score = 0;
 
-    function nextQuestion(currentQuestion) {
-        // Check if an option was selected
+    function checkAnswer(currentQuestion, correctAnswer) {
         const selectedOption = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
-        if (selectedOption) {
-            // Move to the next question
-            document.getElementById(`question${currentQuestion}`).classList.remove('active');
-            document.getElementById(`question${currentQuestion + 1}`).classList.add('active');
+        const isCorrect = Array.isArray(correctAnswer) ? correctAnswer.includes(selectedOption?.value) : selectedOption?.value === correctAnswer;
 
-            // Check if the answer was correct and update the score
-            if (selectedOption.value === 'correct' || selectedOption.value === 'Cybertruck' || selectedOption.value === 'Model X') {
-                score++;
-            }
+        if (selectedOption) {
+            // Light up green for correct and red for incorrect
+            document.body.style.backgroundColor = isCorrect ? 'lightgreen' : 'lightcoral';
+            
+            // Update score if correct
+            if (isCorrect) score++;
+
+            // Delay before moving to the next question
+            setTimeout(() => {
+                document.body.style.backgroundColor = '#f0f0f0';  // Reset background color
+
+                // Move to the next question
+                document.getElementById(`question${currentQuestion}`).classList.remove('active');
+                const nextQuestion = document.getElementById(`question${currentQuestion + 1}`);
+                if (nextQuestion) {
+                    nextQuestion.classList.add('active');
+                } else {
+                    document.getElementById('result').style.display = 'block';
+                    document.getElementById('score').textContent = score;
+                }
+            }, 1000); // 1 second delay before moving to the next question
         } else {
             alert("Please select an option before moving to the next question.");
-        }
-    }
-
-    function submitQuiz() {
-        const selectedOption = document.querySelector('input[name="q8"]:checked');
-        if (selectedOption) {
-            // Update score if answer is correct
-            if (selectedOption.value === 'correct') {
-                score++;
-            }
-            // Show result
-            document.getElementById('question8').classList.remove('active');
-            document.getElementById('result').style.display = 'block';
-            document.getElementById('score').textContent = score;
-        } else {
-            alert("Please select an option before submitting the quiz.");
         }
     }
 </script>
