@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caius's Website</title>
+    <title>Confetti on Links</title>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -50,9 +50,8 @@
             background-color: #f0e6ff;
         }
 
-        /* Add margin below the Christmas List */
         .christmas-list + .container {
-            margin-top: 50px; /* Create space between the button and the boxes */
+            margin-top: 50px;
         }
 
         .container {
@@ -96,13 +95,12 @@
             margin: 10px 0;
         }
 
-        /* Confetti style */
         .confetti {
             position: absolute;
             border-radius: 50%;
             opacity: 0;
-            z-index: 1000; /* Ensure confetti appears above everything */
-            animation: spreadConfetti 0.8s ease forwards; /* Increased duration for visibility */
+            z-index: 1000;
+            animation: spreadConfetti 0.8s ease forwards;
         }
 
         @keyframes spreadConfetti {
@@ -112,7 +110,7 @@
             }
             100% {
                 opacity: 0;
-                transform: translate(var(--x), var(--y)) scale(0.5); /* Move in random direction */
+                transform: translate(var(--x), var(--y)) scale(0.5);
             }
         }
     </style>
@@ -150,56 +148,63 @@
         <div class="box">
             <h4>Other Stuff</h4>
             <ul>
-                <li><a href="typinggame.html" class="confetti-link">Typing Game</a></li>
-                <li><a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="confetti-link">Christmas List</a></li>
-                <li><a href="Countdowns.html" class="confetti-link">Countdowns</a></li> <!-- Added Countdowns.html link -->
+                <li><a href="meet.html" class="confetti-link">Typing Game</a></li>
+                <li><a href="Christmas-List-Caius.html" class="confetti-link">Christmas List</a></li>
+                <li><a href="Countdowns.html" class="confetti-link">Countdowns</a></li>
             </ul>
+
+            <!-- Tesla Quiz starts here -->
+            <h4>Tesla Quiz</h4>
+            <div class="quiz-box">
+                <!-- Paste Tesla quiz HTML code here -->
+                <div id="question1" class="question-page active">
+                    <h3>1. What car is this?</h3>
+                    <img src="model3.png" alt="Tesla Model 3" class="quiz-image">
+                    <ul class="options">
+                        <li><input type="radio" id="q1-a" name="q1" value="Model 3 Highland"><label for="q1-a">Model 3 Highland</label></li>
+                        <li><input type="radio" id="q1-b" name="q1" value="Model Y"><label for="q1-b">Model Y</label></li>
+                        <li><input type="radio" id="q1-c" name="q1" value="Model 3"><label for="q1-c">Model 3</label></li>
+                        <li><input type="radio" id="q1-d" name="q1" value="Model X"><label for="q1-d">Model X</label></li>
+                    </ul>
+                    <button class="btn" onclick="checkAnswer(1, 'Model 3')">Next</button>
+                </div>
+                <!-- Add the rest of the Tesla quiz questions here -->
+            </div>
         </div>
     </div>
 
     <script>
-        // Handle confetti effect on links
         document.querySelectorAll('.confetti-link').forEach(link => {
             link.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent the link from redirecting immediately
+                event.preventDefault();
                 const linkRect = this.getBoundingClientRect();
-
-                // Generate confetti effect
-                for (let i = 0; i < 100; i++) {  // Increased quantity to 100 for more confetti
+                for (let i = 0; i < 100; i++) {
                     let confetti = document.createElement('div');
                     confetti.classList.add('confetti');
                     document.body.appendChild(confetti);
-
-                    // Randomize the size, position, and direction of the confetti
-                    let size = Math.random() * 12 + 6 + 'px';  // Make confetti larger for better visibility
+                    let size = Math.random() * 12 + 6 + 'px';
                     confetti.style.width = size;
                     confetti.style.height = size;
-
-                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`; // Brighter colors
-
-                    // Position confetti at the center of the clicked link
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
                     confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
                     confetti.style.top = linkRect.top + linkRect.height / 2 + 'px';
-
-                    // Random direction
-                    let x = (Math.random() - 0.5) * 700 + 'px';  // Increased spread
+                    let x = (Math.random() - 0.5) * 700 + 'px';
                     let y = (Math.random() - 0.5) * 700 + 'px';
                     confetti.style.setProperty('--x', x);
                     confetti.style.setProperty('--y', y);
-
-                    // Remove the confetti after animation
                     setTimeout(() => {
                         confetti.remove();
-                    }, 800); // Slightly longer animation duration
+                    }, 800);
                 }
-
-                // Delay the actual link navigation
                 setTimeout(() => {
                     window.location.href = this.href;
                 }, 500);
             });
         });
+
+        // Paste Tesla quiz JavaScript here (including the checkAnswer function)
     </script>
+
 </body>
 
 </html>
