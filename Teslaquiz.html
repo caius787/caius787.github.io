@@ -128,7 +128,7 @@
 <div class="quiz-container">
     <h1>Tesla Quiz</h1>
 
-    <!-- Question 1 with model32.png and model33.png -->
+    <!-- Question 1 with model32.png, model33.png, and model3.png -->
     <div id="question1" class="question-page active">
         <h3>1. What car is this?</h3>
         <div class="quiz-image-container">
@@ -145,26 +145,41 @@
         <button class="btn" onclick="checkAnswer(1, 'Model 3')">Next</button>
     </div>
 
-    <!-- Remaining questions use the same pattern -->
-    <!-- Question 2 -->
+    <!-- New Question with high31.png -->
     <div id="question2" class="question-page">
         <h3>2. What car is this?</h3>
         <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(2)">&#x276E;</button>
-            <img id="carImage2" src="modelx.png" alt="Tesla Model X" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(2)">&#x276F;</button>
+            <img id="carImage2" src="high31.png" alt="Tesla Model 3 Highland" class="quiz-image">
         </div>
         <ul class="options">
             <li><input type="radio" id="q2-a" name="q2" value="Model 3"><label for="q2-a">Model 3</label></li>
-            <li><input type="radio" id="q2-b" name="q2" value="Model X"><label for="q2-b">Model X</label></li>
-            <li><input type="radio" id="q2-c" name="q2" value="Model Y"><label for="q2-c">Model Y</label></li>
-            <li><input type="radio" id="q2-d" name="q2" value="Cybertruck"><label for="q2-d">Cybertruck</label></li>
+            <li><input type="radio" id="q2-b" name="q2" value="Model Y"><label for="q2-b">Model Y</label></li>
+            <li><input type="radio" id="q2-c" name="q2" value="Model V"><label for="q2-c">Model V</label></li>
+            <li><input type="radio" id="q2-d" name="q2" value="Model 3 Highland"><label for="q2-d">Model 3 Highland</label></li>
         </ul>
-        <button class="btn" onclick="checkAnswer(2, 'Model X')">Next</button>
+        <button class="btn" onclick="checkAnswer(2, 'Model 3 Highland')">Next</button>
+    </div>
+
+    <!-- Remaining questions use the same pattern -->
+    <!-- Question 3 -->
+    <div id="question3" class="question-page">
+        <h3>3. What car is this?</h3>
+        <div class="quiz-image-container">
+            <button class="nav-button left" onclick="previousImage(3)">&#x276E;</button>
+            <img id="carImage3" src="modelx.png" alt="Tesla Model X" class="quiz-image">
+            <button class="nav-button right" onclick="nextImage(3)">&#x276F;</button>
+        </div>
+        <ul class="options">
+            <li><input type="radio" id="q3-a" name="q3" value="Model 3"><label for="q3-a">Model 3</label></li>
+            <li><input type="radio" id="q3-b" name="q3" value="Model X"><label for="q3-b">Model X</label></li>
+            <li><input type="radio" id="q3-c" name="q3" value="Model Y"><label for="q3-c">Model Y</label></li>
+            <li><input type="radio" id="q3-d" name="q3" value="Cybertruck"><label for="q3-d">Cybertruck</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(3, 'Model X')">Next</button>
     </div>
 
     <!-- Add remaining questions following the same pattern -->
-    <!-- Add Question 3 to 8 here following the same structure -->
+    <!-- Add Question 4 to 8 here following the same structure -->
 
     <!-- Result -->
     <div class="result" id="result">
@@ -177,17 +192,17 @@
 
     // Arrays of images for each question
     const images = {
-        1: ['model32.png', 'model33.png'],  // Correct image files for Question 1
-        2: ['modelx.png', 'modelx_side.png'],
-        3: ['cybercab.png', 'cybercab_side.png'],
-        4: ['cyber.png', 'cyber_side.png'],
-        5: ['perform.png', 'perform_side.png'],
-        6: ['stan.png', 'stan_side.png'],
-        7: ['long.png', 'long_side.png'],
-        8: ['plaid.png', 'plaid_side.png']
+        1: ['model32.png', 'model33.png', 'model3.png'],  // Correct image files for Question 1
+        3: ['modelx.png', 'modelx_side.png'],
+        4: ['cybercab.png', 'cybercab_side.png'],
+        5: ['cyber.png', 'cyber_side.png'],
+        6: ['perform.png', 'perform_side.png'],
+        7: ['stan.png', 'stan_side.png'],
+        8: ['long.png', 'long_side.png'],
+        9: ['plaid.png', 'plaid_side.png']
     };
 
-    let currentImageIndex = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}; // Keep track of which image is shown for each question
+    let currentImageIndex = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}; // Keep track of which image is shown for each question
 
     function nextImage(question) {
         // Get the image array for the current question and update the current index
