@@ -162,55 +162,54 @@
         <button class="btn" onclick="checkAnswer(2, 'Model 3 Highland')">Next</button>
     </div>
 
-    <!-- Question 3 -->
+    <!-- Robotaxi and CyberCab Question with robo2.png and robo3.png -->
     <div id="question3" class="question-page">
         <h3>3. What car is this?</h3>
         <div class="quiz-image-container">
             <button class="nav-button left" onclick="previousImage(3)">&#x276E;</button>
-            <img id="carImage3" src="modelx.png" alt="Tesla Model X" class="quiz-image">
+            <img id="carImage3" src="cybercab.png" alt="Tesla Cybercab" class="quiz-image">
             <button class="nav-button right" onclick="nextImage(3)">&#x276F;</button>
         </div>
         <ul class="options">
-            <li><input type="radio" id="q3-a" name="q3" value="Model 3"><label for="q3-a">Model 3</label></li>
-            <li><input type="radio" id="q3-b" name="q3" value="Model X"><label for="q3-b">Model X</label></li>
-            <li><input type="radio" id="q3-c" name="q3" value="Model Y"><label for="q3-c">Model Y</label></li>
-            <li><input type="radio" id="q3-d" name="q3" value="Cybertruck"><label for="q3-d">Cybertruck</label></li>
+            <li><input type="radio" id="q3-a" name="q3" value="Robotaxi"><label for="q3-a">Robotaxi</label></li>
+            <li><input type="radio" id="q3-b" name="q3" value="Cybertruck"><label for="q3-b">Cybertruck</label></li>
+            <li><input type="radio" id="q3-c" name="q3" value="Taxibot"><label for="q3-c">Taxibot</label></li>
+            <li><input type="radio" id="q3-d" name="q3" value="Cybercab"><label for="q3-d">Cybercab</label></li>
         </ul>
-        <button class="btn" onclick="checkAnswer(3, 'Model X')">Next</button>
+        <button class="btn" onclick="checkAnswer(3, ['Robotaxi', 'Cybercab'])">Next</button>
     </div>
 
-    <!-- Question 4 -->
+    <!-- Question 4 - Cybertruck -->
     <div id="question4" class="question-page">
         <h3>4. What car is this?</h3>
         <div class="quiz-image-container">
             <button class="nav-button left" onclick="previousImage(4)">&#x276E;</button>
-            <img id="carImage4" src="cybercab.png" alt="Tesla Cybercab" class="quiz-image">
+            <img id="carImage4" src="cyber.png" alt="Tesla Cybertruck" class="quiz-image">
             <button class="nav-button right" onclick="nextImage(4)">&#x276F;</button>
         </div>
         <ul class="options">
-            <li><input type="radio" id="q4-a" name="q4" value="Robotaxi"><label for="q4-a">Robotaxi</label></li>
-            <li><input type="radio" id="q4-b" name="q4" value="Cybertruck"><label for="q4-b">Cybertruck</label></li>
-            <li><input type="radio" id="q4-c" name="q4" value="Model 3 Highland"><label for="q4-c">Model 3 Highland</label></li>
-            <li><input type="radio" id="q4-d" name="q4" value="Cybercab"><label for="q4-d">Cybercab</label></li>
+            <li><input type="radio" id="q4-a" name="q4" value="Cybertruck"><label for="q4-a">Cybertruck</label></li>
+            <li><input type="radio" id="q4-b" name="q4" value="Model X"><label for="q4-b">Model X</label></li>
+            <li><input type="radio" id="q4-c" name="q4" value="Model Z"><label for="q4-c">Model Z</label></li>
+            <li><input type="radio" id="q4-d" name="q4" value="Model Y"><label for="q4-d">Model Y</label></li>
         </ul>
-        <button class="btn" onclick="checkAnswer(4, ['Robotaxi', 'Cybercab'])">Next</button>
+        <button class="btn" onclick="checkAnswer(4, 'Cybertruck')">Next</button>
     </div>
 
-    <!-- Question 5 -->
+    <!-- Performance Question -->
     <div id="question5" class="question-page">
-        <h3>5. What car is this?</h3>
+        <h3>5. What type of Tesla is this?</h3>
         <div class="quiz-image-container">
             <button class="nav-button left" onclick="previousImage(5)">&#x276E;</button>
-            <img id="carImage5" src="cyber.png" alt="Tesla Cybertruck" class="quiz-image">
+            <img id="carImage5" src="perform.png" alt="Tesla Performance" class="quiz-image">
             <button class="nav-button right" onclick="nextImage(5)">&#x276F;</button>
         </div>
         <ul class="options">
-            <li><input type="radio" id="q5-a" name="q5" value="Cybertruck"><label for="q5-a">Cybertruck</label></li>
-            <li><input type="radio" id="q5-b" name="q5" value="Model X"><label for="q5-b">Model X</label></li>
-            <li><input type="radio" id="q5-c" name="q5" value="Model Z"><label for="q5-c">Model Z</label></li>
-            <li><input type="radio" id="q5-d" name="q5" value="Model Y"><label for="q5-d">Model Y</label></li>
+            <li><input type="radio" id="q5-a" name="q5" value="Standard"><label for="q5-a">Standard</label></li>
+            <li><input type="radio" id="q5-b" name="q5" value="Long Range"><label for="q5-b">Long Range</label></li>
+            <li><input type="radio" id="q5-c" name="q5" value="Performance"><label for="q5-c">Performance</label></li>
         </ul>
-        <button class="btn" onclick="checkAnswer(5, 'Cybertruck')">Next</button>
+        <button class="btn" onclick="checkAnswer(5, 'Performance')">Next</button>
     </div>
 
     <!-- Long Range Question -->
@@ -229,7 +228,7 @@
         <button class="btn" onclick="checkAnswer(6, 'Long Range')">Next</button>
     </div>
 
-    <!-- Question 7 -->
+    <!-- Question 7 - Standard -->
     <div id="question7" class="question-page">
         <h3>7. What type of Tesla is this?</h3>
         <div class="quiz-image-container">
@@ -246,7 +245,7 @@
         <button class="btn" onclick="checkAnswer(7, 'Standard')">Next</button>
     </div>
 
-    <!-- Question 8 -->
+    <!-- Plaid Question -->
     <div id="question8" class="question-page">
         <h3>8. What type of Tesla is this?</h3>
         <div class="quiz-image-container">
@@ -276,10 +275,10 @@
     const images = {
         1: ['model32.png', 'model33.png', 'model3.png'],  // Correct image files for Question 1
         2: ['high31.png', 'high32.png', 'high33.png'],  // Highland question
-        3: ['modelx.png', 'modelx_side.png'],
-        4: ['cybercab.png', 'cybercab_side.png'],
-        5: ['cyber.png', 'cyber_side.png'],
-        6: ['long.png', 'long_side.png'],
+        3: ['cybercab.png', 'robo2.png', 'robo3.png'],  // Robotaxi and Cybercab
+        4: ['cyber.png', 'cyber_side.png'],
+        5: ['perform.png', 'perform_side.png'],  // Performance question
+        6: ['long.png', 'long_side.png'],  // Long Range question
         7: ['stan.png', 'stan_side.png'],
         8: ['plaid.png', 'plaid_side.png']
     };
