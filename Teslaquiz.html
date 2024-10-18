@@ -1,178 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caius's Website - Tesla Quiz</title>
+    <title>My Homepage</title>
     <style>
         body {
-            font-family: 'Visby Round', sans-serif;
-            background-color: #9370DB;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 20px;
-            text-align: center;
-            color: white;
         }
-
-        .quiz-container {
-            max-width: 600px;
+        header {
+            background-color: #9370DB;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            margin: 20px 0;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #9370DB;
+            font-weight: bold;
+        }
+        section {
+            max-width: 1200px;
             margin: 0 auto;
+        }
+        .content-box {
             background-color: white;
             padding: 20px;
+            margin-bottom: 20px;
             border-radius: 10px;
-            color: #9370DB;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-
-        h1, h3 {
-            text-align: center;
-            color: #e82127;
-        }
-
-        .car-image-container {
-            position: relative;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .car-image-container img {
-            width: 100%;
-            max-width: 400px;
+        .quiz-box {
+            padding: 20px;
+            background-color: #fff;
             border-radius: 10px;
-        }
-
-        .nav-button {
-            background-color: #cccccc;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .nav-button:hover {
-            background-color: #bbbbbb;
-        }
-
-        .nav-button.left {
-            position: absolute;
-            left: -70px;
-        }
-
-        .nav-button.right {
-            position: absolute;
-            right: -70px;
-        }
-
-        .options {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .options li {
-            margin: 10px 0;
-        }
-
-        .options label {
-            display: block;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border: 2px solid #e82127;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .options input[type="radio"] {
-            display: none;
-        }
-
-        .options input[type="radio"]:checked + label {
-            background-color: #e82127;
-            color: white;
-        }
-
-        .btn {
-            background-color: #e82127;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .btn:hover {
-            background-color: #bf1a20;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-
 <body>
 
-<div class="quiz-container">
-    <h1>Tesla Quiz</h1>
+<header>
+    <h1>Welcome to My Homepage</h1>
+</header>
 
-    <div class="car-image-container">
-        <button class="nav-button left" onclick="previousImage()">&#x276E;</button> <!-- Left arrow button -->
-        <img id="carImage" src="model32.png" alt="Car Image">
-        <button class="nav-button right" onclick="nextImage()">&#x276F;</button> <!-- Right arrow button -->
+<nav>
+    <a href="#about">About Me</a>
+    <a href="#projects">Projects</a>
+    <a href="#other">Other Stuff</a>
+</nav>
+
+<section id="about">
+    <div class="content-box">
+        <h2>About Me</h2>
+        <p>Here is some information about me...</p>
     </div>
+</section>
 
-    <ul class="options">
-        <li><input type="radio" id="model3" name="carAnswer" value="Model 3"><label for="model3">Model 3</label></li>
-        <li><input type="radio" id="modelX" name="carAnswer" value="Model X"><label for="modelX">Model X</label></li>
-        <li><input type="radio" id="modelS" name="carAnswer" value="Model S"><label for="modelS">Model S</label></li>
-        <li><input type="radio" id="modelY" name="carAnswer" value="Model Y"><label for="modelY">Model Y</label></li>
-    </ul>
+<section id="projects">
+    <div class="content-box">
+        <h2>Projects</h2>
+        <p>Here are my projects...</p>
+    </div>
+</section>
 
-    <button class="btn" onclick="checkAnswer()">Submit Answer</button>
-</div>
+<section id="other">
+    <div class="content-box">
+        <h2>Other Stuff</h2>
+        <p>Welcome to the fun section! Below is a Tesla quiz for you to test your knowledge:</p>
+
+        <!-- Embedding the Tesla Quiz directly -->
+        <div class="quiz-box">
+            <!-- Paste your Tesla quiz HTML code here -->
+
+            <!-- START OF TESLA QUIZ HTML -->
+            <!-- Question 1 -->
+            <div id="question1" class="question-page active">
+                <h3>1. What car is this?</h3>
+                <img src="model3.png" alt="Tesla Model 3" class="quiz-image">
+                <ul class="options">
+                    <li><input type="radio" id="q1-a" name="q1" value="Model 3 Highland"><label for="q1-a">Model 3 Highland</label></li>
+                    <li><input type="radio" id="q1-b" name="q1" value="Model Y"><label for="q1-b">Model Y</label></li>
+                    <li><input type="radio" id="q1-c" name="q1" value="Model 3"><label for="q1-c">Model 3</label></li>
+                    <li><input type="radio" id="q1-d" name="q1" value="Model X"><label for="q1-d">Model X</label></li>
+                </ul>
+                <button class="btn" onclick="checkAnswer(1, 'Model 3')">Next</button>
+            </div>
+
+            <!-- Paste the rest of the Tesla quiz questions and JavaScript here -->
+
+        </div>
+        <!-- END OF TESLA QUIZ HTML -->
+    </div>
+</section>
 
 <script>
-    const carImages = ['model32.png', 'model33.png']; // Array of images
-    let currentImageIndex = 0;
-
-    function nextImage() {
-        // Go to the next image, if exists
-        if (currentImageIndex < carImages.length - 1) {
-            currentImageIndex++;
-            document.getElementById('carImage').src = carImages[currentImageIndex];
-        }
-    }
-
-    function previousImage() {
-        // Go to the previous image, if exists
-        if (currentImageIndex > 0) {
-            currentImageIndex--;
-            document.getElementById('carImage').src = carImages[currentImageIndex];
-        }
-    }
-
-    function checkAnswer() {
-        const correctAnswer = 'Model 3';
-        const selectedAnswer = document.querySelector('input[name="carAnswer"]:checked');
-
-        if (selectedAnswer) {
-            if (selectedAnswer.value === correctAnswer && currentImageIndex === 1) {
-                alert("Correct! The car is a Model 3.");
-            } else {
-                alert("Incorrect. Try again.");
-            }
-        } else {
-            alert("Please select an answer.");
-        }
-    }
+    // Paste your Tesla quiz JavaScript logic here (e.g., the checkAnswer function, etc.)
 </script>
 
 </body>
-
 </html>
