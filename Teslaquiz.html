@@ -83,6 +83,7 @@
             text-align: center;
             font-size: 20px;
             font-weight: bold;
+            padding-bottom: 20px;
         }
         .quiz-image-container {
             position: relative;
@@ -90,7 +91,7 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
-            height: 300px; /* Fix height so arrows stay in place */
+            height: 300px;
         }
         .quiz-image {
             width: 100%;
@@ -123,7 +124,7 @@
         .nav-button.right {
             right: 0;
         }
-        /* Home button style */
+        /* Home button style with proper margins */
         .home-btn {
             margin-top: 20px;
             background-color: #e82127;
@@ -133,8 +134,10 @@
             border-radius: 5px;
             text-decoration: none;
             display: inline-block;
-            width: 100%;
+            width: calc(100% - 40px); /* Subtract margins */
             font-size: 16px;
+            margin-left: 20px;
+            margin-right: 20px;
         }
         .home-btn:hover {
             background-color: #bf1a20;
@@ -146,7 +149,7 @@
 <div class="quiz-container">
     <h1>Tesla Quiz</h1>
 
-    <!-- Question 1 with model32.png, model33.png, and model3.png -->
+    <!-- Question 1 -->
     <div id="question1" class="question-page active">
         <h3>1. What car is this?</h3>
         <div class="quiz-image-container">
@@ -163,7 +166,7 @@
         <button class="btn" onclick="checkAnswer(1, 'Model 3')">Next</button>
     </div>
 
-    <!-- New Highland Model 3 Question with high31.png, high32.png, and high33.png -->
+    <!-- Highland Model 3 Question -->
     <div id="question2" class="question-page">
         <h3>2. What car is this?</h3>
         <div class="quiz-image-container">
@@ -180,7 +183,7 @@
         <button class="btn" onclick="checkAnswer(2, 'Model 3 Highland')">Next</button>
     </div>
 
-    <!-- Robotaxi and CyberCab Question with robo2.png and robo3.png -->
+    <!-- Robotaxi and CyberCab Question -->
     <div id="question3" class="question-page">
         <h3>3. What car is this?</h3>
         <div class="quiz-image-container">
@@ -197,7 +200,7 @@
         <button class="btn" onclick="checkAnswer(3, ['Robotaxi', 'Cybercab'])">Next</button>
     </div>
 
-    <!-- Cybertruck Question with multiple images -->
+    <!-- Cybertruck Question -->
     <div id="question4" class="question-page">
         <h3>4. What car is this?</h3>
         <div class="quiz-image-container">
@@ -287,7 +290,7 @@
         Your grade is: <span id="grade"></span> <br>
 
         <!-- Home button -->
-        <a href="Index.html" class="home-btn">Home</a>
+        <a href="index.html" class="home-btn">Home</a>
     </div>
 </div>
 
