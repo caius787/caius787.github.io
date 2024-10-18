@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caius's Website</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <title>Confetti on Links</title>
+    <!-- Include your CSS and other head elements here -->
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
@@ -50,8 +47,9 @@
             background-color: #f0e6ff;
         }
 
+        /* Add margin below the Christmas List */
         .christmas-list + .container {
-            margin-top: 50px;
+            margin-top: 50px; /* Create space between the button and the boxes */
         }
 
         .container {
@@ -95,12 +93,13 @@
             margin: 10px 0;
         }
 
+        /* Confetti style */
         .confetti {
             position: absolute;
             border-radius: 50%;
             opacity: 0;
-            z-index: 1000;
-            animation: spreadConfetti 0.8s ease forwards;
+            z-index: 1000; /* Ensure confetti appears above everything */
+            animation: spreadConfetti 0.8s ease forwards; /* Increased duration for visibility */
         }
 
         @keyframes spreadConfetti {
@@ -117,7 +116,7 @@
 </head>
 
 <body>
-    <h1>Welcome to Caius's Website!</h1>
+    <h1>Welcome to my website!</h1>
     <h2>Where the most wonderful people are!</h2>
 
     <a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="christmas-list confetti-link">2024 Christmas List</a>
@@ -135,11 +134,11 @@
             </ul>
         </div>
 
-        <!-- Dad's Links Box -->
+        <!-- Dad's Links Box (Updated) -->
         <div class="box">
             <h4>Dad</h4>
             <ul>
-                <li><a href="dad.html" class="confetti-link">Dad's Page</a></li>
+                <!-- Removed "Dad's Page" link -->
                 <li><a href="https://inthaiguy.github.io/" class="confetti-link">Dad's Website</a></li>
             </ul>
         </div>
@@ -151,41 +150,53 @@
                 <li><a href="meet.html" class="confetti-link">Typing Game</a></li>
                 <li><a href="Christmas-List-Caius.html" class="confetti-link">Christmas List</a></li>
                 <li><a href="Countdowns.html" class="confetti-link">Countdowns</a></li>
-                <li><a href="Teslaquiz.html" class="confetti-link">Tesla Quiz</a></li> <!-- Link to Tesla Quiz -->
             </ul>
         </div>
     </div>
 
     <script>
+        // Handle confetti effect on links
         document.querySelectorAll('.confetti-link').forEach(link => {
             link.addEventListener('click', function (event) {
-                event.preventDefault();
+                event.preventDefault(); // Prevent the link from redirecting immediately
                 const linkRect = this.getBoundingClientRect();
+
+                // Generate confetti effect
                 for (let i = 0; i < 100; i++) {
                     let confetti = document.createElement('div');
                     confetti.classList.add('confetti');
                     document.body.appendChild(confetti);
+
+                    // Randomize the size, position, and direction of the confetti
                     let size = Math.random() * 12 + 6 + 'px';
                     confetti.style.width = size;
                     confetti.style.height = size;
+
                     confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+
+                    // Position confetti at the center of the clicked link
                     confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
                     confetti.style.top = linkRect.top + linkRect.height / 2 + 'px';
+
+                    // Random direction
                     let x = (Math.random() - 0.5) * 700 + 'px';
                     let y = (Math.random() - 0.5) * 700 + 'px';
                     confetti.style.setProperty('--x', x);
                     confetti.style.setProperty('--y', y);
+
+                    // Remove the confetti after animation
                     setTimeout(() => {
                         confetti.remove();
                     }, 800);
                 }
+
+                // Delay the actual link navigation
                 setTimeout(() => {
                     window.location.href = this.href;
                 }, 500);
             });
         });
     </script>
-
 </body>
 
 </html>
