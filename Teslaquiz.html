@@ -18,6 +18,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            position: relative; /* Ensure arrows stay within the container */
         }
         h1, h3 {
             text-align: center;
@@ -89,6 +90,7 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
+            height: 300px; /* Fix height so arrows stay in place */
         }
         .quiz-image {
             width: 100%;
@@ -116,10 +118,10 @@
             background-color: #bbbbbb;
         }
         .nav-button.left {
-            left: -50px;
+            left: 0;
         }
         .nav-button.right {
-            right: -50px;
+            right: 0;
         }
     </style>
 </head>
@@ -179,7 +181,7 @@
         <button class="btn" onclick="checkAnswer(3, ['Robotaxi', 'Cybercab'])">Next</button>
     </div>
 
-    <!-- Question 4 - Cybertruck -->
+    <!-- Question 4 - Cybertruck with new images -->
     <div id="question4" class="question-page">
         <h3>4. What car is this?</h3>
         <div class="quiz-image-container">
@@ -276,7 +278,7 @@
         1: ['model32.png', 'model33.png', 'model3.png'],  // Correct image files for Question 1
         2: ['high31.png', 'high32.png', 'high33.png'],  // Highland question
         3: ['cybercab.png', 'robo2.png', 'robo3.png'],  // Robotaxi and Cybercab
-        4: ['cyber.png', 'cyber_side.png'],
+        4: ['cyber.png', 'cyber2.png', 'cyber3.png', 'cyber4.png'],  // Cybertruck with new images
         5: ['perform.png', 'perform_side.png'],  // Performance question
         6: ['long.png', 'long_side.png'],  // Long Range question
         7: ['stan.png', 'stan_side.png'],
