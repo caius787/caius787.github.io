@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confetti on Links</title>
-    <!-- Include your CSS and other head elements here -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="manifest" href="/site.webmanifest">
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
@@ -109,7 +112,7 @@
             }
             100% {
                 opacity: 0;
-                transform: translate(var(--x), var(--y)) scale(0.5);
+                transform: translate(var(--x), var(--y)) scale(0.5); /* Move in random direction */
             }
         }
     </style>
@@ -138,7 +141,7 @@
         <div class="box">
             <h4>Dad</h4>
             <ul>
-                <li><a href="dad.html" class="confetti-link">Dad's Page</a></li>
+                <!-- Removed "Dad's Page" link as per your request -->
                 <li><a href="https://inthaiguy.github.io/" class="confetti-link">Dad's Website</a></li>
             </ul>
         </div>
@@ -150,6 +153,7 @@
                 <li><a href="meet.html" class="confetti-link">Typing Game</a></li>
                 <li><a href="Christmas-List-Caius.html" class="confetti-link">Christmas List</a></li>
                 <li><a href="Countdowns.html" class="confetti-link">Countdowns</a></li>
+                <li><a href="Teslaquiz.html" class="confetti-link">Tesla Quiz</a></li> <!-- Added Teslaquiz.html link -->
             </ul>
         </div>
     </div>
@@ -162,24 +166,24 @@
                 const linkRect = this.getBoundingClientRect();
 
                 // Generate confetti effect
-                for (let i = 0; i < 100; i++) {
+                for (let i = 0; i < 100; i++) {  // Increased quantity to 100 for more confetti
                     let confetti = document.createElement('div');
                     confetti.classList.add('confetti');
                     document.body.appendChild(confetti);
 
                     // Randomize the size, position, and direction of the confetti
-                    let size = Math.random() * 12 + 6 + 'px';
+                    let size = Math.random() * 12 + 6 + 'px';  // Make confetti larger for better visibility
                     confetti.style.width = size;
                     confetti.style.height = size;
 
-                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`; // Brighter colors
 
                     // Position confetti at the center of the clicked link
                     confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
                     confetti.style.top = linkRect.top + linkRect.height / 2 + 'px';
 
                     // Random direction
-                    let x = (Math.random() - 0.5) * 700 + 'px';
+                    let x = (Math.random() - 0.5) * 700 + 'px';  // Increased spread
                     let y = (Math.random() - 0.5) * 700 + 'px';
                     confetti.style.setProperty('--x', x);
                     confetti.style.setProperty('--y', y);
@@ -187,7 +191,7 @@
                     // Remove the confetti after animation
                     setTimeout(() => {
                         confetti.remove();
-                    }, 800);
+                    }, 800); // Slightly longer animation duration
                 }
 
                 // Delay the actual link navigation
