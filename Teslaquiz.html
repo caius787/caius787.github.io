@@ -45,24 +45,32 @@
         }
 
         .nav-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #e82127;
+            background-color: #cccccc;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 5px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background-color: #bbbbbb;
         }
 
         .nav-button.left {
-            left: -60px;
+            position: absolute;
+            left: -70px;
         }
 
         .nav-button.right {
-            right: -60px;
+            position: absolute;
+            right: -70px;
         }
 
         .options {
@@ -101,6 +109,10 @@
             cursor: pointer;
             font-size: 16px;
         }
+
+        .btn:hover {
+            background-color: #bf1a20;
+        }
     </style>
 </head>
 
@@ -110,9 +122,9 @@
     <h1>Tesla Quiz</h1>
 
     <div class="car-image-container">
-        <button class="nav-button left" onclick="previousImage()">Prev</button>
+        <button class="nav-button left" onclick="previousImage()">&#x276E;</button> <!-- Left arrow button -->
         <img id="carImage" src="model32.png" alt="Car Image">
-        <button class="nav-button right" onclick="nextImage()">Next</button>
+        <button class="nav-button right" onclick="nextImage()">&#x276F;</button> <!-- Right arrow button -->
     </div>
 
     <ul class="options">
@@ -123,3 +135,44 @@
     </ul>
 
     <button class="btn" onclick="checkAnswer()">Submit Answer</button>
+</div>
+
+<script>
+    const carImages = ['model32.png', 'model33.png']; // Array of images
+    let currentImageIndex = 0;
+
+    function nextImage() {
+        // Go to the next image, if exists
+        if (currentImageIndex < carImages.length - 1) {
+            currentImageIndex++;
+            document.getElementById('carImage').src = carImages[currentImageIndex];
+        }
+    }
+
+    function previousImage() {
+        // Go to the previous image, if exists
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+            document.getElementById('carImage').src = carImages[currentImageIndex];
+        }
+    }
+
+    function checkAnswer() {
+        const correctAnswer = 'Model 3';
+        const selectedAnswer = document.querySelector('input[name="carAnswer"]:checked');
+
+        if (selectedAnswer) {
+            if (selectedAnswer.value === correctAnswer && currentImageIndex === 1) {
+                alert("Correct! The car is a Model 3.");
+            } else {
+                alert("Incorrect. Try again.");
+            }
+        } else {
+            alert("Please select an answer.");
+        }
+    }
+</script>
+
+</body>
+
+</html>
