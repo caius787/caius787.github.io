@@ -3,107 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Homepage</title>
+    <title>Tesla Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
+            background-color: #f0f0f0;
             padding: 20px;
+            transition: background-color 0.3s ease;
         }
-        header {
-            background-color: #9370DB;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        nav {
-            margin: 20px 0;
-            text-align: center;
-        }
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #9370DB;
-            font-weight: bold;
-        }
-        section {
-            max-width: 1200px;
+        .quiz-container {
+            max-width: 600px;
             margin: 0 auto;
-        }
-        .content-box {
             background-color: white;
             padding: 20px;
-            margin-bottom: 20px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
-        .quiz-box {
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        h1, h3 {
+            text-align: center;
+            color: #e82127;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+        }
+        .options input[type="radio"] {
+            display: none;
+        }
+        .options label {
+            display: block;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border: 2px solid #e82127;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .options label:hover {
+            background-color: #f2d2d2;
+        }
+        .options input[type="radio"]:checked + label {
+            background-color: #e82127;
+            color: white;
+            border-color: #bf1a20;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #e82127;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #bf1a20;
+        }
+        .question-page {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .result {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .quiz-image {
+            width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Welcome to My Homepage</h1>
-</header>
+<div class="quiz-container">
+    <h1>Tesla Quiz</h1>
 
-<nav>
-    <a href="#about">About Me</a>
-    <a href="#projects">Projects</a>
-    <a href="#other">Other Stuff</a>
-</nav>
-
-<section id="about">
-    <div class="content-box">
-        <h2>About Me</h2>
-        <p>Here is some information about me...</p>
+    <!-- Question 1 -->
+    <div id="question1" class="question-page active">
+        <h3>1. What car is this?</h3>
+        <img src="model3.png" alt="Tesla Model 3" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q1-a" name="q1" value="Model 3 Highland"><label for="q1-a">Model 3 Highland</label></li>
+            <li><input type="radio" id="q1-b" name="q1" value="Model Y"><label for="q1-b">Model Y</label></li>
+            <li><input type="radio" id="q1-c" name="q1" value="Model 3"><label for="q1-c">Model 3</label></li>
+            <li><input type="radio" id="q1-d" name="q1" value="Model X"><label for="q1-d">Model X</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(1, 'Model 3')">Next</button>
     </div>
-</section>
 
-<section id="projects">
-    <div class="content-box">
-        <h2>Projects</h2>
-        <p>Here are my projects...</p>
+    <!-- Question 2 -->
+    <div id="question2" class="question-page">
+        <h3>2. What car is this?</h3>
+        <img src="modelx.png" alt="Tesla Model X" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q2-a" name="q2" value="Model 3"><label for="q2-a">Model 3</label></li>
+            <li><input type="radio" id="q2-b" name="q2" value="Model X"><label for="q2-b">Model X</label></li>
+            <li><input type="radio" id="q2-c" name="q2" value="Model Y"><label for="q2-c">Model Y</label></li>
+            <li><input type="radio" id="q2-d" name="q2" value="Cybertruck"><label for="q2-d">Cybertruck</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(2, 'Model X')">Next</button>
     </div>
-</section>
 
-<section id="other">
-    <div class="content-box">
-        <h2>Other Stuff</h2>
-        <p>Welcome to the fun section! Below is a Tesla quiz for you to test your knowledge:</p>
-
-        <!-- Embedding the Tesla Quiz directly -->
-        <div class="quiz-box">
-            <!-- Paste your Tesla quiz HTML code here -->
-
-            <!-- START OF TESLA QUIZ HTML -->
-            <!-- Question 1 -->
-            <div id="question1" class="question-page active">
-                <h3>1. What car is this?</h3>
-                <img src="model3.png" alt="Tesla Model 3" class="quiz-image">
-                <ul class="options">
-                    <li><input type="radio" id="q1-a" name="q1" value="Model 3 Highland"><label for="q1-a">Model 3 Highland</label></li>
-                    <li><input type="radio" id="q1-b" name="q1" value="Model Y"><label for="q1-b">Model Y</label></li>
-                    <li><input type="radio" id="q1-c" name="q1" value="Model 3"><label for="q1-c">Model 3</label></li>
-                    <li><input type="radio" id="q1-d" name="q1" value="Model X"><label for="q1-d">Model X</label></li>
-                </ul>
-                <button class="btn" onclick="checkAnswer(1, 'Model 3')">Next</button>
-            </div>
-
-            <!-- Paste the rest of the Tesla quiz questions and JavaScript here -->
-
-        </div>
-        <!-- END OF TESLA QUIZ HTML -->
+    <!-- Question 3 -->
+    <div id="question3" class="question-page">
+        <h3>3. What car is this?</h3>
+        <img src="cybercab.png" alt="Tesla Cybercab" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q3-a" name="q3" value="Robotaxi"><label for="q3-a">Robotaxi</label></li>
+            <li><input type="radio" id="q3-b" name="q3" value="Cybertruck"><label for="q3-b">Cybertruck</label></li>
+            <li><input type="radio" id="q3-c" name="q3" value="Model 3 Highland"><label for="q3-c">Model 3 Highland</label></li>
+            <li><input type="radio" id="q3-d" name="q3" value="Cybercab"><label for="q3-d">Cybercab</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(3, ['Robotaxi', 'Cybercab'])">Next</button>
     </div>
-</section>
+
+    <!-- Question 4 -->
+    <div id="question4" class="question-page">
+        <h3>4. What car is this?</h3>
+        <img src="cyber.png" alt="Tesla Cybertruck" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q4-a" name="q4" value="Cybertruck"><label for="q4-a">Cybertruck</label></li>
+            <li><input type="radio" id="q4-b" name="q4" value="Model X"><label for="q4-b">Model X</label></li>
+            <li><input type="radio" id="q4-c" name="q4" value="Model Z"><label for="q4-c">Model Z</label></li>
+            <li><input type="radio" id="q4-d" name="q4" value="Model Y"><label for="q4-d">Model Y</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(4, 'Cybertruck')">Next</button>
+    </div>
+
+    <!-- Question 5 -->
+    <div id="question5" class="question-page">
+        <h3>5. What type of Tesla is this?</h3>
+        <img src="perform.png" alt="Tesla Performance" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q5-a" name="q5" value="Standard"><label for="q5-a">Standard</label></li>
+            <li><input type="radio" id="q5-b" name="q5" value="Long Range"><label for="q5-b">Long Range</label></li>
+            <li><input type="radio" id="q5-c" name="q5" value="Performance"><label for="q5-c">Performance</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(5, 'Performance')">Next</button>
+    </div>
+
+    <!-- Question 6 -->
+    <div id="question6" class="question-page">
+        <h3>6. What type of Tesla is this?</h3>
+        <img src="stan.png" alt="Tesla Standard" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q6-a" name="q6" value="Plaid"><label for="q6-a">Plaid</label></li>
+            <li><input type="radio" id="q6-b" name="q6" value="Standard"><label for="q6-b">Standard</label></li>
+            <li><input type="radio" id="q6-c" name="q6" value="Long Range"><label for="q6-c">Long Range</label></li>
+            <li><input type="radio" id="q6-d" name="q6" value="Performance"><label for="q6-d">Performance</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(6, 'Standard')">Next</button>
+    </div>
+
+    <!-- Question 7 -->
+    <div id="question7" class="question-page">
+        <h3>7. What type of Tesla is this?</h3>
+        <img src="long.png" alt="Tesla Long Range" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q7-a" name="q7" value="Long Range"><label for="q7-a">Long Range</label></li>
+            <li><input type="radio" id="q7-b" name="q7" value="Performance"><label for="q7-b">Performance</label></li>
+            <li><input type="radio" id="q7-c" name="q7" value="Plaid"><label for="q7-c">Plaid</label></li>
+        </ul>
+        <button class="btn" onclick="checkAnswer(7, 'Long Range')">Next</button>
+    </div>
+
+    <!-- Question 8 -->
+    <div id="question8" class="question-page">
+        <h3>8. What type of Tesla is this?</h3>
+        <img src="plaid.png" alt="Tesla Plaid" class="quiz-image">
+        <ul class="options">
+            <li><input type="radio" id="q8-a" name="q8" value="Standard"><label for="q8-a">Standard</label></li>
+            <li><input type="radio" id="q8-b" name="q8" value="Plaid"><label for="q8-b">Plaid</label></li>
+            <li><input type="radio" id="q8-c" name="q8" value="Performance"><label for="q8-c">Performance</label></li>
+            <li><input type="radio" id="q8-d" name="q8" value="Long Range"><label for="q8-d">Long Range</label></li>
+        </ul>
+        <button class="btn" onclick="submitQuiz(8, 'Plaid')">Submit</button>
+    </div>
+
+    <!-- Result -->
+    <div class="result" id="result">
+        You got <span id="score"></span> out of 8 correct!
+    </div>
+</div>
 
 <script>
-    // Paste your Tesla quiz JavaScript logic here (e.g., the checkAnswer function, etc.)
+    let score = 0;
+
+    function checkAnswer(currentQuestion, correctAnswer) {
+        const selectedOption = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+        const isCorrect = Array.isArray(correctAnswer) ? correctAnswer.includes(selectedOption?.value) : selectedOption?.value === correctAnswer;
+
+        if (selectedOption) {
+            // Light up green for correct and red for incorrect
+            document.body.style.backgroundColor = isCorrect ? 'lightgreen' : 'lightcoral';
+            
+            // Update score if correct
+            if (isCorrect) score++;
+
+            // Delay before moving to the next question
+            setTimeout(() => {
+                document.body.style.backgroundColor = '#f0f0f0';  // Reset background color
+
+                // Move to the next question
+                document.getElementById(`question${currentQuestion}`).classList.remove('active');
+                const nextQuestion = document.getElementById(`question${currentQuestion + 1}`);
+                if (nextQuestion) {
+                    nextQuestion.classList.add('active');
+                } else {
+                    document.getElementById('result').style.display = 'block';
+                    document.getElementById('score').textContent = score;
+                }
+            }, 1000); // 1 second delay before moving to the next question
+        } else {
+            alert("Please select an option before moving to the next question.");
+        }
+    }
+
+    function submitQuiz(currentQuestion, correctAnswer) {
+        checkAnswer(currentQuestion, correctAnswer);  // Reuse the checkAnswer logic for the last question
+    }
 </script>
 
 </body>
