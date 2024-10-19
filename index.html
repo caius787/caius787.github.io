@@ -49,10 +49,10 @@
         .christmas-list {
             display: inline-block;
             margin: 40px auto;
-            padding: 20px 40px; /* Reduced padding */
+            padding: 20px 40px;
             background-color: white;
             color: #9370DB;
-            font-size: 2.2em; /* Slightly reduced font size */
+            font-size: 2.2em;
             font-weight: bold;
             border-radius: 10px;
             text-decoration: none;
@@ -67,19 +67,19 @@
         .container {
             width: 100%;
             margin: 0;
-            padding: 0 10px;
+            padding: 0 10px; /* Add side padding */
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted min width */
-            gap: 15px; /* Reduced gap */
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjusted min width */
+            gap: 20px; /* Space between boxes */
             z-index: 10;
         }
 
         .box {
             background-color: white;
             color: #9370DB;
-            padding: 30px 15px; /* Reduced padding */
+            padding: 40px 20px; /* Keep height the same */
             border-radius: 10px;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Slightly reduced shadow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             z-index: 10;
@@ -87,12 +87,12 @@
 
         .box:hover {
             transform: scale(1.02);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Adjusted shadow on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .box h4 {
-            font-size: 1.8em; /* Slightly reduced font size */
-            margin: 0 0 10px 0; /* Adjusted margin */
+            font-size: 1.8em;
+            margin: 0 0 15px 0;
         }
 
         ul {
@@ -102,8 +102,8 @@
         }
 
         ul li {
-            margin: 10px 0; /* Reduced margin */
-            font-size: 1.1em; /* Adjusted font size */
+            margin: 10px 0;
+            font-size: 1.1em;
         }
 
         ul li a {
