@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Game with Score</title>
+    <title>Typing Game with WPM</title>
     <style>
         body, html {
             margin: 0;
@@ -46,7 +46,7 @@
             background-color: lightcoral;
         }
 
-        #congratulations, #youFailed, #scoreCounter {
+        #congratulations, #youFailed, #wpmCounter {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -75,7 +75,7 @@
             font-size: 24px;
         }
 
-        #scoreCounter {
+        #wpmCounter {
             font-size: 24px;
             top: 70%;
         }
@@ -126,22 +126,23 @@
         <div id="letterContainer"></div>
         <div id="congratulations">CONGRATULATIONS</div>
         <div id="youFailed">you failed, but you're still a nice person</div>
-        <div id="scoreCounter">Score: <span id="scoreValue"></span></div>
+        <div id="wpmCounter">WPM: <span id="wpmValue"></span></div>
         <canvas id="fallingCanvas"></canvas>
     </div>
 
     <script>
         let correctLetters = 0;
+        let startTime;
 
         // Expanded word database
         const wordsDatabase = [
-            "minecraft", "game", "coding", "stupid", "why", "speaker", "computer", "taco", 
+            "Minecraft", "game", "coding", "stupid", "why", "speaker", "computer", "taco", 
             "hotdog", "phone", "corn", "pumpkin", "play", "pneumonoultramicroscopicsilicovolcanoconiosis", 
             "scooter", "pogo", "TV", "disgrace", "twitch", "ladder", "neighborhood", "veteran", "compete",
             "coffin", "marsh", "precedent", "explain", "formula", "depressed", "excess", "endorse", "bite", 
             "freckle", "projection", "lifestyle", "polish", "decline", "stab", "privacy", "spare", "agent", 
             "coincide", "rage", "fail", "drum", "flight", "personality", "team", "wilderness", "rotten", "lid", 
-            "recovery", "appoint", "minor", "quotation", "parade", "stunning", "graze", "allowance", "parameter", "rawrmantis x", "surron"
+            "recovery", "appoint", "minor", "quotation", "parade", "stunning", "graze", "allowance", "parameter"
         ];
 
         // Pick 3 random words
@@ -227,13 +228,15 @@
             youFailed.style.display = 'block';
         }
 
-        function showScore() {
-            const scoreCounter = document.getElementById('scoreCounter');
-            const scoreValue = document.getElementById('scoreValue');
-            
-            // Display score in the format: "Score: X/Y"
-            scoreValue.textContent = `${correctLetters}/${combinedLetters.length}`;
-            scoreCounter.style.display = 'block';
+        function showWPM() {
+            const wpmCounter = document.getElementById('wpmCounter');
+            const wpmValue = document.getElementById('wpmValue');
+            const endTime = new Date();
+            const timeTaken = (endTime - startTime) / 1000 / 60; // Convert to minutes
+            const totalWords = combinedLetters.split(' ').length; // Calculate total words
+            const wpm = Math.round(totalWords / timeTaken); // WPM calculation
+            wpmValue.textContent = `${wpm} WPM`;
+            wpmCounter.style.display = 'block';
         }
 
         // Check if all letters are correctly typed
@@ -249,6 +252,10 @@
 
         // Listen for key presses
         document.addEventListener('keydown', (event) => {
+            if (!startTime) {
+                startTime = new Date(); // Start timing when the first key is pressed
+            }
+
             const letters = document.querySelectorAll('.letter');
 
             if (event.key === 'Backspace' && currentIndex > 0) {
@@ -277,7 +284,7 @@
                     } else {
                         showYouFailed(); // Show "you failed, but you're still a nice person"
                     }
-                    showScore(); // Display the score at the end
+                    showWPM(); // Display the WPM counter at the end
                 }
             }
         });
