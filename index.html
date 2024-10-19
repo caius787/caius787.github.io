@@ -29,9 +29,13 @@
             box-sizing: border-box;
         }
 
-        h1,
+        h1 {
+            margin: 20px 0; /* Increased space above and below the heading */
+            padding: 0;
+        }
+
         h2 {
-            margin: 10px 0;
+            margin: 10px 0; /* Adjusted margin for the subheading */
             padding: 0;
         }
 
@@ -48,7 +52,7 @@
 
         .christmas-list {
             display: inline-block;
-            margin: 40px auto;
+            margin: 40px auto; /* Space above and below the link */
             padding: 20px 40px;
             background-color: white;
             color: #9370DB;
@@ -69,8 +73,8 @@
             margin: 0;
             padding: 0 10px; /* Add side padding */
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted min width */
-            gap: 10px; /* Reduced gap between boxes */
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Adjusted min width */
+            gap: 5px; /* Reduced gap between boxes */
             z-index: 10;
         }
 
