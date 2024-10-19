@@ -48,7 +48,6 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 20px;
             color: black;
             opacity: 1;
             white-space: nowrap;
@@ -80,6 +79,8 @@
         const centerX = 0;  // Start from top-left corner
         const centerY = 0;  // Start from top-left corner
         const pixelSize = 1;  // Size of each black pixel
+
+        let fontSize = 20;  // Initial font size for the falling text
 
         // Draw a black pixel at the calculated circular position
         function drawPixelInCircle() {
@@ -178,6 +179,7 @@
             const textElement = document.createElement('div');
             textElement.classList.add('falling-text');
             textElement.textContent = "Keep a little dirt under the pillow for the dirt man, in case he comes to town. Keep a little dirt under your pillow for the dirt man, so he won't take me down.";
+            textElement.style.fontSize = `${fontSize}px`;  // Set the current font size
             document.body.appendChild(textElement);
 
             let posY = -50;
@@ -197,6 +199,9 @@
 
             // Start the falling text animation
             animateFallingText();
+
+            // Increase the font size for the next text drop
+            fontSize += 0.5;
         }
 
         // Function to generate a random interval between 0 and 30 minutes (in milliseconds)
