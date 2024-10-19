@@ -20,10 +20,10 @@
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* Updated font */
+            font-family: 'Poppins', sans-serif;
             background-color: #9370DB;
             margin: 0;
-            padding: 0; /* Reset padding */
+            padding: 0;
             text-align: center;
             color: white;
             box-sizing: border-box;
@@ -48,7 +48,7 @@
 
         .christmas-list {
             display: inline-block;
-            margin: 40px auto; /* Increased margin for spacing */
+            margin: 40px auto;
             padding: 25px 50px;
             background-color: white;
             color: #9370DB;
@@ -74,7 +74,7 @@
             z-index: 10;
         }
 
-        @media(min-width: 768px) {
+        @media (min-width: 768px) {
             .container {
                 grid-template-columns: repeat(3, 1fr); /* Three columns on wider screens */
             }
@@ -87,7 +87,7 @@
             border-radius: 10px; /* Add border radius */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             z-index: 10;
         }
 
@@ -148,17 +148,23 @@
     <h1>Welcome to my website!</h1>
     <h2>Where the most wonderful people are!</h2>
 
-    <a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="christmas-list confetti-link">2024 Christmas List</a>
+    <a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="christmas-list confetti-link">2024 Christmas
+        List</a>
 
     <div class="container">
         <!-- Minecraft Links Box -->
         <div class="box">
             <h4>Minecraft Links</h4>
             <ul>
-                <li><a target="_blank" href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/" class="confetti-link">_cactusplayz</a></li>
-                <li><a target="_blank" href="https://www.minecraftskins.com/" class="confetti-link">Minecraft Skins</a></li>
-                <li><a target="_blank" href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png" class="confetti-link">Potion Table</a></li>
-                <li><a target="_blank" href="https://www.minecraft.net/en-us" class="confetti-link">Download Minecraft</a></li>
+                <li><a target="_blank" href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/"
+                        class="confetti-link">_cactusplayz</a></li>
+                <li><a target="_blank" href="https://www.minecraftskins.com/" class="confetti-link">Minecraft Skins</a>
+                </li>
+                <li><a target="_blank"
+                        href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png"
+                        class="confetti-link">Potion Table</a></li>
+                <li><a target="_blank" href="https://www.minecraft.net/en-us" class="confetti-link">Download
+                        Minecraft</a></li>
                 <li><a href="mcpassenger/" class="confetti-link">How To Make An Entity Ride An Entity</a></li>
             </ul>
         </div>
@@ -176,7 +182,8 @@
             <h4>Other Stuff</h4>
             <ul>
                 <li><a href="typinggame.html" class="confetti-link">Typing Game</a></li>
-                <li><a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="confetti-link">Christmas List</a></li>
+                <li><a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="confetti-link">Christmas
+                        List</a></li>
                 <li><a href="countdowns/" class="confetti-link">Countdowns</a></li>
                 <li><a href="teslaquiz/" class="confetti-link">Tesla Quiz</a></li>
             </ul>
@@ -186,7 +193,7 @@
     <script>
         // Handle confetti effect on links
         document.querySelectorAll('.confetti-link').forEach(link => {
-            link.addEventListener('click', function(event) {
+            link.addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent the link from redirecting immediately
                 const linkRect = this.getBoundingClientRect();
 
