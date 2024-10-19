@@ -139,7 +139,7 @@
             document.body.appendChild(textElement);
 
             let posY = -50;
-            const fallSpeed = 0.1;  // Extra slow falling speed
+            const fallSpeed = 0.5;  // Faster falling speed
 
             function animateFallingText() {
                 posY += fallSpeed;
@@ -157,6 +157,12 @@
             animateFallingText();
         }
 
+        // Function to generate a random interval between 0 and 45 minutes (in milliseconds)
+        function getRandomInterval() {
+            const maxInterval = 45 * 60 * 1000; // 45 minutes in milliseconds
+            return Math.random() * maxInterval; // Random interval
+        }
+
         // Start confetti and countdown
         createConfetti();
         animateConfetti();
@@ -166,8 +172,17 @@
         // Trigger the falling text immediately when the page loads
         createFallingText();
 
-        // Trigger the falling text every 1 minute
-        setInterval(createFallingText, 60000);  // 60,000ms = 1 minute
+        // Function to schedule the next falling text at a random time interval
+        function scheduleNextFallingText() {
+            const randomInterval = getRandomInterval();
+            setTimeout(() => {
+                createFallingText();
+                scheduleNextFallingText();  // Schedule the next one
+            }, randomInterval);
+        }
+
+        // Schedule the first random fall after the page load
+        scheduleNextFallingText();
 
         // Adjust canvas size on window resize
         window.addEventListener('resize', () => {
