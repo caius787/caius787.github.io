@@ -92,6 +92,7 @@
             align-items: center;
             margin-bottom: 20px;
             height: 300px;
+            max-height: 300px; /* Ensures the image doesn't overflow */
         }
         .quiz-image {
             width: 100%;
@@ -217,13 +218,11 @@
         <button class="btn" onclick="checkAnswer(4, 'Cybertruck')">Next</button>
     </div>
 
-    <!-- Performance Tesla Question -->
+    <!-- Performance Tesla Question - No Arrows -->
     <div id="question5" class="question-page">
         <h3>5. What type of Tesla is this?</h3>
         <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(5)">&#x276E;</button>
             <img id="carImage5" src="perform.png" alt="Tesla Performance" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(5)">&#x276F;</button>
         </div>
         <ul class="options">
             <li><input type="radio" id="q5-a" name="q5" value="Standard"><label for="q5-a">Standard</label></li>
@@ -233,13 +232,11 @@
         <button class="btn" onclick="checkAnswer(5, 'Performance')">Next</button>
     </div>
 
-    <!-- Long Range Question -->
+    <!-- Long Range Question - No Arrows -->
     <div id="question6" class="question-page">
         <h3>6. What type of Tesla is this?</h3>
         <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(6)">&#x276E;</button>
             <img id="carImage6" src="long.png" alt="Tesla Long Range" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(6)">&#x276F;</button>
         </div>
         <ul class="options">
             <li><input type="radio" id="q6-a" name="q6" value="Long Range"><label for="q6-a">Long Range</label></li>
@@ -249,13 +246,11 @@
         <button class="btn" onclick="checkAnswer(6, 'Long Range')">Next</button>
     </div>
 
-    <!-- Standard Tesla Question -->
+    <!-- Standard Tesla Question - No Arrows -->
     <div id="question7" class="question-page">
         <h3>7. What type of Tesla is this?</h3>
         <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(7)">&#x276E;</button>
             <img id="carImage7" src="stan.png" alt="Tesla Standard" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(7)">&#x276F;</button>
         </div>
         <ul class="options">
             <li><input type="radio" id="q7-a" name="q7" value="Plaid"><label for="q7-a">Plaid</label></li>
@@ -266,13 +261,11 @@
         <button class="btn" onclick="checkAnswer(7, 'Standard')">Next</button>
     </div>
 
-    <!-- Plaid Tesla Question -->
+    <!-- Plaid Tesla Question - No Arrows -->
     <div id="question8" class="question-page">
         <h3>8. What type of Tesla is this?</h3>
         <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(8)">&#x276E;</button>
             <img id="carImage8" src="plaid.png" alt="Tesla Plaid" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(8)">&#x276F;</button>
         </div>
         <ul class="options">
             <li><input type="radio" id="q8-a" name="q8" value="Standard"><label for="q8-a">Standard</label></li>
@@ -290,7 +283,7 @@
         Your grade is: <span id="grade"></span> <br>
 
         <!-- Home button -->
-        <a href="https://caius787.github.io" class="home-btn">Home</a>
+        <a href="index.html" class="home-btn">Home</a>
     </div>
 </div>
 
@@ -303,16 +296,12 @@
         2: ['high31.png', 'high32.png', 'high33.png'],  // Highland question
         3: ['cybercab.png', 'robo2.png', 'robo3.png'],  // Robotaxi and Cybercab
         4: ['cyber.png', 'cyber2.png', 'cyber3.png', 'cyber4.png'],  // Cybertruck with new images
-        5: ['perform.png', 'perform_side.png'],  // Performance question
-        6: ['long.png', 'long_side.png'],  // Long Range question
-        7: ['stan.png', 'stan_side.png'],
-        8: ['plaid.png', 'plaid_side.png']
+        // No arrows for questions 5, 6, 7, 8
     };
 
-    let currentImageIndex = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}; // Keep track of which image is shown for each question
+    let currentImageIndex = {1: 0, 2: 0, 3: 0, 4: 0}; // Track images for each question with arrows
 
     function nextImage(question) {
-        // Get the image array for the current question and update the current index
         const imageArray = images[question];
         currentImageIndex[question] = (currentImageIndex[question] + 1) % imageArray.length;
         document.getElementById(`carImage${question}`).src = imageArray[currentImageIndex[question]];
@@ -329,65 +318,42 @@
         const isCorrect = Array.isArray(correctAnswer) ? correctAnswer.includes(selectedOption?.value) : selectedOption?.value === correctAnswer;
 
         if (selectedOption) {
-            // Light up green for correct and red for incorrect
             document.body.style.backgroundColor = isCorrect ? 'lightgreen' : 'lightcoral';
-            
-            // Update score if correct
             if (isCorrect) score++;
-
-            // Delay before moving to the next question
             setTimeout(() => {
-                document.body.style.backgroundColor = '#f0f0f0';  // Reset background color
-
-                // Move to the next question
+                document.body.style.backgroundColor = '#f0f0f0';
                 document.getElementById(`question${currentQuestion}`).classList.remove('active');
                 const nextQuestion = document.getElementById(`question${currentQuestion + 1}`);
                 if (nextQuestion) {
                     nextQuestion.classList.add('active');
                 } else {
-                    showResult(); // Show result at the end
+                    showResult();
                 }
-            }, 1000); // 1 second delay before moving to the next question
+            }, 1000);
         } else {
             alert("Please select an option before moving to the next question.");
         }
     }
 
     function showResult() {
-        // Calculate the percentage
         let percentage = (score / 8) * 100;
         document.getElementById('score').textContent = score;
         document.getElementById('percentage').textContent = percentage.toFixed(2);
-
-        // Determine the grade based on percentage
         let grade = '';
-        if (percentage >= 90) {
-            grade = 'A';
-        } else if (percentage >= 85) {
-            grade = 'B+';
-        } else if (percentage >= 80) {
-            grade = 'B';
-        } else if (percentage >= 75) {
-            grade = 'C+';
-        } else if (percentage >= 70) {
-            grade = 'C';
-        } else if (percentage >= 65) {
-            grade = 'D+';
-        } else if (percentage >= 60) {
-            grade = 'D';
-        } else {
-            grade = 'F';
-        }
-
-        // Display the grade
+        if (percentage >= 90) grade = 'A';
+        else if (percentage >= 85) grade = 'B+';
+        else if (percentage >= 80) grade = 'B';
+        else if (percentage >= 75) grade = 'C+';
+        else if (percentage >= 70) grade = 'C';
+        else if (percentage >= 65) grade = 'D+';
+        else if (percentage >= 60) grade = 'D';
+        else grade = 'F';
         document.getElementById('grade').textContent = grade;
-
-        // Show the result page
         document.getElementById('result').style.display = 'block';
     }
 
     function submitQuiz(currentQuestion, correctAnswer) {
-        checkAnswer(currentQuestion, correctAnswer);  // Reuse the checkAnswer logic for the last question
+        checkAnswer(currentQuestion, correctAnswer);
     }
 </script>
 

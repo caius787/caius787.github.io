@@ -48,6 +48,7 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
+            font-size: 20px;
             color: black;
             opacity: 1;
             white-space: nowrap;
@@ -74,43 +75,30 @@
         pixelCanvas.width = window.innerWidth;
         pixelCanvas.height = window.innerHeight;
 
-        let angle = 0;
-        let radius = 0;
-        const centerX = 0;  // Start from top-left corner
-        const centerY = 0;  // Start from top-left corner
-        const pixelSize = 1;  // Size of each black pixel
+        let pixelX = 0;
+        let pixelY = 0;
+        const pixelSize = 1;  // 1 pixel size for the drawing
 
-        let fontSize = 20;  // Initial font size for the falling text
+        // Draw a black pixel at the current position
+        function drawPixel() {
+            pixelCtx.fillStyle = 'black';
+            pixelCtx.fillRect(pixelX, pixelY, pixelSize, pixelSize);
 
-        // Draw a black pixel at the calculated circular position
-        function drawPixelInCircle() {
-            // Calculate the x, y coordinates using polar coordinates (angle, radius)
-            const pixelX = Math.round(centerX + radius * Math.cos(angle));
-            const pixelY = Math.round(centerY + radius * Math.sin(angle));
-
-            // Only draw if the pixel is within the bounds of the canvas
-            if (pixelX >= 0 && pixelX < pixelCanvas.width && pixelY >= 0 && pixelY < pixelCanvas.height) {
-                pixelCtx.fillStyle = 'black';
-                pixelCtx.fillRect(pixelX, pixelY, pixelSize, pixelSize);
+            // Move to the next pixel position
+            pixelX += pixelSize;
+            if (pixelX >= pixelCanvas.width) {
+                pixelX = 0;  // Move to the next row when we reach the end of the canvas width
+                pixelY += pixelSize;
             }
 
-            // Move the angle forward for the next pixel
-            angle += 0.05;  // Control the angular step (slow down for 1 pixel at a time)
-
-            // Once a full circle is drawn, increase the radius
-            if (angle >= 2 * Math.PI) {
-                angle = 0;  // Reset the angle after completing a full circle
-                radius += 1;  // Increase the radius to expand outward in a circular pattern
-            }
-
-            // Stop if we go beyond the canvas size
-            if (radius > Math.max(pixelCanvas.width, pixelCanvas.height)) {
+            // Stop if the entire canvas is filled
+            if (pixelY >= pixelCanvas.height) {
                 clearInterval(pixelInterval);  // Stop the interval once the canvas is fully filled
             }
         }
 
-        // Interval for pixel drawing (45 seconds per pixel)
-        const pixelInterval = setInterval(drawPixelInCircle, 45000);  // Draw 1 pixel every 45 seconds
+        // Interval for pixel drawing (1 millisecond)
+        const pixelInterval = setInterval(drawPixel, 1);  // 1 millisecond per pixel
 
         function createConfetti() {
             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
@@ -179,7 +167,6 @@
             const textElement = document.createElement('div');
             textElement.classList.add('falling-text');
             textElement.textContent = "Keep a little dirt under the pillow for the dirt man, in case he comes to town. Keep a little dirt under your pillow for the dirt man, so he won't take me down.";
-            textElement.style.fontSize = `${fontSize}px`;  // Set the current font size
             document.body.appendChild(textElement);
 
             let posY = -50;
@@ -199,9 +186,6 @@
 
             // Start the falling text animation
             animateFallingText();
-
-            // Increase the font size for the next text drop
-            fontSize += 0.5;
         }
 
         // Function to generate a random interval between 0 and 30 minutes (in milliseconds)
