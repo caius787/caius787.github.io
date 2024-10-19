@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Replace 'Visby Round' with 'Poppins' -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    
+
     <!-- Existing meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Other head elements -->
@@ -29,7 +29,8 @@
             box-sizing: border-box;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             margin: 10px 0;
             padding: 0;
         }
@@ -64,12 +65,12 @@
         }
 
         .container {
-            max-width: 1200px;
-            margin: 50px auto; /* Center container and add margin */
-            padding: 0 20px;
+            width: 100%;
+            margin: 0;
+            padding: 0;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+            gap: 0;
             z-index: 10;
         }
 
@@ -77,20 +78,20 @@
             background-color: white;
             color: #9370DB;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 0; /* Remove border radius */
+            box-shadow: none; /* Remove box shadow */
+            text-align: center; /* Center text */
+            transition: transform 0.3s ease;
             z-index: 10;
         }
 
         .box:hover {
             transform: scale(1.02);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .box h4 {
             text-align: center;
+            font-size: 2em; /* Increase heading size */
             margin: 0 0 15px 0; /* Adjust heading margin */
         }
 
@@ -101,7 +102,17 @@
         }
 
         ul li {
-            margin: 10px 0;
+            margin: 15px 0; /* Increase margin between list items */
+            font-size: 1.5em; /* Increase font size */
+        }
+
+        ul li a {
+            color: #9370DB;
+            text-decoration: none;
+        }
+
+        ul li a:hover {
+            text-decoration: underline;
         }
 
         /* Confetti style */
@@ -110,7 +121,7 @@
             border-radius: 50%;
             opacity: 0;
             z-index: 1000; /* Ensure confetti appears above everything */
-            animation: spreadConfetti 0.8s ease forwards; /* Increased duration for visibility */
+            animation: spreadConfetti 0.8s ease forwards;
         }
 
         @keyframes spreadConfetti {
@@ -118,9 +129,10 @@
                 opacity: 1;
                 transform: translate(0, 0) scale(1);
             }
+
             100% {
                 opacity: 0;
-                transform: translate(var(--x), var(--y)) scale(0.5); /* Move in random direction */
+                transform: translate(var(--x), var(--y)) scale(0.5);
             }
         }
     </style>
@@ -137,10 +149,14 @@
         <div class="box">
             <h4>Minecraft Links</h4>
             <ul>
-                <li><a target="_blank" href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/" class="confetti-link">_cactusplayz</a></li>
-                <li><a target="_blank" href="https://www.minecraftskins.com/" class="confetti-link">Minecraft Skins</a></li>
-                <li><a target="_blank" href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png" class="confetti-link">Potion Table</a></li>
-                <li><a target="_blank" href="https://www.minecraft.net/en-us" class="confetti-link">Download Minecraft</a></li>
+                <li><a target="_blank" href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/"
+                        class="confetti-link">_cactusplayz</a></li>
+                <li><a target="_blank" href="https://www.minecraftskins.com/" class="confetti-link">Minecraft
+                        Skins</a></li>
+                <li><a target="_blank" href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png"
+                        class="confetti-link">Potion Table</a></li>
+                <li><a target="_blank" href="https://www.minecraft.net/en-us" class="confetti-link">Download
+                        Minecraft</a></li>
                 <li><a href="mcpassenger/" class="confetti-link">How To Make An Entity Ride An Entity</a></li>
             </ul>
         </div>
@@ -149,7 +165,6 @@
         <div class="box">
             <h4>Dad</h4>
             <ul>
-                <!-- Removed "Dad's Page" link as per your request -->
                 <li><a href="https://inthaiguy.github.io/" class="confetti-link">Dad's Website</a></li>
             </ul>
         </div>
@@ -159,7 +174,8 @@
             <h4>Other Stuff</h4>
             <ul>
                 <li><a href="typinggame.html" class="confetti-link">Typing Game</a></li>
-                <li><a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="confetti-link">Christmas List</a></li>
+                <li><a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="confetti-link">Christmas
+                        List</a></li>
                 <li><a href="countdowns/" class="confetti-link">Countdowns</a></li>
                 <li><a href="teslaquiz/" class="confetti-link">Tesla Quiz</a></li>
             </ul>
