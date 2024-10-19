@@ -43,6 +43,17 @@
             pointer-events: none;
             z-index: 0;
         }
+
+        .falling-text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: black;
+            opacity: 1;
+            white-space: nowrap;
+            z-index: 2;
+        }
     </style>
 </head>
 <body>
@@ -120,11 +131,40 @@
             messageElement.textContent = `Happy ${days} ${dayText} and ${hours} ${hourText} since your Birthday Aunt Tacee!`;
         }
 
-        // Confetti and message update initialization
+        // Function to create the falling text "Keep a little dirt under the pillow..."
+        function createFallingText() {
+            const textElement = document.createElement('div');
+            textElement.classList.add('falling-text');
+            textElement.textContent = "Keep a little dirt under the pillow for the dirt man, in case he comes to town. Keep a little dirt under your pillow for the dirt man, so he won't take me down.";
+            document.body.appendChild(textElement);
+
+            let posY = -50;
+            const fallSpeed = 0.1;  // Extra slow falling speed
+
+            function animateFallingText() {
+                posY += fallSpeed;
+                textElement.style.top = `${posY}px`;
+
+                if (posY < window.innerHeight) {
+                    requestAnimationFrame(animateFallingText);
+                } else {
+                    // Remove the text element once it falls off-screen
+                    textElement.remove();
+                }
+            }
+
+            // Start the falling text animation
+            animateFallingText();
+        }
+
+        // Start confetti and countdown
         createConfetti();
         animateConfetti();
         updateMessage();
         setInterval(updateMessage, 1000);  // Update every second
+
+        // Trigger the falling text every 1 minute (for testing)
+        setInterval(createFallingText, 60000);  // 60,000ms = 1 minute
 
         // Adjust canvas size on window resize
         window.addEventListener('resize', () => {
