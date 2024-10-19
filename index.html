@@ -29,13 +29,9 @@
             box-sizing: border-box;
         }
 
-        h1 {
-            margin: 20px 0; /* Increased space above and below the heading */
-            padding: 0;
-        }
-
+        h1,
         h2 {
-            margin: 10px 0; /* Adjusted margin for the subheading */
+            margin: 10px 0;
             padding: 0;
         }
 
@@ -73,8 +69,8 @@
             margin: 0;
             padding: 0 10px; /* Add side padding */
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Adjusted min width */
-            gap: 5px; /* Reduced gap between boxes */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted min width */
+            gap: 10px; /* Space between boxes */
             z-index: 10;
         }
 
@@ -119,6 +115,11 @@
             text-decoration: underline;
         }
 
+        /* Add custom spacing for <br> */
+        .spacer {
+            height: 30px; /* Adjust this value to increase/decrease space */
+        }
+
         /* Confetti style */
         .confetti {
             position: absolute;
@@ -144,10 +145,12 @@
 
 <body>
     <h1>Welcome to my website!</h1>
+    <div class="spacer"></div> <!-- Spacer for additional gap -->
     <h2>Where the most wonderful people are!</h2>
-
+    <div class="spacer"></div> <!-- Spacer for additional gap -->
     <a href="https://new.express.adobe.com/webpage/8FTWEtuqQ7snI" class="christmas-list confetti-link">2024 Christmas
         List</a>
+    <div class="spacer"></div> <!-- Spacer for additional gap -->
 
     <div class="container">
         <!-- Minecraft Links Box -->
