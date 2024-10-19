@@ -112,7 +112,12 @@
         function updateMessage() {
             const { days, hours } = calculateTimeSinceBirthday();
             const messageElement = document.getElementById('message');
-            messageElement.textContent = `Happy ${days} days and ${hours} hours since your Birthday Aunt Tacee!`;
+
+            // Conditional logic for plural/singular day
+            const dayText = days === 1 ? 'day' : 'days';
+            const hourText = hours === 1 ? 'hour' : 'hours';
+
+            messageElement.textContent = `Happy ${days} ${dayText} and ${hours} ${hourText} since your Birthday Aunt Tacee!`;
         }
 
         // Confetti and message update initialization
