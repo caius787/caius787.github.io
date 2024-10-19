@@ -60,6 +60,7 @@
 
     <div id="message">Loading...</div>
     <canvas id="confettiCanvas"></canvas>
+    <canvas id="pixelCanvas"></canvas>
 
     <script>
         // Confetti setup
@@ -68,6 +69,47 @@
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        const pixelCanvas = document.getElementById('pixelCanvas');
+        const pixelCtx = pixelCanvas.getContext('2d');
+        pixelCanvas.width = window.innerWidth;
+        pixelCanvas.height = window.innerHeight;
+
+        let angle = 0;
+        let radius = 0;
+        const centerX = 0;  // Start from top-left corner
+        const centerY = 0;  // Start from top-left corner
+        const pixelSize = 1;  // Size of each black pixel
+
+        // Draw a black pixel at the calculated circular position
+        function drawPixelInCircle() {
+            // Calculate the x, y coordinates using polar coordinates (angle, radius)
+            const pixelX = Math.round(centerX + radius * Math.cos(angle));
+            const pixelY = Math.round(centerY + radius * Math.sin(angle));
+
+            // Only draw if the pixel is within the bounds of the canvas
+            if (pixelX >= 0 && pixelX < pixelCanvas.width && pixelY >= 0 && pixelY < pixelCanvas.height) {
+                pixelCtx.fillStyle = 'black';
+                pixelCtx.fillRect(pixelX, pixelY, pixelSize, pixelSize);
+            }
+
+            // Move the angle forward for the next pixel
+            angle += 0.05;  // Control the angular step (slow down for 1 pixel at a time)
+
+            // Once a full circle is drawn, increase the radius
+            if (angle >= 2 * Math.PI) {
+                angle = 0;  // Reset the angle after completing a full circle
+                radius += 1;  // Increase the radius to expand outward in a circular pattern
+            }
+
+            // Stop if we go beyond the canvas size
+            if (radius > Math.max(pixelCanvas.width, pixelCanvas.height)) {
+                clearInterval(pixelInterval);  // Stop the interval once the canvas is fully filled
+            }
+        }
+
+        // Interval for pixel drawing (45 seconds per pixel)
+        const pixelInterval = setInterval(drawPixelInCircle, 45000);  // Draw 1 pixel every 45 seconds
 
         function createConfetti() {
             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
@@ -188,6 +230,8 @@
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            pixelCanvas.width = window.innerWidth;
+            pixelCanvas.height = window.innerHeight;
         });
     </script>
 
