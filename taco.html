@@ -18,7 +18,7 @@
         }
 
         #message {
-            font-size: 80px;
+            font-size: 60px;
             font-weight: bold;
             background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
             background-size: 400% 400%;
@@ -26,6 +26,7 @@
             color: transparent;
             animation: gradientAnimation 2s linear infinite;
             z-index: 1;
+            text-align: center;
         }
 
         @keyframes gradientAnimation {
@@ -46,17 +47,17 @@
 </head>
 <body>
 
-    <div id="message">Happy 2 days since your Birthday Aunt Tacee!</div>
+    <div id="message">Loading...</div>
     <canvas id="confettiCanvas"></canvas>
 
     <script>
+        // Confetti setup
         let confettiArray = [];
         const canvas = document.getElementById('confettiCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Confetti setup
         function createConfetti() {
             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
             for (let i = 0; i < 200; i++) {
@@ -95,23 +96,30 @@
             requestAnimationFrame(animateConfetti);
         }
 
-        // Text toggle function
-        const messageElement = document.getElementById('message');
-        let isTacee = true;
+        // Function to calculate days and hours since the birthday
+        function calculateTimeSinceBirthday() {
+            const birthday = new Date('2024-10-16T00:00:00'); // Target birthday date
+            const now = new Date();
+            const timeDiff = now - birthday;
 
-        function toggleMessage() {
-            if (isTacee) {
-                messageElement.textContent = "Happy 2 days since your Birthday Aunt Taco!";
-            } else {
-                messageElement.textContent = "Happy 2 days since you Birthday Aunt Tacee!";
-            }
-            isTacee = !isTacee;
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+            return { days, hours };
         }
 
-        // Start confetti and text toggle
+        // Function to update the message with live countdown
+        function updateMessage() {
+            const { days, hours } = calculateTimeSinceBirthday();
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = `Happy ${days} days and ${hours} hours since your Birthday Aunt Tacee!`;
+        }
+
+        // Confetti and message update initialization
         createConfetti();
         animateConfetti();
-        setInterval(toggleMessage, 5000);
+        updateMessage();
+        setInterval(updateMessage, 1000);  // Update every second
 
         // Adjust canvas size on window resize
         window.addEventListener('resize', () => {
