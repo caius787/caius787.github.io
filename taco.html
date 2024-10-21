@@ -18,15 +18,19 @@
         }
 
         #message {
-            font-size: 60px;
+            font-size: 60px; /* Larger size */
             font-weight: bold;
             background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             color: transparent;
             animation: gradientAnimation 2s linear infinite;
-            z-index: 1;
             text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centering the text */
+            z-index: 1;
         }
 
         @keyframes gradientAnimation {
@@ -46,118 +50,92 @@
 
         .falling-text {
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 20px;
+            left: 0;  /* Start from the left edge */
+            width: 100%;  /* Stretch across the entire width */
+            text-align: center; /* Center the text horizontally */
+            font-size: 18px; /* Reduced size for better fit */
             color: black;
             opacity: 1;
             white-space: nowrap;
             z-index: 2;
         }
+
+        #instruction {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
     </style>
 </head>
 <body>
 
     <div id="message">Loading...</div>
     <canvas id="confettiCanvas"></canvas>
-    <canvas id="pixelCanvas"></canvas>
+
+    <!-- Instruction for enabling sound -->
+    <div id="instruction">Click anywhere to enable sound</div>
 
     <!-- Audio element for playing dirtman.mp3 -->
     <audio id="dirtmanAudio" src="dirtman.mp3" preload="auto"></audio>
 
     <script>
-        // Confetti setup
-        let confettiArray = [];
-        const canvas = document.getElementById('confettiCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // Get elements
+        const audioElement = document.getElementById('dirtmanAudio');
+        const instruction = document.getElementById('instruction');
+        const messageElement = document.getElementById('message');
+        let isSoundEnabled = false;  // Flag to check if sound is enabled by user click
+        let volumeEnabled = false;   // Flag for full volume after the timer
 
-        const pixelCanvas = document.getElementById('pixelCanvas');
-        const pixelCtx = pixelCanvas.getContext('2d');
-        pixelCanvas.width = window.innerWidth;
-        pixelCanvas.height = window.innerHeight;
-
-        let pixelX = 0;
-        let pixelY = 0;
-        const pixelSize = 1;  // 1 pixel size for the drawing
-        const audioElement = document.getElementById('dirtmanAudio');  // Audio element for the sound
-        let isTextFalling = false;  // To track if text is already falling
-
-        // Draw a black pixel at the current position
-        function drawPixel() {
-            pixelCtx.fillStyle = 'black';
-            pixelCtx.fillRect(pixelX, pixelY, pixelSize, pixelSize);
-
-            // Move to the next pixel position
-            pixelX += pixelSize;
-            if (pixelX >= pixelCanvas.width) {
-                pixelX = 0;  // Move to the next row when we reach the end of the canvas width
-                pixelY += pixelSize;
-            }
-
-            // Stop if the entire canvas is filled
-            if (pixelY >= pixelCanvas.height) {
-                clearInterval(pixelInterval);  // Stop the interval once the canvas is fully filled
-            }
-        }
-
-        // Interval for pixel drawing (25 seconds)
-        const pixelInterval = setInterval(drawPixel, 25000);  // 25 seconds per pixel
-
-        function createConfetti() {
-            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
-            for (let i = 0; i < 200; i++) {
-                confettiArray.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height - canvas.height,
-                    radius: Math.random() * 10 + 5,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    speedY: Math.random() * 5 + 2
+        // Play audio after user clicks and enable future falling text sounds
+        document.body.addEventListener('click', () => {
+            if (!isSoundEnabled) {
+                // Enable sound and hide instruction text
+                audioElement.play().then(() => {
+                    isSoundEnabled = true;
+                    instruction.style.display = 'none'; // Hide the instruction text
+                    playFallingTextAudio();  // Play the first falling text sound
+                }).catch(error => {
+                    console.log("Error playing audio: ", error);
                 });
             }
+        });
+
+        // Function to play the audio when the dirtman text falls
+        function playFallingTextAudio() {
+            if (isSoundEnabled && volumeEnabled) {
+                audioElement.volume = 1;  // Full volume
+                audioElement.play();
+                console.log("Playing dirtman.mp3 at full volume");
+            } else if (isSoundEnabled) {
+                audioElement.volume = 0;  // Mute before timer ends
+                audioElement.play();
+                console.log("Playing dirtman.mp3 silently");
+            }
         }
 
-        function animateConfetti() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            confettiArray.forEach((confetti, index) => {
-                confetti.y += confetti.speedY;
-
-                if (confetti.y > canvas.height) {
-                    confettiArray.splice(index, 1);
-                    confettiArray.push({
-                        x: Math.random() * canvas.width,
-                        y: -10,
-                        radius: Math.random() * 10 + 5,
-                        color: confetti.color,
-                        speedY: Math.random() * 5 + 2
-                    });
-                }
-
-                ctx.beginPath();
-                ctx.arc(confetti.x, confetti.y, confetti.radius, 0, Math.PI * 2);
-                ctx.fillStyle = confetti.color;
-                ctx.fill();
-            });
-
-            requestAnimationFrame(animateConfetti);
-        }
-
-        // Function to create the falling text "Keep a little dirt under the pillow..."
+        // Simulating falling text behavior
         function createFallingText() {
-            if (isTextFalling) return;  // If text is already falling, do not create another one
-            isTextFalling = true;
-
             const textElement = document.createElement('div');
             textElement.classList.add('falling-text');
-            textElement.textContent = "Keep a little dirt under the pillow for the dirt man, in case he comes to town. Keep a little dirt under your pillow for the dirt man, so he won't take me down.";
+            textElement.innerHTML = `Keep a little dirt under my pillow for the dirt man,<br> 
+                                      in case he comes to town. Keep a little dirt under my pillow<br> 
+                                      for the dirt man, so he won’t take me down.<br>
+                                      To his lair, deep under the mountain. Underground.<br>
+                                      That's where he keeps his dirt.`; // Adjusted text to fit better
             document.body.appendChild(textElement);
 
-            let posY = -50;
-            const fallSpeed = 0.5;  // Falling speed for the text
+            // Play the audio when the text falls
+            playFallingTextAudio();
 
-            // Play the audio when the text starts falling
-            audioElement.play();
+            // Simulating text falling
+            let posY = -50;
+            const fallSpeed = 0.5;
 
             function animateFallingText() {
                 posY += fallSpeed;
@@ -166,44 +144,108 @@
                 if (posY < window.innerHeight) {
                     requestAnimationFrame(animateFallingText);
                 } else {
-                    // Remove the text element once the audio finishes playing
                     setTimeout(() => {
                         textElement.remove();
-                        isTextFalling = false;  // Reset so new text can fall
-                    }, audioElement.duration * 1000);  // Remove the text based on audio duration
+                    }, 5000);  // Remove the text after 5 seconds
                 }
             }
-
-            // Start the falling text animation
             animateFallingText();
         }
 
-        // Start confetti and countdown
-        createConfetti();
-        animateConfetti();
-
-        // Trigger the falling text immediately when the page loads
-        createFallingText();
-
-        // Function to schedule the next falling text at a random time interval
+        // Schedule the falling text
         function scheduleNextFallingText() {
-            const randomInterval = Math.random() * 30000 + 10000;  // Random interval between 10-30 seconds
-            setTimeout(() => {
+            setInterval(() => {
                 createFallingText();
-                scheduleNextFallingText();  // Schedule the next one
-            }, randomInterval);
+            }, 60000);  // Trigger falling text every 1 minute
         }
 
-        // Schedule the first random fall after the page load
-        scheduleNextFallingText();
+        // Function to calculate days and hours since October 17, 00:00
+        function calculateTimeSinceBirthday() {
+            const birthday = new Date('2024-10-17T00:00:00');  // Set the birthday as October 17, 2024 at 00:00
+            const now = new Date();
+            const timeDiff = now - birthday;
 
-        // Adjust canvas size on window resize
-        window.addEventListener('resize', () => {
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+            return { days, hours };
+        }
+
+        // Function to update the message dynamically
+        function updateBirthdayMessage() {
+            const { days, hours } = calculateTimeSinceBirthday();
+            const dayText = days === 1 ? 'day' : 'days';
+            const hourText = hours === 1 ? 'hour' : 'hours';
+            messageElement.textContent = `Happy ${days} ${dayText} and ${hours} ${hourText} since your birthday Aunt Tacee!`;
+        }
+
+        // Update the message every second
+        setInterval(updateBirthdayMessage, 1000);
+
+        // Function to start confetti (for the birthday)
+        function createConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            pixelCanvas.width = window.innerWidth;
-            pixelCanvas.height = window.innerHeight;
-        });
+
+            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            let confettiArray = [];
+
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confettiArray.forEach((confetti, index) => {
+                    confetti.y += confetti.speedY;
+
+                    if (confetti.y > canvas.height) {
+                        confettiArray.splice(index, 1);
+                        confettiArray.push({
+                            x: Math.random() * canvas.width,
+                            y: -10,
+                            radius: Math.random() * 10 + 5,
+                            color: colors[Math.floor(Math.random() * colors.length)],
+                            speedY: Math.random() * 5 + 2
+                        });
+                    }
+
+                    // Draw confetti as circles
+                    ctx.beginPath();
+                    ctx.arc(confetti.x, confetti.y, confetti.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = confetti.color;
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animateConfetti);
+            }
+
+            function createInitialConfetti() {
+                for (let i = 0; i < 200; i++) {
+                    confettiArray.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height - canvas.height,
+                        radius: Math.random() * 10 + 5,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        speedY: Math.random() * 5 + 2
+                    });
+                }
+                animateConfetti();
+            }
+
+            createInitialConfetti();
+        }
+
+        // Start confetti animation on page load
+        createConfetti();
+
+        // Schedule the first falling text after sound is enabled
+        scheduleNextFallingText();
+
+        // Set timer to 12 hours for full volume (12 * 60 * 60 * 1000 for 12 hours)
+        setTimeout(() => {
+            volumeEnabled = true;  // Enable full volume after 12 hours
+            console.log("Full volume enabled after 12 hours");
+        }, 12 * 60 * 60 * 1000);  // 12 hours in milliseconds
+
     </script>
 
 </body>
