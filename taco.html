@@ -62,6 +62,9 @@
     <canvas id="confettiCanvas"></canvas>
     <canvas id="pixelCanvas"></canvas>
 
+    <!-- Audio element for playing dirtman.mp3 -->
+    <audio id="dirtmanAudio" src="dirtman.mp3" preload="auto"></audio>
+
     <script>
         // Confetti setup
         let confettiArray = [];
@@ -78,6 +81,8 @@
         let pixelX = 0;
         let pixelY = 0;
         const pixelSize = 1;  // 1 pixel size for the drawing
+        const audioElement = document.getElementById('dirtmanAudio');  // Audio element for the sound
+        let isTextFalling = false;  // To track if text is already falling
 
         // Draw a black pixel at the current position
         function drawPixel() {
@@ -138,39 +143,21 @@
             requestAnimationFrame(animateConfetti);
         }
 
-        // Function to calculate days and hours since the birthday
-        function calculateTimeSinceBirthday() {
-            const birthday = new Date('2024-10-17T00:00:00'); // Target date since October 17 at 00:00
-            const now = new Date();
-            const timeDiff = now - birthday;
-
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-            return { days, hours };
-        }
-
-        // Function to update the message with live countdown
-        function updateMessage() {
-            const { days, hours } = calculateTimeSinceBirthday();
-            const messageElement = document.getElementById('message');
-
-            // Conditional logic for plural/singular day
-            const dayText = days === 1 ? 'day' : 'days';
-            const hourText = hours === 1 ? 'hour' : 'hours';
-
-            messageElement.textContent = `Happy ${days} ${dayText} and ${hours} ${hourText} since your Birthday Aunt Tacee!`;
-        }
-
         // Function to create the falling text "Keep a little dirt under the pillow..."
         function createFallingText() {
+            if (isTextFalling) return;  // If text is already falling, do not create another one
+            isTextFalling = true;
+
             const textElement = document.createElement('div');
             textElement.classList.add('falling-text');
             textElement.textContent = "Keep a little dirt under the pillow for the dirt man, in case he comes to town. Keep a little dirt under your pillow for the dirt man, so he won't take me down.";
             document.body.appendChild(textElement);
 
             let posY = -50;
-            const fallSpeed = 0.5;  // Faster falling speed
+            const fallSpeed = 0.5;  // Falling speed for the text
+
+            // Play the audio when the text starts falling
+            audioElement.play();
 
             function animateFallingText() {
                 posY += fallSpeed;
@@ -179,8 +166,11 @@
                 if (posY < window.innerHeight) {
                     requestAnimationFrame(animateFallingText);
                 } else {
-                    // Remove the text element once it falls off-screen
-                    textElement.remove();
+                    // Remove the text element once the audio finishes playing
+                    setTimeout(() => {
+                        textElement.remove();
+                        isTextFalling = false;  // Reset so new text can fall
+                    }, audioElement.duration * 1000);  // Remove the text based on audio duration
                 }
             }
 
@@ -188,24 +178,16 @@
             animateFallingText();
         }
 
-        // Function to generate a random interval between 0 and 30 minutes (in milliseconds)
-        function getRandomInterval() {
-            const maxInterval = 30 * 60 * 1000; // 30 minutes in milliseconds
-            return Math.random() * maxInterval; // Random interval
-        }
-
         // Start confetti and countdown
         createConfetti();
         animateConfetti();
-        updateMessage();
-        setInterval(updateMessage, 1000);  // Update every second
 
         // Trigger the falling text immediately when the page loads
         createFallingText();
 
         // Function to schedule the next falling text at a random time interval
         function scheduleNextFallingText() {
-            const randomInterval = getRandomInterval();
+            const randomInterval = Math.random() * 30000 + 10000;  // Random interval between 10-30 seconds
             setTimeout(() => {
                 createFallingText();
                 scheduleNextFallingText();  // Schedule the next one
