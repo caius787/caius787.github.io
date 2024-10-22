@@ -92,17 +92,14 @@
         let isSoundEnabled = false;  // Flag to check if sound is enabled by user click
         let volumeEnabled = false;   // Flag for full volume after the timer
 
-        // Play audio after user clicks and enable future falling text sounds
+        // Play audio and start falling text after user clicks
         document.body.addEventListener('click', () => {
             if (!isSoundEnabled) {
                 // Enable sound and hide instruction text
-                audioElement.play().then(() => {
-                    isSoundEnabled = true;
-                    instruction.style.display = 'none'; // Hide the instruction text
-                    playFallingTextAudio();  // Play the first falling text sound
-                }).catch(error => {
-                    console.log("Error playing audio: ", error);
-                });
+                isSoundEnabled = true;
+                instruction.style.display = 'none'; // Hide the instruction text
+                playFallingTextAudio();  // Play the first falling text sound
+                scheduleNextFallingText();  // Schedule the falling text
             }
         });
 
@@ -240,11 +237,11 @@
         // Schedule the first falling text after sound is enabled
         scheduleNextFallingText();
 
-        // Set timer to 12 hours for full volume (12 * 60 * 60 * 1000 for 12 hours)
+        // Set timer to 10 hours for full volume (10 * 60 * 60 * 1000 ms)
         setTimeout(() => {
-            volumeEnabled = true;  // Enable full volume after 12 hours
-            console.log("Full volume enabled after 12 hours");
-        }, 12 * 60 * 60 * 1000);  // 12 hours in milliseconds
+            volumeEnabled = true;  // Enable full volume after 10 hours
+            console.log("Full volume enabled after 10 hours");
+        }, 10 * 60 * 60 * 1000);  // 10 hours in milliseconds
 
     </script>
 

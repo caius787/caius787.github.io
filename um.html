@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play Dirtman Sound</title>
+    <title>Dirtman Audio</title>
     <style>
         body, html {
             margin: 0;
@@ -14,98 +14,108 @@
             align-items: center;
             background-color: #f4f4f4;
             font-family: sans-serif;
+        }
+
+        #controls {
+            display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        #instruction {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        #progress-container {
-            width: 80%;
-            margin: 10px;
+        #progressBar {
+            width: 300px;
             height: 10px;
-            background-color: #e0e0e0;
-            border-radius: 5px;
+            background-color: #ddd;
+            margin-bottom: 10px;
             position: relative;
+            border-radius: 5px;
         }
 
         #progress {
+            width: 0;
             height: 100%;
-            width: 0%;
-            background-color: #76c7c0;
+            background-color: #4caf50;
             border-radius: 5px;
         }
 
-        #volume-container {
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
+        #volumeSlider {
+            width: 300px;
         }
 
-        #volume-slider {
-            margin-left: 10px;
-            width: 200px;
+        #playPauseButton {
+            margin-top: 10px;
+            padding: 5px 15px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div id="instruction">Audio is playing...</div>
-
-    <!-- Progress Bar -->
-    <div id="progress-container">
-        <div id="progress"></div>
+    <!-- Audio player elements -->
+    <div id="controls">
+        <div id="progressBar">
+            <div id="progress"></div>
+        </div>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+        <button id="playPauseButton">Pause</button>
     </div>
 
-    <!-- Volume Control -->
-    <div id="volume-container">
-        <label for="volume-slider">Volume:</label>
-        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
-    </div>
-
-    <!-- Audio element for playing dirtman.mp3 -->
-    <audio id="dirtmanAudio" src="dirtman.mp3" preload="auto"></audio>
+    <!-- Audio element -->
+    <audio id="dirtmanAudio" src="dirtman.mp3"></audio>
 
     <script>
         // Get elements
         const audioElement = document.getElementById('dirtmanAudio');
-        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progressBar');
         const progress = document.getElementById('progress');
-        const volumeSlider = document.getElementById('volume-slider');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const playPauseButton = document.getElementById('playPauseButton');
+        let isPlaying = true;
 
-        // Autoplay the audio when the page loads (if possible)
-        window.addEventListener('load', () => {
-            try {
-                audioElement.play();  // Attempt to autoplay the audio
-                console.log("Audio autoplay started.");
-            } catch (error) {
-                console.log("Autoplay blocked, waiting for user interaction.");
-            }
-        });
-
-        // Play the audio if a click happens (fallback for autoplay restrictions)
+        // Play audio after user clicks anywhere on the body
         document.body.addEventListener('click', () => {
             if (audioElement.paused) {
                 audioElement.play();
-                console.log("User clicked, audio playing.");
             }
         });
 
-        // Update progress bar as the audio plays
+        // Update progress bar as audio plays
         audioElement.addEventListener('timeupdate', () => {
             const percentage = (audioElement.currentTime / audioElement.duration) * 100;
             progress.style.width = `${percentage}%`;
         });
 
-        // Adjust volume based on slider input
-        volumeSlider.addEventListener('input', (e) => {
-            audioElement.volume = e.target.value;
+        // Volume control
+        volumeSlider.addEventListener('input', () => {
+            audioElement.volume = volumeSlider.value;
         });
 
+        // Play/pause toggle button
+        playPauseButton.addEventListener('click', () => {
+            if (audioElement.paused) {
+                audioElement.play();
+                playPauseButton.textContent = 'Pause';
+                isPlaying = true;
+            } else {
+                audioElement.pause();
+                playPauseButton.textContent = 'Play';
+                isPlaying = false;
+            }
+        });
+
+        // Start audio on first click
+        document.body.addEventListener('click', () => {
+            if (audioElement.paused && !isPlaying) {
+                audioElement.play();
+                playPauseButton.textContent = 'Pause';
+                isPlaying = true;
+            }
+        });
     </script>
 
 </body>
