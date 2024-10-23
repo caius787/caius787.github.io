@@ -73,6 +73,27 @@
             font-weight: bold;
             margin-bottom: 20px;
         }
+
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            display: none;
+        }
+
+        .cookie-banner button {
+            padding: 5px 15px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -94,14 +115,71 @@
     </ul>
 </div>
 
+<div class="cookie-banner" id="cookieBanner">
+    <p>This website uses cookies to store your workout data. Do you accept?</p>
+    <button onclick="acceptCookies()">Accept</button>
+    <button onclick="declineCookies()">Decline</button>
+</div>
+
 <script>
     // Types of workouts
     const workoutTypes = ['Arm', 'Legs', 'Core'];
-    let currentWorkoutIndex = 0;
-    let workoutsCompleted = false;
+    let cookiesAccepted = false;
 
-    // Display the initial workout type
-    document.getElementById('workoutType').textContent = `Today's Workout: ${workoutTypes[currentWorkoutIndex]}`;
+    // Function to get today's workout type based on the day of the month
+    function getWorkoutType() {
+        const date = new Date();
+        const day = date.getDate(); // Get the current day of the month
+        const workoutIndex = day % workoutTypes.length; // Rotate workout type
+        return workoutTypes[workoutIndex];
+    }
+
+    // Function to set and get cookies
+    function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000)); // Cookie valid for `days` days
+        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+    }
+
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.indexOf(name + '=') === 0) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return '';
+    }
+
+    // Load workouts from cookies
+    function loadWorkouts() {
+        if (!cookiesAccepted) return;
+
+        const workoutType = getWorkoutType();
+        const savedWorkouts = getCookie(workoutType);
+        if (savedWorkouts) {
+            const workouts = savedWorkouts.split(',');
+            workouts.forEach(workout => addWorkoutToList(workout));
+        }
+    }
+
+    // Save workouts to cookies
+    function saveWorkouts() {
+        if (!cookiesAccepted) return;
+
+        const workoutType = getWorkoutType();
+        const workoutItems = document.querySelectorAll('#workoutList li span');
+        const workouts = Array.from(workoutItems).map(item => item.textContent);
+        setCookie(workoutType, workouts.join(','), 30); // Store cookies for 30 days
+    }
+
+    // Function to update today's workout type
+    function updateWorkoutType() {
+        const workoutType = getWorkoutType();
+        document.getElementById('workoutType').textContent = `Today's Workout: ${workoutType}`;
+        loadWorkouts(); // Load saved workouts for this type
+    }
 
     // Function to add a new workout to the list
     function addWorkout() {
@@ -113,51 +191,59 @@
             return;
         }
 
+        addWorkoutToList(workoutText);
+
+        // Clear the input field
+        workoutInput.value = '';
+
+        // Save updated workouts to cookies
+        saveWorkouts();
+    }
+
+    // Helper function to add workout to the list
+    function addWorkoutToList(workoutText) {
         const workoutList = document.getElementById('workoutList');
 
-        // Create new list item with checkbox
         const li = document.createElement('li');
-
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.addEventListener('change', checkWorkoutsCompleted); // Track if any workout is checked
 
         const label = document.createElement('span');
         label.textContent = workoutText;
 
-        // Append checkbox and label to the list item
         li.appendChild(checkbox);
         li.appendChild(label);
-
-        // Add list item to the workout list
         workoutList.appendChild(li);
-
-        // Clear the input field
-        workoutInput.value = '';
     }
 
-    // Function to check if any workout has been checked off
-    function checkWorkoutsCompleted() {
-        const checkboxes = document.querySelectorAll('#workoutList input[type="checkbox"]');
-        workoutsCompleted = Array.from(checkboxes).some(checkbox => checkbox.checked);
+    // Cookie consent banner
+    function showCookieBanner() {
+        const banner = document.getElementById('cookieBanner');
+        banner.style.display = 'block';
+    }
 
-        if (workoutsCompleted) {
-            rotateWorkoutType();
+    function acceptCookies() {
+        cookiesAccepted = true;
+        setCookie('cookiesAccepted', 'true', 365); // Cookie valid for 1 year
+        document.getElementById('cookieBanner').style.display = 'none';
+        updateWorkoutType();
+    }
+
+    function declineCookies() {
+        cookiesAccepted = false;
+        document.getElementById('cookieBanner').style.display = 'none';
+    }
+
+    // Check if cookies are already accepted
+    window.onload = function() {
+        const cookieConsent = getCookie('cookiesAccepted');
+        if (cookieConsent === 'true') {
+            cookiesAccepted = true;
+            updateWorkoutType();
+        } else {
+            showCookieBanner();
         }
-    }
-
-    // Function to rotate workout types if any workout is completed
-    function rotateWorkoutType() {
-        // Clear workout list
-        const workoutList = document.getElementById('workoutList');
-        workoutList.innerHTML = '';
-
-        // Rotate the workout type
-        currentWorkoutIndex = (currentWorkoutIndex + 1) % workoutTypes.length;
-        document.getElementById('workoutType').textContent = `Today's Workout: ${workoutTypes[currentWorkoutIndex]}`;
-
-        workoutsCompleted = false; // Reset the completed flag
-    }
+    };
 </script>
 
 </body>
