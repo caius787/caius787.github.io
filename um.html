@@ -43,6 +43,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin-top: 20px;
         }
 
         button:hover {
@@ -62,37 +63,38 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            cursor: pointer;
+            position: relative;
         }
 
         li input[type="checkbox"] {
             margin-right: 15px;
         }
 
+        li:hover .delete-button {
+            display: block;
+        }
+
+        .delete-button {
+            position: absolute;
+            left: 10px;
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            display: none;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+
         .workout-type {
             text-align: center;
             font-weight: bold;
             margin-bottom: 20px;
-        }
-
-        .cookie-banner {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            display: none;
-        }
-
-        .cookie-banner button {
-            padding: 5px 15px;
-            margin: 0 10px;
-            cursor: pointer;
-            background-color: #28a745;
-            border: none;
-            color: white;
-            border-radius: 5px;
         }
     </style>
 </head>
@@ -105,80 +107,100 @@
         <!-- Today's workout type will appear here -->
     </div>
 
+    <ul id="workoutList">
+        <!-- Predefined workouts will appear here -->
+    </ul>
+
     <div>
         <input type="text" id="workoutInput" placeholder="Add new workout">
         <button onclick="addWorkout()">Add Workout</button>
     </div>
-
-    <ul id="workoutList">
-        <!-- Workouts will appear here -->
-    </ul>
-</div>
-
-<div class="cookie-banner" id="cookieBanner">
-    <p>This website uses cookies to store your workout data. Do you accept?</p>
-    <button onclick="acceptCookies()">Accept</button>
-    <button onclick="declineCookies()">Decline</button>
 </div>
 
 <script>
-    // Types of workouts
-    const workoutTypes = ['Arm', 'Legs', 'Core'];
-    let cookiesAccepted = false;
+    // Predefined workouts for each type
+    const workoutPlans = {
+        Arm: [
+            "6x10 Bicep Curls",
+            "6x10 Tricep Curls",
+            "2x10 Pushups",
+            "1:30 Weight Hold",
+            "3x10 Shoulder Lifts",
+            "3x10 Shoulder Shrugs",
+            "3x10 Bench Press"
+        ],
+        Core: [
+            "60 Situps with Weights",
+            "2:04 Plank",
+            "3x10 Seconds Superman",
+            "3x20 Flutter Kicks",
+            "3x10 Lie Down Thrust",
+            "L1:10 R1:16 Side Plank",
+            "3x15 Russian Twists with Weight",
+            "20 Standing Back Crack Twists with Weight"
+        ],
+        Legs: [
+            "10 Lunges per Leg with Weight",
+            "3x10 Squats with Weights",
+            "4x20 Calf Raises",
+            "3x10 Elastic Leg Extensions",
+            "6x10 Side Leg Lifts"
+        ]
+    };
 
     // Function to get today's workout type based on the day of the month
     function getWorkoutType() {
         const date = new Date();
         const day = date.getDate(); // Get the current day of the month
+        const workoutTypes = ['Arm', 'Legs', 'Core'];
         const workoutIndex = day % workoutTypes.length; // Rotate workout type
         return workoutTypes[workoutIndex];
     }
 
-    // Function to set and get cookies
-    function setCookie(name, value, days) {
-        const expires = new Date();
-        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000)); // Cookie valid for `days` days
-        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-    }
-
-    function getCookie(name) {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.indexOf(name + '=') === 0) {
-                return cookie.substring(name.length + 1);
-            }
-        }
-        return '';
-    }
-
-    // Load workouts from cookies
-    function loadWorkouts() {
-        if (!cookiesAccepted) return;
-
-        const workoutType = getWorkoutType();
-        const savedWorkouts = getCookie(workoutType);
-        if (savedWorkouts) {
-            const workouts = savedWorkouts.split(',');
-            workouts.forEach(workout => addWorkoutToList(workout));
-        }
-    }
-
-    // Save workouts to cookies
-    function saveWorkouts() {
-        if (!cookiesAccepted) return;
-
-        const workoutType = getWorkoutType();
-        const workoutItems = document.querySelectorAll('#workoutList li span');
-        const workouts = Array.from(workoutItems).map(item => item.textContent);
-        setCookie(workoutType, workouts.join(','), 30); // Store cookies for 30 days
-    }
-
-    // Function to update today's workout type
+    // Function to update today's workout type and show predefined workouts
     function updateWorkoutType() {
         const workoutType = getWorkoutType();
         document.getElementById('workoutType').textContent = `Today's Workout: ${workoutType}`;
-        loadWorkouts(); // Load saved workouts for this type
+
+        // Load predefined workouts for today's workout type
+        const workoutList = document.getElementById('workoutList');
+        workoutList.innerHTML = ''; // Clear previous workouts
+
+        workoutPlans[workoutType].forEach(workout => {
+            createWorkoutItem(workout);
+        });
+    }
+
+    // Function to create a workout item with a checkbox and delete button
+    function createWorkoutItem(workoutText) {
+        const workoutList = document.getElementById('workoutList');
+
+        const li = document.createElement('li');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+
+        const label = document.createElement('span');
+        label.textContent = workoutText;
+
+        // Create a delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('delete-button');
+        deleteButton.onclick = function (e) {
+            e.stopPropagation();
+            workoutList.removeChild(li);
+        };
+
+        // Add event listener to check/uncheck when clicking anywhere in the list item
+        li.onclick = function () {
+            checkbox.checked = !checkbox.checked;
+        };
+
+        li.appendChild(deleteButton); // Add delete button to list item
+        li.appendChild(checkbox); // Add checkbox to list item
+        li.appendChild(label); // Add label to list item
+        workoutList.appendChild(li); // Add list item to workout list
     }
 
     // Function to add a new workout to the list
@@ -191,58 +213,15 @@
             return;
         }
 
-        addWorkoutToList(workoutText);
+        createWorkoutItem(workoutText);
 
         // Clear the input field
         workoutInput.value = '';
-
-        // Save updated workouts to cookies
-        saveWorkouts();
     }
 
-    // Helper function to add workout to the list
-    function addWorkoutToList(workoutText) {
-        const workoutList = document.getElementById('workoutList');
-
-        const li = document.createElement('li');
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-
-        const label = document.createElement('span');
-        label.textContent = workoutText;
-
-        li.appendChild(checkbox);
-        li.appendChild(label);
-        workoutList.appendChild(li);
-    }
-
-    // Cookie consent banner
-    function showCookieBanner() {
-        const banner = document.getElementById('cookieBanner');
-        banner.style.display = 'block';
-    }
-
-    function acceptCookies() {
-        cookiesAccepted = true;
-        setCookie('cookiesAccepted', 'true', 365); // Cookie valid for 1 year
-        document.getElementById('cookieBanner').style.display = 'none';
-        updateWorkoutType();
-    }
-
-    function declineCookies() {
-        cookiesAccepted = false;
-        document.getElementById('cookieBanner').style.display = 'none';
-    }
-
-    // Check if cookies are already accepted
+    // On page load, update the workout type and show workouts
     window.onload = function() {
-        const cookieConsent = getCookie('cookiesAccepted');
-        if (cookieConsent === 'true') {
-            cookiesAccepted = true;
-            updateWorkoutType();
-        } else {
-            showCookieBanner();
-        }
+        updateWorkoutType();
     };
 </script>
 
