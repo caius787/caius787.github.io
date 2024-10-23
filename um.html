@@ -27,12 +27,12 @@
         }
 
         input[type="text"] {
-            width: calc(100% - 60px);
+            width: calc(100% - 110px); /* Adjusted width for button */
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            margin-bottom: 10px;
+            margin-right: 10px;
         }
 
         button {
@@ -43,16 +43,25 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            margin-top: 20px;
         }
 
         button:hover {
             background-color: #218838;
         }
 
+        .reset-button {
+            background-color: #e74c3c;
+            margin-top: 20px;
+        }
+
+        .reset-button:hover {
+            background-color: #c0392b;
+        }
+
         ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         li {
@@ -62,29 +71,37 @@
             border-radius: 5px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
             cursor: pointer;
             position: relative;
+            white-space: nowrap; /* Ensure text doesn't wrap */
+            overflow: hidden; /* Hide overflowed text */
+            text-overflow: ellipsis; /* Add ellipsis to overflowed text */
+        }
+
+        li:hover {
+            background-color: #f1f1f1;
         }
 
         li input[type="checkbox"] {
             margin-right: 15px;
+            pointer-events: none; /* Prevent direct clicking on the checkbox */
         }
 
-        li:hover .delete-button {
-            display: block;
-        }
-
+        /* Hide delete button until hover */
         .delete-button {
             position: absolute;
-            left: 10px;
+            right: -80px; /* Position off-screen to the right */
+            transition: right 0.3s ease;
             background-color: #e74c3c;
             border: none;
             color: white;
             padding: 5px;
             border-radius: 5px;
-            display: none;
             cursor: pointer;
+        }
+
+        li:hover .delete-button {
+            right: 10px; /* Slide the button into view when hovered */
         }
 
         .delete-button:hover {
@@ -95,6 +112,11 @@
             text-align: center;
             font-weight: bold;
             margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
@@ -111,10 +133,12 @@
         <!-- Predefined workouts will appear here -->
     </ul>
 
-    <div>
+    <div class="input-container">
         <input type="text" id="workoutInput" placeholder="Add new workout">
         <button onclick="addWorkout()">Add Workout</button>
     </div>
+
+    <button class="reset-button" onclick="resetWorkouts()">Reset Workouts</button>
 </div>
 
 <script>
@@ -197,9 +221,9 @@
             checkbox.checked = !checkbox.checked;
         };
 
-        li.appendChild(deleteButton); // Add delete button to list item
         li.appendChild(checkbox); // Add checkbox to list item
         li.appendChild(label); // Add label to list item
+        li.appendChild(deleteButton); // Add delete button to list item (right side)
         workoutList.appendChild(li); // Add list item to workout list
     }
 
@@ -217,6 +241,12 @@
 
         // Clear the input field
         workoutInput.value = '';
+    }
+
+    // Function to reset all workouts (clear the workout list)
+    function resetWorkouts() {
+        const workoutList = document.getElementById('workoutList');
+        workoutList.innerHTML = ''; // Clear all workout items
     }
 
     // On page load, update the workout type and show workouts
