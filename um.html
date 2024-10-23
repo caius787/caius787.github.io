@@ -142,6 +142,9 @@
 </div>
 
 <script>
+    // Store original predefined workouts for reset
+    let originalWorkouts = [];
+
     // Predefined workouts for each type
     const workoutPlans = {
         Arm: [
@@ -189,6 +192,8 @@
         // Load predefined workouts for today's workout type
         const workoutList = document.getElementById('workoutList');
         workoutList.innerHTML = ''; // Clear previous workouts
+
+        originalWorkouts = [...workoutPlans[workoutType]]; // Store original workouts
 
         workoutPlans[workoutType].forEach(workout => {
             createWorkoutItem(workout);
@@ -243,10 +248,14 @@
         workoutInput.value = '';
     }
 
-    // Function to reset all workouts (clear the workout list)
+    // Function to reset all workouts to original predefined ones
     function resetWorkouts() {
         const workoutList = document.getElementById('workoutList');
-        workoutList.innerHTML = ''; // Clear all workout items
+        workoutList.innerHTML = ''; // Clear current list
+
+        originalWorkouts.forEach(workout => {
+            createWorkoutItem(workout); // Reload original workouts
+        });
     }
 
     // On page load, update the workout type and show workouts
