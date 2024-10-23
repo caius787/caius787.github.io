@@ -3,120 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dirtman Audio</title>
+    <title>Fitness Planner & Tracker</title>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        body {
+            font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            font-family: sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
         }
 
-        #controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        h1 {
+            text-align: center;
         }
 
-        #progressBar {
-            width: 300px;
-            height: 10px;
-            background-color: #ddd;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            width: calc(100% - 60px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             margin-bottom: 10px;
-            position: relative;
-            border-radius: 5px;
         }
 
-        #progress {
-            width: 0;
-            height: 100%;
-            background-color: #4caf50;
-            border-radius: 5px;
-        }
-
-        #volumeSlider {
-            width: 300px;
-        }
-
-        #playPauseButton {
-            margin-top: 10px;
-            padding: 5px 15px;
-            background-color: #4caf50;
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        li input[type="checkbox"] {
+            margin-right: 15px;
+        }
+
+        .workout-type {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Audio player elements -->
-    <div id="controls">
-        <div id="progressBar">
-            <div id="progress"></div>
-        </div>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
-        <button id="playPauseButton">Pause</button>
+<div class="container">
+    <h1>Fitness Planner & Tracker</h1>
+
+    <div class="workout-type" id="workoutType">
+        <!-- Today's workout type will appear here -->
     </div>
 
-    <!-- Audio element -->
-    <audio id="dirtmanAudio" src="dirtman.mp3"></audio>
+    <div>
+        <input type="text" id="workoutInput" placeholder="Add new workout">
+        <button onclick="addWorkout()">Add Workout</button>
+    </div>
 
-    <script>
-        // Get elements
-        const audioElement = document.getElementById('dirtmanAudio');
-        const progressBar = document.getElementById('progressBar');
-        const progress = document.getElementById('progress');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const playPauseButton = document.getElementById('playPauseButton');
-        let isPlaying = true;
+    <ul id="workoutList">
+        <!-- Workouts will appear here -->
+    </ul>
+</div>
 
-        // Play audio after user clicks anywhere on the body
-        document.body.addEventListener('click', () => {
-            if (audioElement.paused) {
-                audioElement.play();
-            }
-        });
+<script>
+    // Types of workouts
+    const workoutTypes = ['Arm', 'Legs', 'Core'];
+    let currentWorkoutIndex = 0;
+    let workoutsCompleted = false;
 
-        // Update progress bar as audio plays
-        audioElement.addEventListener('timeupdate', () => {
-            const percentage = (audioElement.currentTime / audioElement.duration) * 100;
-            progress.style.width = `${percentage}%`;
-        });
+    // Display the initial workout type
+    document.getElementById('workoutType').textContent = `Today's Workout: ${workoutTypes[currentWorkoutIndex]}`;
 
-        // Volume control
-        volumeSlider.addEventListener('input', () => {
-            audioElement.volume = volumeSlider.value;
-        });
+    // Function to add a new workout to the list
+    function addWorkout() {
+        const workoutInput = document.getElementById('workoutInput');
+        const workoutText = workoutInput.value;
 
-        // Play/pause toggle button
-        playPauseButton.addEventListener('click', () => {
-            if (audioElement.paused) {
-                audioElement.play();
-                playPauseButton.textContent = 'Pause';
-                isPlaying = true;
-            } else {
-                audioElement.pause();
-                playPauseButton.textContent = 'Play';
-                isPlaying = false;
-            }
-        });
+        if (workoutText.trim() === '') {
+            alert('Please enter a workout');
+            return;
+        }
 
-        // Start audio on first click
-        document.body.addEventListener('click', () => {
-            if (audioElement.paused && !isPlaying) {
-                audioElement.play();
-                playPauseButton.textContent = 'Pause';
-                isPlaying = true;
-            }
-        });
-    </script>
+        const workoutList = document.getElementById('workoutList');
+
+        // Create new list item with checkbox
+        const li = document.createElement('li');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', checkWorkoutsCompleted); // Track if any workout is checked
+
+        const label = document.createElement('span');
+        label.textContent = workoutText;
+
+        // Append checkbox and label to the list item
+        li.appendChild(checkbox);
+        li.appendChild(label);
+
+        // Add list item to the workout list
+        workoutList.appendChild(li);
+
+        // Clear the input field
+        workoutInput.value = '';
+    }
+
+    // Function to check if any workout has been checked off
+    function checkWorkoutsCompleted() {
+        const checkboxes = document.querySelectorAll('#workoutList input[type="checkbox"]');
+        workoutsCompleted = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+        if (workoutsCompleted) {
+            rotateWorkoutType();
+        }
+    }
+
+    // Function to rotate workout types if any workout is completed
+    function rotateWorkoutType() {
+        // Clear workout list
+        const workoutList = document.getElementById('workoutList');
+        workoutList.innerHTML = '';
+
+        // Rotate the workout type
+        currentWorkoutIndex = (currentWorkoutIndex + 1) % workoutTypes.length;
+        document.getElementById('workoutType').textContent = `Today's Workout: ${workoutTypes[currentWorkoutIndex]}`;
+
+        workoutsCompleted = false; // Reset the completed flag
+    }
+</script>
 
 </body>
 </html>

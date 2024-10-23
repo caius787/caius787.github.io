@@ -91,6 +91,7 @@
         const messageElement = document.getElementById('message');
         let isSoundEnabled = false;  // Flag to check if sound is enabled by user click
         let volumeEnabled = false;   // Flag for full volume after the timer
+        let isTextFalling = false;   // Flag to ensure only one text falls at a time
 
         // Play audio and start falling text after user clicks
         document.body.addEventListener('click', () => {
@@ -118,6 +119,9 @@
 
         // Simulating falling text behavior
         function createFallingText() {
+            if (isTextFalling) return; // Prevent multiple texts falling at once
+            isTextFalling = true;
+
             const textElement = document.createElement('div');
             textElement.classList.add('falling-text');
             textElement.innerHTML = `Keep a little dirt under my pillow for the dirt man,<br> 
@@ -143,6 +147,7 @@
                 } else {
                     setTimeout(() => {
                         textElement.remove();
+                        isTextFalling = false;  // Reset flag to allow next text
                     }, 5000);  // Remove the text after 5 seconds
                 }
             }
@@ -237,13 +242,14 @@
         // Schedule the first falling text after sound is enabled
         scheduleNextFallingText();
 
-        // Set timer to 10 hours for full volume (10 * 60 * 60 * 1000 ms)
+        // Set timer to 5 minutes for full volume (5 * 60 * 1000 ms)
         setTimeout(() => {
-            volumeEnabled = true;  // Enable full volume after 10 hours
-            console.log("Full volume enabled after 10 hours");
-        }, 10 * 60 * 60 * 1000);  // 10 hours in milliseconds
+            volumeEnabled = true;  // Enable full volume after 5 minutes
+            console.log("Full volume enabled after 5 minutes");
+        }, 5 * 60 * 1000);  // 5 minutes in milliseconds
 
     </script>
 
 </body>
 </html>
+<!--Caius, Oct 21, 2024-->
