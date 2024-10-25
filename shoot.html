@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Box Path on Grid Lines</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Ensure the body background is white */
+        body {
+            background-color: white;
+        }
+
+        /* Fullscreen grid container */
+        .grid {
+            position: relative; /* Needed to position the blue box on top */
+            display: grid;
+            width: 100vw;
+            height: 100vh;
+            grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+            grid-template-rows: repeat(auto-fill, minmax(64px, 1fr));
+        }
+
+        /* Individual grid cells - black with larger white borders */
+        .cell {
+            background-color: black;
+            border: 8px solid white; /* Thicker white lines for blue box paths */
+        }
+
+        /* Blue box */
+        .blue-box {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: blue;
+            z-index: 1; /* Ensure the blue box is always on top */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Grid container filling the entire screen -->
+    <div class="grid" id="grid-container">
+        <!-- Blue box -->
+        <div class="blue-box" id="blueBox"></div>
+    </div>
+
+    <script>
+        // Get the grid container and blue box
+        const gridContainer = document.querySelector('.grid');
+        const blueBox = document.getElementById('blueBox');
+
+        // Populate the grid with black cells and white lines
+        function populateGrid() {
+            // Clear current grid cells
+            gridContainer.innerHTML = '';
+            gridContainer.appendChild(blueBox); // Keep blue box in the grid
+
+            // Calculate the number of rows and columns needed to fill the screen
+            const rows = Math.ceil(window.innerHeight / 64);
+            const cols = Math.ceil(window.innerWidth / 64);
+
+            // Populate the grid with cells
+            for (let i = 0; i < rows * cols; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                gridContainer.appendChild(cell);
+            }
+
+            // Ensure the blue box stays on top
+            gridContainer.appendChild(blueBox);
+        }
+
+        // Populate the grid initially
+        populateGrid();
+
+        // Recalculate the grid when the window is resized
+        window.addEventListener('resize', populateGrid);
+
+        // Position and movement for the blue box
+        let boxX = Math.floor(window.innerWidth / 64) * 64 + 28; // Center the box on the white line
+        let boxY = Math.floor(window.innerHeight / 64) * 64 + 28; // Center the box on the white line
+        const moveSpeed = 64; // Movement should match the grid size
+
+        // Update the position of the blue box
+        function updatePosition() {
+            blueBox.style.left = `${boxX}px`;
+            blueBox.style.top = `${boxY}px`;
+        }
+
+        // Listen for WASD key presses to move the blue box along grid lines
+        document.addEventListener('keydown', (event) => {
+            switch (event.key.toLowerCase()) {
+                case 'w': // Move up
+                    if (boxY - moveSpeed >= 28) boxY -= moveSpeed;
+                    break;
+                case 'a': // Move left
+                    if (boxX - moveSpeed >= 28) boxX -= moveSpeed;
+                    break;
+                case 's': // Move down
+                    if (boxY + moveSpeed < window.innerHeight - 28) boxY += moveSpeed;
+                    break;
+                case 'd': // Move right
+                    if (boxX + moveSpeed < window.innerWidth - 28) boxX += moveSpeed;
+                    break;
+            }
+            updatePosition(); // Apply the new position
+        });
+
+        // Initialize the position of the blue box
+        updatePosition();
+    </script>
+
+</body>
+</html>
