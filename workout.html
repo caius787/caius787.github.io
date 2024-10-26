@@ -27,7 +27,7 @@
         }
 
         input[type="text"] {
-            width: calc(100% - 110px); /* Adjusted width for button */
+            width: calc(100% - 110px);
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ddd;
@@ -73,9 +73,9 @@
             align-items: center;
             cursor: pointer;
             position: relative;
-            white-space: nowrap; /* Ensure text doesn't wrap */
-            overflow: hidden; /* Hide overflowed text */
-            text-overflow: ellipsis; /* Add ellipsis to overflowed text */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         li:hover {
@@ -84,13 +84,12 @@
 
         li input[type="checkbox"] {
             margin-right: 15px;
-            pointer-events: none; /* Prevent direct clicking on the checkbox */
+            pointer-events: none;
         }
 
-        /* Hide delete button until hover */
         .delete-button {
             position: absolute;
-            right: -80px; /* Position off-screen to the right */
+            right: -80px;
             transition: right 0.3s ease;
             background-color: #e74c3c;
             border: none;
@@ -101,7 +100,7 @@
         }
 
         li:hover .delete-button {
-            right: 10px; /* Slide the button into view when hovered */
+            right: 10px;
         }
 
         .delete-button:hover {
@@ -142,9 +141,6 @@
 </div>
 
 <script>
-    // Store original predefined workouts for reset
-    let originalWorkouts = [];
-
     // Predefined workouts for each type
     const workoutPlans = {
         Arm: [
@@ -175,13 +171,25 @@
         ]
     };
 
-    // Function to get today's workout type based on the day of the month
+    // Variable to hold the original workouts for reset
+    let originalWorkouts = [];
+
+    // Function to get workout type based on the day of the week
     function getWorkoutType() {
         const date = new Date();
-        const day = date.getDate(); // Get the current day of the month
-        const workoutTypes = ['Arm', 'Legs', 'Core'];
-        const workoutIndex = day % workoutTypes.length; // Rotate workout type
-        return workoutTypes[workoutIndex];
+        const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+
+        // Define workout order by day
+        const workoutOrder = ['Arm', 'Core', 'Legs'];
+
+        // If it's Friday (day 5) or Monday (day 1), set to the same workout type
+        if (dayOfWeek === 5) {
+            return workoutOrder[dayOfWeek % workoutOrder.length]; // Friday's workout type
+        } else if (dayOfWeek === 1) {
+            return workoutOrder[5 % workoutOrder.length]; // Monday gets Friday's workout type
+        } else {
+            return workoutOrder[dayOfWeek % workoutOrder.length]; // Other days
+        }
     }
 
     // Function to update today's workout type and show predefined workouts
@@ -193,7 +201,7 @@
         const workoutList = document.getElementById('workoutList');
         workoutList.innerHTML = ''; // Clear previous workouts
 
-        originalWorkouts = [...workoutPlans[workoutType]]; // Store original workouts
+        originalWorkouts = [...workoutPlans[workoutType]]; // Store original workouts for reset
 
         workoutPlans[workoutType].forEach(workout => {
             createWorkoutItem(workout);
