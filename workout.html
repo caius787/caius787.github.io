@@ -5,272 +5,372 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Planner & Tracker</title>
     <style>
+        /* Reset some default styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             color: #333;
-            margin: 0;
-            padding: 20px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 50px;
+            position: relative;
         }
 
-        h1 {
-            text-align: center;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
+        /* Main Box Styling */
+        .main-box {
             background: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            cursor: default;
         }
 
-        input[type="text"] {
-            width: calc(100% - 110px);
+        /* Workout Section */
+        .workout-section {
+            margin-bottom: 20px;
+        }
+
+        .workout-section h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .workout-list {
+            list-style: none;
+        }
+
+        .workout-list li {
             padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            border-left: 5px solid #28a745;
             border-radius: 5px;
-            margin-right: 10px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
         }
 
-        button {
-            padding: 10px 20px;
+        .workout-list li:hover {
+            background-color: #e9e9e9;
+        }
+
+        .workout-list li input[type="checkbox"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        /* Timer Section */
+        .timer-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 250px;
+            padding: 20px;
+            background-color: #fff;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: move;
+            z-index: 10;
+        }
+
+        .timer-header h2 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .timer-display {
+            font-size: 2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .timer-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .timer-button {
+            padding: 3px 5px;
+            font-size: 0.9em;
+            cursor: pointer;
             background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+            transition: background-color 0.3s;
         }
 
-        button:hover {
+        .timer-button:hover:not(:disabled) {
             background-color: #218838;
         }
 
-        .reset-button {
-            background-color: #e74c3c;
-            margin-top: 20px;
+        .timer-button:disabled {
+            background-color: #94d3a2;
+            cursor: not-allowed;
         }
 
-        .reset-button:hover {
-            background-color: #c0392b;
+        /* Draggable Cursor Change */
+        .timer-box.dragging {
+            opacity: 0.7;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            padding: 10px;
-            background-color: #f9f9f9;
-            margin-bottom: 5px;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        li:hover {
-            background-color: #f1f1f1;
-        }
-
-        li input[type="checkbox"] {
-            margin-right: 15px;
-            pointer-events: none;
-        }
-
-        .delete-button {
-            position: absolute;
-            right: -80px;
-            transition: right 0.3s ease;
-            background-color: #e74c3c;
-            border: none;
-            color: white;
-            padding: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        li:hover .delete-button {
-            right: 10px;
-        }
-
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
-
-        .workout-type {
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .input-container {
-            display: flex;
-            align-items: center;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .timer-box {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Fitness Planner & Tracker</h1>
-
-    <div class="workout-type" id="workoutType">
-        <!-- Today's workout type will appear here -->
+    <!-- Main Box -->
+    <div class="main-box" id="mainBox">
+        <!-- Workout Section -->
+        <div class="workout-section">
+            <h2>Today's Workout: <span id="workoutType">Loading...</span></h2>
+            <ul class="workout-list" id="workoutList">
+                <!-- Workouts will be dynamically inserted here -->
+            </ul>
+        </div>
     </div>
 
-    <ul id="workoutList">
-        <!-- Predefined workouts will appear here -->
-    </ul>
-
-    <div class="input-container">
-        <input type="text" id="workoutInput" placeholder="Add new workout">
-        <button onclick="addWorkout()">Add Workout</button>
+    <!-- Timer Box -->
+    <div class="timer-box" id="timerBox">
+        <div class="timer-header">
+            <h2>Timer</h2>
+        </div>
+        <div class="timer-display">
+            <!-- Minutes Section -->
+            <div class="timer-section">
+                <button class="timer-button" id="incMin">+</button>
+                <span id="minutes">00</span>
+                <button class="timer-button" id="decMin">-</button>
+            </div>
+            :
+            <!-- Seconds Section -->
+            <div class="timer-section">
+                <button class="timer-button" id="incSec">+</button>
+                <span id="seconds">00</span>
+                <button class="timer-button" id="decSec">-</button>
+            </div>
+        </div>
+        <div class="timer-controls">
+            <button class="timer-button" onclick="startTimer()" id="startBtn">Start</button>
+            <button class="timer-button" onclick="resetTimer()" id="resetBtn">Reset</button>
+        </div>
     </div>
 
-    <button class="reset-button" onclick="resetWorkouts()">Reset Workouts</button>
-</div>
+    <!-- Audio Element for Ding Sound -->
+    <audio id="dingSound" src="ding.mp3" preload="auto"></audio>
 
-<script>
-    // Predefined workouts for each type
-    const workoutPlans = {
-        Arm: [
-            "6x10 Bicep Curls",
-            "6x10 Tricep Curls",
-            "2x10 Pushups",
-            "1:30 Weight Hold",
-            "3x10 Shoulder Lifts",
-            "3x10 Shoulder Shrugs",
-            "3x10 Bench Press"
-        ],
-        Core: [
-            "60 Situps with Weights",
-            "2:04 Plank",
-            "3x10 Seconds Superman",
-            "3x20 Flutter Kicks",
-            "3x10 Lie Down Thrust",
-            "L1:10 R1:16 Side Plank",
-            "3x15 Russian Twists with Weight",
-            "20 Standing Back Crack Twists with Weight"
-        ],
-        Legs: [
-            "10 Lunges per Leg with Weight",
-            "3x10 Squats with Weights",
-            "4x20 Calf Raises",
-            "3x10 Elastic Leg Extensions",
-            "6x10 Side Leg Lifts"
-        ]
-    };
+    <script>
+        // Define workout cycle: Legs, Arms, Core
+        const cycle = ["Legs", "Arms", "Core"];
 
-    // Variable to hold the original workouts for reset
-    let originalWorkouts = [];
+        const baseDate = new Date("2024-01-01"); // Starting date
 
-    // Function to get workout type based on the day of the week
-    function getWorkoutType() {
-        const date = new Date();
-        const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+        function getWorkoutType(date) {
+            const dayOfWeek = date.getDay();
+            if (dayOfWeek === 5 || dayOfWeek === 6) return "Rest Day"; // Friday and Saturday
 
-        // Define workout order by day
-        const workoutOrder = ['Arm', 'Core', 'Legs'];
+            const thursday = getPreviousThursday(date);
+            const thursdayWorkout = getCycleWorkout(thursday);
 
-        // If it's Friday (day 5) or Monday (day 1), set to the same workout type
-        if (dayOfWeek === 5) {
-            return workoutOrder[dayOfWeek % workoutOrder.length]; // Friday's workout type
-        } else if (dayOfWeek === 1) {
-            return workoutOrder[5 % workoutOrder.length]; // Monday gets Friday's workout type
-        } else {
-            return workoutOrder[dayOfWeek % workoutOrder.length]; // Other days
-        }
-    }
-
-    // Function to update today's workout type and show predefined workouts
-    function updateWorkoutType() {
-        const workoutType = getWorkoutType();
-        document.getElementById('workoutType').textContent = `Today's Workout: ${workoutType}`;
-
-        // Load predefined workouts for today's workout type
-        const workoutList = document.getElementById('workoutList');
-        workoutList.innerHTML = ''; // Clear previous workouts
-
-        originalWorkouts = [...workoutPlans[workoutType]]; // Store original workouts for reset
-
-        workoutPlans[workoutType].forEach(workout => {
-            createWorkoutItem(workout);
-        });
-    }
-
-    // Function to create a workout item with a checkbox and delete button
-    function createWorkoutItem(workoutText) {
-        const workoutList = document.getElementById('workoutList');
-
-        const li = document.createElement('li');
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-
-        const label = document.createElement('span');
-        label.textContent = workoutText;
-
-        // Create a delete button
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('delete-button');
-        deleteButton.onclick = function (e) {
-            e.stopPropagation();
-            workoutList.removeChild(li);
-        };
-
-        // Add event listener to check/uncheck when clicking anywhere in the list item
-        li.onclick = function () {
-            checkbox.checked = !checkbox.checked;
-        };
-
-        li.appendChild(checkbox); // Add checkbox to list item
-        li.appendChild(label); // Add label to list item
-        li.appendChild(deleteButton); // Add delete button to list item (right side)
-        workoutList.appendChild(li); // Add list item to workout list
-    }
-
-    // Function to add a new workout to the list
-    function addWorkout() {
-        const workoutInput = document.getElementById('workoutInput');
-        const workoutText = workoutInput.value;
-
-        if (workoutText.trim() === '') {
-            alert('Please enter a workout');
-            return;
+            return (dayOfWeek === 0) 
+                ? (thursdayWorkout === "Legs" ? "Arms" : thursdayWorkout === "Arms" ? "Core" : "Legs")
+                : getCycleWorkout(date);
         }
 
-        createWorkoutItem(workoutText);
+        function getPreviousThursday(date) {
+            const diff = (date.getDay() + 7 - 4) % 7;
+            const thursday = new Date(date);
+            thursday.setDate(date.getDate() - diff);
+            return thursday;
+        }
 
-        // Clear the input field
-        workoutInput.value = '';
-    }
+        function getCycleWorkout(date) {
+            const daysDiff = Math.floor((date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24));
+            return cycle[daysDiff % cycle.length];
+        }
 
-    // Function to reset all workouts to original predefined ones
-    function resetWorkouts() {
-        const workoutList = document.getElementById('workoutList');
-        workoutList.innerHTML = ''; // Clear current list
+        function initializeWorkouts() {
+            const workoutList = document.getElementById("workoutList");
+            workoutList.innerHTML = "";
+            const workoutType = getWorkoutType(new Date());
+            document.getElementById("workoutType").textContent = workoutType;
 
-        originalWorkouts.forEach(workout => {
-            createWorkoutItem(workout); // Reload original workouts
+            const exercises = {
+                "Legs": ["10 Lunges per Leg with Weight", "3x10 Squats", "4x20 Calf Raises", "3x10 Elastic Leg Extensions", "6x10 Side Leg Lifts"],
+                "Arms": ["6x10 Bicep Curls", "6x10 Tricep Curls", "2x10 Pushups", "1:30 Hold", "3x10 Shoulder Lifts"],
+                "Core": ["60 Situps with Weights", "2:04 Plank", "3x10 Seconds Superman", "3x20 Flutter Kicks", "3x10 Lie Down Thrust"],
+                "Rest Day": ["Rest and recover."]
+            };
+
+            exercises[workoutType].forEach((exercise, index) => {
+                const li = document.createElement("li");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.id = `workout-${index}`;
+                checkbox.style.marginRight = "10px";
+                li.appendChild(checkbox);
+                li.appendChild(document.createTextNode(exercise));
+                workoutList.appendChild(li);
+
+                li.addEventListener('click', e => {
+                    if (e.target.tagName !== 'INPUT') checkbox.checked = !checkbox.checked;
+                });
+            });
+        }
+
+        // Timer Variables
+        let timerInterval, totalSeconds = 0, isTimerRunning = false;
+
+        // Elements
+        const timerDisplay = document.getElementById("timerDisplay");
+        const startBtn = document.getElementById("startBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const dingSound = document.getElementById("dingSound");
+        const minutesSpan = document.getElementById("minutes");
+        const secondsSpan = document.getElementById("seconds");
+        const timerBox = document.getElementById("timerBox");
+
+        function updateTimerDisplay() {
+            const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+            minutesSpan.textContent = minutes;
+            secondsSpan.textContent = seconds;
+        }
+
+        function startTimer() {
+            if (isTimerRunning || totalSeconds <= 0) return;
+            isTimerRunning = true;
+            disableAdjustments();
+
+            // Set audio volume to prompt permission and start countdown
+            dingSound.volume = 1.0;
+
+            timerInterval = setInterval(() => {
+                if (--totalSeconds < 0) {
+                    clearInterval(timerInterval);
+                    dingSound.play();
+                    isTimerRunning = false;
+                    enableAdjustments();
+                } else updateTimerDisplay();
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            totalSeconds = 0;
+            isTimerRunning = false;
+            enableAdjustments();
+            updateTimerDisplay();
+        }
+
+        function disableAdjustments() {
+            document.querySelectorAll('.timer-section button').forEach(button => button.disabled = true);
+            startBtn.disabled = true;
+            resetBtn.disabled = false;
+        }
+
+        function enableAdjustments() {
+            document.querySelectorAll('.timer-section button').forEach(button => button.disabled = false);
+            startBtn.disabled = false;
+            resetBtn.disabled = false;
+        }
+
+        // Timer adjustment buttons
+        document.getElementById("incMin").addEventListener('click', () => {
+            if (isTimerRunning) return;
+            totalSeconds = Math.min(totalSeconds + 60, 3599);
+            updateTimerDisplay();
         });
-    }
 
-    // On page load, update the workout type and show workouts
-    window.onload = function() {
-        updateWorkoutType();
-    };
-</script>
+        document.getElementById("decMin").addEventListener('click', () => {
+            if (isTimerRunning) return;
+            totalSeconds = Math.max(totalSeconds - 60, 0);
+            updateTimerDisplay();
+        });
+
+        document.getElementById("incSec").addEventListener('click', () => {
+            if (isTimerRunning) return;
+            totalSeconds = Math.min(totalSeconds + 1, 3599);
+            updateTimerDisplay();
+        });
+
+        document.getElementById("decSec").addEventListener('click', () => {
+            if (isTimerRunning) return;
+            totalSeconds = Math.max(totalSeconds - 1, 0);
+            updateTimerDisplay();
+        });
+
+        // Draggable functionality
+        let isDraggingTimer = false;
+        let dragOffsetXTimer = 0;
+        let dragOffsetYTimer = 0;
+
+        timerBox.addEventListener('mousedown', (e) => {
+            if (e.target === timerBox || e.target.closest('.timer-header, .timer-display')) {
+                isDraggingTimer = true;
+                dragOffsetXTimer = e.clientX - timerBox.offsetLeft;
+                dragOffsetYTimer = e.clientY - timerBox.offsetTop;
+                timerBox.classList.add('dragging');
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingTimer) {
+                let left = e.clientX - dragOffsetXTimer;
+                let top = e.clientY - dragOffsetYTimer;
+                left = Math.max(0, Math.min(left, window.innerWidth - timerBox.offsetWidth));
+                top = Math.max(0, Math.min(top, window.innerHeight - timerBox.offsetHeight));
+                timerBox.style.left = `${left}px`;
+                timerBox.style.top = `${top}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDraggingTimer) {
+                isDraggingTimer = false;
+                timerBox.classList.remove('dragging');
+            }
+        });
+
+        window.onload = initializeWorkouts;
+    </script>
 
 </body>
 </html>
