@@ -197,12 +197,12 @@
     <audio id="dingSound" src="ding.mp3" preload="auto"></audio>
 
     <script>
-        // Define workout cycle starting with Legs as today
-        const cycle = ["Legs", "Arms", "Core", "Legs", "Arms", "Rest Day", "Rest Day"];
+        // Define workout cycle starting with Legs today
+        const fixedCycle = ["Legs", "Arms", "Core", "Legs", "Rest Day", "Rest Day", "Arms"];
 
         function getTodayWorkout() {
-            const dayIndex = (new Date()).getDay();
-            return cycle[dayIndex];
+            const todayIndex = new Date().getDay() % fixedCycle.length;
+            return fixedCycle[todayIndex];
         }
 
         function initializeWorkouts() {
