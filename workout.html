@@ -197,39 +197,18 @@
     <audio id="dingSound" src="ding.mp3" preload="auto"></audio>
 
     <script>
-        // Define workout cycle: Legs, Arms, Core
-        const cycle = ["Legs", "Arms", "Core"];
+        // Define workout cycle starting with Legs as today
+        const cycle = ["Legs", "Arms", "Core", "Legs", "Arms", "Rest Day", "Rest Day"];
 
-        const baseDate = new Date("2024-01-01"); // Starting date
-
-        function getWorkoutType(date) {
-            const dayOfWeek = date.getDay();
-            if (dayOfWeek === 5 || dayOfWeek === 6) return "Rest Day"; // Friday and Saturday
-
-            const thursday = getPreviousThursday(date);
-            const thursdayWorkout = getCycleWorkout(thursday);
-
-            return (dayOfWeek === 0) 
-                ? (thursdayWorkout === "Legs" ? "Arms" : thursdayWorkout === "Arms" ? "Core" : "Legs")
-                : getCycleWorkout(date);
-        }
-
-        function getPreviousThursday(date) {
-            const diff = (date.getDay() + 7 - 4) % 7;
-            const thursday = new Date(date);
-            thursday.setDate(date.getDate() - diff);
-            return thursday;
-        }
-
-        function getCycleWorkout(date) {
-            const daysDiff = Math.floor((date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24));
-            return cycle[daysDiff % cycle.length];
+        function getTodayWorkout() {
+            const dayIndex = (new Date()).getDay();
+            return cycle[dayIndex];
         }
 
         function initializeWorkouts() {
             const workoutList = document.getElementById("workoutList");
             workoutList.innerHTML = "";
-            const workoutType = getWorkoutType(new Date());
+            const workoutType = getTodayWorkout();
             document.getElementById("workoutType").textContent = workoutType;
 
             const exercises = {
@@ -279,8 +258,7 @@
             isTimerRunning = true;
             disableAdjustments();
 
-            // Set audio volume to prompt permission and start countdown
-            dingSound.volume = 1.0;
+            dingSound.volume = 1.0; // Ensure sound permission
 
             timerInterval = setInterval(() => {
                 if (--totalSeconds < 0) {
