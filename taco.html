@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Aunt Tacee</title>
     <style>
+        /* Body and confetti styling */
         body, html {
             margin: 0;
             padding: 0;
@@ -18,7 +19,7 @@
         }
 
         #message {
-            font-size: 60px; /* Larger size */
+            font-size: 60px;
             font-weight: bold;
             background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00, #FF00FF, #00FFFF);
             background-size: 400% 400%;
@@ -29,7 +30,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* Centering the text */
+            transform: translate(-50%, -50%);
             z-index: 1;
         }
 
@@ -48,18 +49,30 @@
             z-index: 0;
         }
 
-        .falling-text {
-            position: absolute;
-            left: 0;  /* Start from the left edge */
-            width: 100%;  /* Stretch across the entire width */
-            text-align: center; /* Center the text horizontally */
-            font-size: 28px; /* Increased size for better visibility */
-            color: black;
-            opacity: 1;
-            white-space: nowrap;
-            z-index: 2;
+        /* Video container for fullscreen overlay */
+        #videoContainer {
+            display: none;
         }
 
+        /* Fullscreen styling for the video container */
+        #videoContainer.fullscreen {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            background: black;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Instruction styling */
         #instruction {
             font-size: 24px;
             font-weight: bold;
@@ -69,8 +82,12 @@
             top: 20%;
             left: 50%;
             transform: translateX(-50%);
+            z-index: 3;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
         }
-
     </style>
 </head>
 <body>
@@ -78,92 +95,109 @@
     <div id="message">Loading...</div>
     <canvas id="confettiCanvas"></canvas>
 
-    <!-- Instruction for enabling sound -->
-    <div id="instruction">Click anywhere to enable sound</div>
+    <!-- Instruction for enabling sound and starting the celebration -->
+    <div id="instruction">Click anywhere to start the celebration</div>
 
-    <!-- Audio element for playing dirtman.mp3 -->
-    <audio id="dirtmanAudio" src="dirtman.mp3" preload="auto"></audio>
+    <!-- Video container for fullscreen overlay -->
+    <div id="videoContainer">
+        <div id="player"></div>
+    </div>
+
+    <!-- Load YouTube Iframe API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
         // Get elements
-        const audioElement = document.getElementById('dirtmanAudio');
-        const instruction = document.getElementById('instruction');
+        const videoContainer = document.getElementById('videoContainer');
         const messageElement = document.getElementById('message');
-        let isSoundEnabled = false;  // Flag to check if sound is enabled by user click
-        let volumeEnabled = false;   // Flag for full volume after the timer
-        let isTextFalling = false;   // Flag to ensure only one text falls at a time
+        const instruction = document.getElementById('instruction');
+        let player;
+        let isUserInteracted = false;
 
-        // Play audio and start falling text after user clicks
-        document.body.addEventListener('click', () => {
-            if (!isSoundEnabled) {
-                // Enable sound and hide instruction text
-                isSoundEnabled = true;
-                instruction.style.display = 'none'; // Hide the instruction text
-                playFallingTextAudio();  // Play the first falling text sound
-                scheduleNextFallingText();  // Schedule the falling text
-            }
-        });
-
-        // Function to play the audio when the dirtman text falls
-        function playFallingTextAudio() {
-            if (isSoundEnabled && volumeEnabled) {
-                audioElement.volume = 1;  // Full volume
-                audioElement.play();
-                console.log("Playing dirtman.mp3 at full volume");
-            } else if (isSoundEnabled) {
-                audioElement.volume = 0;  // Mute before timer ends
-                audioElement.play();
-                console.log("Playing dirtman.mp3 silently");
-            }
-        }
-
-        // Simulating falling text behavior
-        function createFallingText() {
-            if (isTextFalling) return; // Prevent multiple texts falling at once
-            isTextFalling = true;
-
-            const textElement = document.createElement('div');
-            textElement.classList.add('falling-text');
-            textElement.innerHTML = `Keep a little dirt under my pillow for the dirt man,<br> 
-                                      in case he comes to town. Keep a little dirt under my pillow<br> 
-                                      for the dirt man, so he won’t take me down.<br>
-                                      To his lair, deep under the mountain. Underground.<br>
-                                      That's where he keeps his dirt.`; // Adjusted text to fit better
-            document.body.appendChild(textElement);
-
-            // Play the audio when the text falls
-            playFallingTextAudio();
-
-            // Simulating text falling
-            let posY = -50;
-            const fallSpeed = 0.5;
-
-            function animateFallingText() {
-                posY += fallSpeed;
-                textElement.style.top = `${posY}px`;
-
-                if (posY < window.innerHeight) {
-                    requestAnimationFrame(animateFallingText);
-                } else {
-                    setTimeout(() => {
-                        textElement.remove();
-                        isTextFalling = false;  // Reset flag to allow next text
-                    }, 5000);  // Remove the text after 5 seconds
+        // Initialize YouTube Player
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                videoId: '8ruJBKFrRCk', // Replace with your YouTube video ID
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 1,
+                    'rel': 0,
+                    'enablejsapi': 1,
+                    'mute': 0 // Ensure sound is on
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
                 }
-            }
-            animateFallingText();
+            });
         }
 
-        // Schedule the falling text
-        function scheduleNextFallingText() {
-            setInterval(() => {
-                createFallingText();
-            }, 60000);  // Trigger falling text every 1 minute
+        function onPlayerReady(event) {
+            // Player is ready
+            console.log('YouTube Player Ready');
         }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                // Video started playing, set a timer to stop at 1:20 (80 seconds)
+                setTimeout(() => {
+                    player.pauseVideo();
+                    exitFullscreen();
+                }, 80000); // 80,000 milliseconds = 1 minute 20 seconds
+            }
+            if (event.data == YT.PlayerState.ENDED) {
+                // Video has ended naturally, exit fullscreen
+                exitFullscreen();
+            }
+        }
+
+        // Function to request fullscreen for the video container
+        function openFullscreen() {
+            if (videoContainer.requestFullscreen) {
+                videoContainer.requestFullscreen();
+            } else if (videoContainer.mozRequestFullScreen) { // Firefox
+                videoContainer.mozRequestFullScreen();
+            } else if (videoContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                videoContainer.webkitRequestFullscreen();
+            } else if (videoContainer.msRequestFullscreen) { // IE/Edge
+                videoContainer.msRequestFullscreen();
+            }
+        }
+
+        // Function to play video in fullscreen overlay
+        function playVideo() {
+            if (player && isUserInteracted) {
+                videoContainer.classList.add('fullscreen');
+                openFullscreen();
+                player.seekTo(0); // Restart the video from the beginning
+                player.playVideo();
+            }
+        }
+
+        // Function to exit fullscreen and hide video overlay
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen();
+            }
+            videoContainer.classList.remove('fullscreen');
+        }
+
+        // Play the video every 5 minutes (300,000 milliseconds)
+        setInterval(() => {
+            playVideo();
+        }, 300000); // 5-minute interval
 
         // Function to calculate days and hours since October 17, 00:00
         function calculateTimeSinceBirthday() {
-            const birthday = new Date('2024-10-17T00:00:00');  // Set the birthday as October 17, 2024 at 00:00
+            const birthday = new Date('2024-10-17T00:00:00'); // Set the birthday as October 17, 2024 at 00:00
             const now = new Date();
             const timeDiff = now - birthday;
 
@@ -173,7 +207,7 @@
             return { days, hours };
         }
 
-        // Function to update the message dynamically
+        // Function to update the birthday message dynamically
         function updateBirthdayMessage() {
             const { days, hours } = calculateTimeSinceBirthday();
             const dayText = days === 1 ? 'day' : 'days';
@@ -184,7 +218,7 @@
         // Update the message every second
         setInterval(updateBirthdayMessage, 1000);
 
-        // Function to start confetti (for the birthday)
+        // Function to start confetti animation
         function createConfetti() {
             const canvas = document.getElementById('confettiCanvas');
             const ctx = canvas.getContext('2d');
@@ -239,17 +273,30 @@
         // Start confetti animation on page load
         createConfetti();
 
-        // Schedule the first falling text after sound is enabled
-        scheduleNextFallingText();
+        // Handle user interaction to start the celebration
+        document.body.addEventListener('click', () => {
+            if (!isUserInteracted) {
+                isUserInteracted = true;
+                instruction.style.display = 'none'; // Hide the instruction text
+                playVideo(); // Play video immediately on first click
+            }
+        });
 
-        // Set timer to 5 minutes for full volume (5 * 60 * 1000 ms)
-        setTimeout(() => {
-            volumeEnabled = true;  // Enable full volume after 5 minutes
-            console.log("Full volume enabled after 5 minutes");
-        }, 5 * 60 * 1000);  // 5 minutes in milliseconds
+        // Ensure the video exits fullscreen if the user manually exits it
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                videoContainer.classList.remove('fullscreen');
+            }
+        });
 
+        // Optional: Handle window resize to adjust the canvas size for confetti
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('confettiCanvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 
 </body>
 </html>
-<!--Caius, Oct 21, 2024-->
+<!--Caius, Nov 2, 2024-->
