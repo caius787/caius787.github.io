@@ -113,6 +113,7 @@
         const instruction = document.getElementById('instruction');
         let player;
         let isUserInteracted = false;
+        let videoInterval;
 
         // Initialize YouTube Player
         function onYouTubeIframeAPIReady() {
@@ -190,10 +191,32 @@
             videoContainer.classList.remove('fullscreen');
         }
 
-        // Play the video every 5 minutes (300,000 milliseconds)
-        setInterval(() => {
-            playVideo();
-        }, 300000); // 5-minute interval
+        // Function to calculate time until the next 17th minute of the hour
+        function getTimeUntilNext17thMinute() {
+            const now = new Date();
+            const next = new Date();
+
+            next.setSeconds(0);
+            next.setMilliseconds(0);
+
+            if (now.getMinutes() >= 17) {
+                next.setHours(now.getHours() + 1);
+            }
+            next.setMinutes(17);
+
+            return next - now;
+        }
+
+        // Function to schedule video playback at the 17th minute of every hour
+        function scheduleVideoPlayback() {
+            const timeUntilNext17th = getTimeUntilNext17thMinute();
+
+            setTimeout(() => {
+                playVideo();
+                // Schedule subsequent playbacks every hour after the first one
+                videoInterval = setInterval(playVideo, 60 * 60 * 1000); // Every hour
+            }, timeUntilNext17th);
+        }
 
         // Function to calculate days and hours since October 17, 00:00
         function calculateTimeSinceBirthday() {
@@ -279,6 +302,7 @@
                 isUserInteracted = true;
                 instruction.style.display = 'none'; // Hide the instruction text
                 playVideo(); // Play video immediately on first click
+                scheduleVideoPlayback(); // Schedule the next video playbacks
             }
         });
 

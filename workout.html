@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Planner & Tracker</title>
     <style>
-        /* Reset some default styles */
+        /* Reset default styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -108,7 +108,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
+            gap: 5px;
         }
 
         .timer-controls {
@@ -127,6 +127,8 @@
             border: none;
             border-radius: 5px;
             transition: background-color 0.3s;
+            width: 30px;
+            height: 30px;
         }
 
         .timer-button:hover:not(:disabled) {
@@ -197,12 +199,21 @@
     <audio id="dingSound" src="ding.mp3" preload="auto"></audio>
 
     <script>
-        // Define workout cycle starting with Legs today
-        const fixedCycle = ["Legs", "Arms", "Core", "Legs", "Rest Day", "Rest Day", "Arms"];
+        // Define workout schedule for each day
+        const workoutSchedule = {
+            0: "Core",       // Sunday
+            1: "Arms",       // Monday
+            2: "Legs",       // Tuesday
+            3: "Arms",       // Wednesday
+            4: "Core",       // Thursday
+            5: "Rest Day",   // Friday
+            6: "Rest Day"    // Saturday
+        };
 
         function getTodayWorkout() {
-            const todayIndex = new Date().getDay() % fixedCycle.length;
-            return fixedCycle[todayIndex];
+            const today = new Date();
+            const day = today.getDay(); // 0=Sunday, 1=Monday,...6=Saturday
+            return workoutSchedule[day];
         }
 
         function initializeWorkouts() {
@@ -212,13 +223,35 @@
             document.getElementById("workoutType").textContent = workoutType;
 
             const exercises = {
-                "Legs": ["10 Lunges per Leg with Weight", "3x10 Squats", "4x20 Calf Raises", "3x10 Elastic Leg Extensions", "6x10 Side Leg Lifts"],
-                "Arms": ["6x10 Bicep Curls", "6x10 Tricep Curls", "2x10 Pushups", "1:30 Hold", "3x10 Shoulder Lifts"],
-                "Core": ["60 Situps with Weights", "2:04 Plank", "3x10 Seconds Superman", "3x20 Flutter Kicks", "3x10 Lie Down Thrust"],
-                "Rest Day": ["Rest and recover."]
+                "Legs": [
+                    "10 Lunges per Leg with Weight",
+                    "3x10 Squats",
+                    "4x20 Calf Raises",
+                    "3x10 Elastic Leg Extensions",
+                    "6x10 Side Leg Lifts"
+                ],
+                "Arms": [
+                    "6x10 Bicep Curls",
+                    "6x10 Tricep Curls",
+                    "2x10 Pushups",
+                    "1:30 Hold",
+                    "3x10 Shoulder Lifts"
+                ],
+                "Core": [
+                    "60 Situps with Weights",
+                    "2:04 Plank",
+                    "3x10 Seconds Superman",
+                    "3x20 Flutter Kicks",
+                    "3x10 Lie Down Thrust"
+                ],
+                "Rest Day": [
+                    "Rest and recover."
+                ]
             };
 
-            exercises[workoutType].forEach((exercise, index) => {
+            const todaysExercises = exercises[workoutType] || ["Rest and recover."];
+
+            todaysExercises.forEach((exercise, index) => {
                 const li = document.createElement("li");
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
@@ -228,24 +261,33 @@
                 li.appendChild(document.createTextNode(exercise));
                 workoutList.appendChild(li);
 
-                li.addEventListener('click', e => {
-                    if (e.target.tagName !== 'INPUT') checkbox.checked = !checkbox.checked;
+                // Make the entire list item clickable
+                li.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'INPUT') {
+                        checkbox.checked = !checkbox.checked;
+                    }
                 });
             });
         }
 
         // Timer Variables
-        let timerInterval, totalSeconds = 0, isTimerRunning = false;
+        let timerInterval = null;
+        let totalSeconds = 0;
+        let isTimerRunning = false;
 
         // Elements
-        const timerDisplay = document.getElementById("timerDisplay");
+        const minutesSpan = document.getElementById("minutes");
+        const secondsSpan = document.getElementById("seconds");
+        const incMinBtn = document.getElementById("incMin");
+        const decMinBtn = document.getElementById("decMin");
+        const incSecBtn = document.getElementById("incSec");
+        const decSecBtn = document.getElementById("decSec");
         const startBtn = document.getElementById("startBtn");
         const resetBtn = document.getElementById("resetBtn");
         const dingSound = document.getElementById("dingSound");
-        const minutesSpan = document.getElementById("minutes");
-        const secondsSpan = document.getElementById("seconds");
         const timerBox = document.getElementById("timerBox");
 
+        // Function to update the timer display
         function updateTimerDisplay() {
             const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
             const seconds = String(totalSeconds % 60).padStart(2, '0');
@@ -253,12 +295,14 @@
             secondsSpan.textContent = seconds;
         }
 
+        // Function to start the timer
         function startTimer() {
             if (isTimerRunning || totalSeconds <= 0) return;
             isTimerRunning = true;
             disableAdjustments();
 
-            dingSound.volume = 1.0; // Ensure sound permission
+            // Play sound when timer ends; user interaction via Start allows permission
+            dingSound.volume = 1.0;
 
             timerInterval = setInterval(() => {
                 if (--totalSeconds < 0) {
@@ -266,10 +310,13 @@
                     dingSound.play();
                     isTimerRunning = false;
                     enableAdjustments();
-                } else updateTimerDisplay();
+                } else {
+                    updateTimerDisplay();
+                }
             }, 1000);
         }
 
+        // Function to reset the timer
         function resetTimer() {
             clearInterval(timerInterval);
             totalSeconds = 0;
@@ -278,75 +325,96 @@
             updateTimerDisplay();
         }
 
+        // Disable timer adjustment buttons while running
         function disableAdjustments() {
-            document.querySelectorAll('.timer-section button').forEach(button => button.disabled = true);
+            incMinBtn.disabled = true;
+            decMinBtn.disabled = true;
+            incSecBtn.disabled = true;
+            decSecBtn.disabled = true;
             startBtn.disabled = true;
             resetBtn.disabled = false;
         }
 
+        // Enable timer adjustment buttons when not running
         function enableAdjustments() {
-            document.querySelectorAll('.timer-section button').forEach(button => button.disabled = false);
+            incMinBtn.disabled = false;
+            decMinBtn.disabled = false;
+            incSecBtn.disabled = false;
+            decSecBtn.disabled = false;
             startBtn.disabled = false;
             resetBtn.disabled = false;
         }
 
-        // Timer adjustment buttons
-        document.getElementById("incMin").addEventListener('click', () => {
+        // Event listeners for adjustment buttons
+        incMinBtn.addEventListener('click', () => {
             if (isTimerRunning) return;
-            totalSeconds = Math.min(totalSeconds + 60, 3599);
-            updateTimerDisplay();
+            if (totalSeconds < 3599) { // Max 59:59
+                totalSeconds += 60;
+                updateTimerDisplay();
+            }
         });
 
-        document.getElementById("decMin").addEventListener('click', () => {
+        decMinBtn.addEventListener('click', () => {
             if (isTimerRunning) return;
-            totalSeconds = Math.max(totalSeconds - 60, 0);
-            updateTimerDisplay();
+            if (totalSeconds >= 60) {
+                totalSeconds -= 60;
+                updateTimerDisplay();
+            }
         });
 
-        document.getElementById("incSec").addEventListener('click', () => {
+        incSecBtn.addEventListener('click', () => {
             if (isTimerRunning) return;
-            totalSeconds = Math.min(totalSeconds + 1, 3599);
-            updateTimerDisplay();
+            if (totalSeconds < 3599) { // Max 59:59
+                totalSeconds += 1;
+                updateTimerDisplay();
+            }
         });
 
-        document.getElementById("decSec").addEventListener('click', () => {
+        decSecBtn.addEventListener('click', () => {
             if (isTimerRunning) return;
-            totalSeconds = Math.max(totalSeconds - 1, 0);
-            updateTimerDisplay();
+            if (totalSeconds >= 1) {
+                totalSeconds -= 1;
+                updateTimerDisplay();
+            }
         });
 
-        // Draggable functionality
-        let isDraggingTimer = false;
-        let dragOffsetXTimer = 0;
-        let dragOffsetYTimer = 0;
+        // Draggable functionality for the timer box
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
 
         timerBox.addEventListener('mousedown', (e) => {
-            if (e.target === timerBox || e.target.closest('.timer-header, .timer-display')) {
-                isDraggingTimer = true;
-                dragOffsetXTimer = e.clientX - timerBox.offsetLeft;
-                dragOffsetYTimer = e.clientY - timerBox.offsetTop;
+            // Allow dragging only if clicked on header or display
+            if (e.target.closest('.timer-header') || e.target.closest('.timer-display')) {
+                isDragging = true;
+                dragOffsetX = e.clientX - timerBox.offsetLeft;
+                dragOffsetY = e.clientY - timerBox.offsetTop;
                 timerBox.classList.add('dragging');
             }
         });
 
         document.addEventListener('mousemove', (e) => {
-            if (isDraggingTimer) {
-                let left = e.clientX - dragOffsetXTimer;
-                let top = e.clientY - dragOffsetYTimer;
+            if (isDragging) {
+                let left = e.clientX - dragOffsetX;
+                let top = e.clientY - dragOffsetY;
+
+                // Constrain within the viewport
                 left = Math.max(0, Math.min(left, window.innerWidth - timerBox.offsetWidth));
                 top = Math.max(0, Math.min(top, window.innerHeight - timerBox.offsetHeight));
+
                 timerBox.style.left = `${left}px`;
                 timerBox.style.top = `${top}px`;
             }
         });
 
         document.addEventListener('mouseup', () => {
-            if (isDraggingTimer) {
-                isDraggingTimer = false;
+            if (isDragging) {
+                isDragging = false;
                 timerBox.classList.remove('dragging');
             }
         });
 
+        // Initialize workouts on page load
         window.onload = initializeWorkouts;
     </script>
 
