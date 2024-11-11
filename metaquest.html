@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Include Font Awesome for the back arrow icon -->
+    <!-- Include Font Awesome for any potential icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMM5Q0xzbN4lyE15BcqQpPcJ3B5Wx1lmFkpF0t9" crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,30 +27,6 @@
             flex-direction: column;
             height: 100vh;
             box-sizing: border-box;
-        }
-
-        /* Back button container */
-        .back-button-container {
-            width: 100%;
-            padding: 10px;
-            background-color: #6a1b9a;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: left;
-        }
-
-        /* Back button style */
-        .back-button {
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-        }
-
-        .back-button i {
-            margin-right: 8px;
-            font-size: 24px;
         }
 
         /* Button container */
@@ -91,26 +67,11 @@
                 font-size: 24px;
                 padding: 20px;
             }
-
-            .back-button {
-                font-size: 18px;
-            }
-
-            .back-button i {
-                font-size: 20px;
-            }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Back button container with JavaScript for fallback -->
-    <div class="back-button-container">
-        <a href="javascript:void(0)" onclick="goBack()" class="back-button">
-            <i class="fas fa-arrow-left"></i> Back
-        </a>
-    </div>
 
     <div class="button-container">
         <a href="https://www.facebook.com/marketplace/category/search/?query=Meta%20quest%202" target="_blank" class="button">Meta Quest 2</a>
@@ -119,16 +80,6 @@
     <div class="button-container">
         <a href="https://www.facebook.com/marketplace/category/search?query=Meta%20quest%203s" target="_blank" class="button">Meta Quest 3s</a>
     </div>
-
-    <script>
-        function goBack() {
-            if (document.referrer) {
-                window.history.back();
-            } else {
-                window.location.href = 'https://new.express.adobe.com/webpage/8FTWEtuqQ7snI/';
-            }
-        }
-    </script>
 
 </body>
 
