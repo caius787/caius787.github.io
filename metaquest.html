@@ -105,9 +105,9 @@
 
 <body>
 
-    <!-- Back button container that uses JavaScript to go back to the previous page -->
+    <!-- Back button container with JavaScript for fallback -->
     <div class="back-button-container">
-        <a href="javascript:history.back()" class="back-button">
+        <a href="javascript:void(0)" onclick="goBack()" class="back-button">
             <i class="fas fa-arrow-left"></i> Back
         </a>
     </div>
@@ -119,6 +119,16 @@
     <div class="button-container">
         <a href="https://www.facebook.com/marketplace/category/search?query=Meta%20quest%203s" target="_blank" class="button">Meta Quest 3s</a>
     </div>
+
+    <script>
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'https://caius787.github.io/index.html'; // Fallback URL if no history exists
+            }
+        }
+    </script>
 
 </body>
 
