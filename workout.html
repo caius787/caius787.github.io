@@ -199,57 +199,195 @@
     <audio id="dingSound" src="ding.mp3" preload="auto"></audio>
 
     <script>
-        // Define workout schedule for each day
+        // Define workout schedule for each date
         const workoutSchedule = {
-            0: "Core",       // Sunday
-            1: "Arms",       // Monday
-            2: "Legs",       // Tuesday
-            3: "Arms",       // Wednesday
-            4: "Core",       // Thursday
-            5: "Rest Day",   // Friday
-            6: "Rest Day"    // Saturday
+            "2024-11-10": "Arms",
+            "2024-11-11": "Core",
+            "2024-11-12": "Legs",
+            "2024-11-13": "Arms",
+            "2024-11-14": "Core",
+            "2024-11-15": "Rest Day",
+            "2024-11-16": "Rest Day",
+            "2024-11-17": "Legs",
+            "2024-11-18": "Arms",
+            "2024-11-19": "Core",
+            "2024-11-20": "Legs",
+            "2024-11-21": "Arms",
+            "2024-11-22": "Rest Day",
+            "2024-11-23": "Rest Day",
+            "2024-11-24": "Arms",
+            "2024-11-25": "Core",
+            "2024-11-26": "Legs",
+            "2024-11-27": "Arms",
+            "2024-11-28": "Core",
+            "2024-11-29": "Rest Day",
+            "2024-11-30": "Rest Day",
+            "2024-12-01": "Legs",
+            "2024-12-02": "Arms",
+            "2024-12-03": "Core",
+            "2024-12-04": "Legs",
+            "2024-12-05": "Arms",
+            "2024-12-06": "Rest Day",
+            "2024-12-07": "Rest Day",
+            "2024-12-08": "Arms",
+            "2024-12-09": "Core",
+            "2024-12-10": "Legs",
+            "2024-12-11": "Arms",
+            "2024-12-12": "Core",
+            "2024-12-13": "Rest Day",
+            "2024-12-14": "Rest Day",
+            "2024-12-15": "Legs",
+            "2024-12-16": "Arms",
+            "2024-12-17": "Core",
+            "2024-12-18": "Legs",
+            "2024-12-19": "Arms",
+            "2024-12-20": "Rest Day",
+            "2024-12-21": "Rest Day",
+            "2024-12-22": "Arms",
+            "2024-12-23": "Core",
+            "2024-12-24": "Legs",
+            "2024-12-25": "Arms",
+            "2024-12-26": "Core",
+            "2024-12-27": "Rest Day",
+            "2024-12-28": "Rest Day",
+            "2024-12-29": "Legs",
+            "2024-12-30": "Arms",
+            "2024-12-31": "Core",
+            "2025-01-01": "Legs",
+            "2025-01-02": "Arms",
+            "2025-01-03": "Rest Day",
+            "2025-01-04": "Rest Day",
+            "2025-01-05": "Arms",
+            "2025-01-06": "Core",
+            "2025-01-07": "Legs",
+            "2025-01-08": "Arms",
+            "2025-01-09": "Core",
+            "2025-01-10": "Rest Day",
+            "2025-01-11": "Rest Day",
+            "2025-01-12": "Legs",
+            "2025-01-13": "Arms",
+            "2025-01-14": "Core",
+            "2025-01-15": "Legs",
+            "2025-01-16": "Arms",
+            "2025-01-17": "Rest Day",
+            "2025-01-18": "Rest Day",
+            "2025-01-19": "Arms",
+            "2025-01-20": "Core",
+            "2025-01-21": "Legs",
+            "2025-01-22": "Arms",
+            "2025-01-23": "Core",
+            "2025-01-24": "Rest Day",
+            "2025-01-25": "Rest Day",
+            "2025-01-26": "Legs",
+            "2025-01-27": "Arms",
+            "2025-01-28": "Core",
+            "2025-01-29": "Legs",
+            "2025-01-30": "Arms",
+            "2025-01-31": "Rest Day",
+            "2025-02-01": "Rest Day",
+            "2025-02-02": "Arms",
+            "2025-02-03": "Core",
+            "2025-02-04": "Legs",
+            "2025-02-05": "Arms",
+            "2025-02-06": "Core",
+            "2025-02-07": "Rest Day",
+            "2025-02-08": "Rest Day",
+            "2025-02-09": "Legs",
+            "2025-02-10": "Arms",
+            "2025-02-11": "Core",
+            "2025-02-12": "Legs",
+            "2025-02-13": "Arms",
+            "2025-02-14": "Rest Day",
+            "2025-02-15": "Rest Day",
+            "2025-02-16": "Arms",
+            "2025-02-17": "Core",
+            "2025-02-18": "Legs",
+            "2025-02-19": "Arms",
+            "2025-02-20": "Core",
+            "2025-02-21": "Rest Day",
+            "2025-02-22": "Rest Day",
+            "2025-02-23": "Legs",
+            "2025-02-24": "Arms",
+            "2025-02-25": "Core",
+            "2025-02-26": "Legs",
+            "2025-02-27": "Arms",
+            "2025-02-28": "Rest Day",
+            "2025-03-01": "Rest Day",
+            "2025-03-02": "Arms",
+            "2025-03-03": "Core",
+            "2025-03-04": "Legs",
+            "2025-03-05": "Arms",
+            "2025-03-06": "Core",
+            "2025-03-07": "Rest Day",
+            "2025-03-08": "Rest Day",
+            "2025-03-09": "Legs",
+            "2025-03-10": "Arms",
+            "2025-03-11": "Core",
+            "2025-03-12": "Legs",
+            "2025-03-13": "Arms",
+            "2025-03-14": "Rest Day",
+            "2025-03-15": "Rest Day",
+            "2025-03-16": "Arms",
+            "2025-03-17": "Core",
+            "2025-03-18": "Legs",
+            "2025-03-19": "Arms",
+            "2025-03-20": "Core",
+            "2025-03-21": "Rest Day",
+            "2025-03-22": "Rest Day",
+            "2025-03-23": "Legs",
+            "2025-03-24": "Arms"
+            // Continue adding more dates as needed
         };
 
-        function getTodayWorkout() {
-            const today = new Date();
-            const day = today.getDay(); // 0=Sunday, 1=Monday,...6=Saturday
-            return workoutSchedule[day];
+        function getFormattedDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
         }
 
         function initializeWorkouts() {
             const workoutList = document.getElementById("workoutList");
             workoutList.innerHTML = "";
-            const workoutType = getTodayWorkout();
+            const today = new Date();
+            const formattedDate = getFormattedDate(today);
+            const workoutType = workoutSchedule[formattedDate] || "No Workout Scheduled";
+
             document.getElementById("workoutType").textContent = workoutType;
 
             const exercises = {
                 "Legs": [
-                    "10 Lunges per Leg with Weight",
-                    "3x10 Squats",
-                    "4x20 Calf Raises",
-                    "3x10 Elastic Leg Extensions",
-                    "6x10 Side Leg Lifts"
+                    "10 lunges per leg with weight",
+                    "3x10 squats with weights",
+                    "4x20 calf raises",
+                    "3x10 elastic leg extensions",
+                    "6x10 side leg lifts"
                 ],
                 "Arms": [
-                    "6x10 Bicep Curls",
-                    "6x10 Tricep Curls",
-                    "2x10 Pushups",
-                    "1:30 Hold",
-                    "3x10 Shoulder Lifts"
+                    "6x10 bicep curls",
+                    "6x10 tricep curls",
+                    "2x10 push ups",
+                    "1:30 90 weight hold",
+                    "3x10 shoulder lifts",
+                    "3x10 shoulder shrugs",
+                    "3x10 bench press"
                 ],
                 "Core": [
-                    "60 Situps with Weights",
-                    "2:04 Plank",
-                    "3x10 Seconds Superman",
-                    "3x20 Flutter Kicks",
-                    "3x10 Lie Down Thrust"
+                    "60 situps with weights",
+                    "2:04 plank",
+                    "3x10 seconds superman",
+                    "3x20 flutter kicks",
+                    "3x10 lie down thrust",
+                    "L1:10 R1:16 side plank",
+                    "3x15 Russian twists with weight",
+                    "20 standing back crack twists with weight"
                 ],
                 "Rest Day": [
                     "Rest and recover."
                 ]
             };
 
-            const todaysExercises = exercises[workoutType] || ["Rest and recover."];
+            const todaysExercises = exercises[workoutType] || ["No exercises for today."];
 
             todaysExercises.forEach((exercise, index) => {
                 const li = document.createElement("li");
