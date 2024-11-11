@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
+    <!-- Include Font Awesome for the back arrow icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMM5Q0xzbN4lyE15BcqQpPcJ3B5Wx1lmFkpF0t9" crossorigin="anonymous">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -17,7 +20,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #9370DB; /* Background color */
+            background-color: #9370DB;
             margin: 0;
             padding: 0;
             display: flex;
@@ -26,24 +29,50 @@
             box-sizing: border-box;
         }
 
+        /* Back button container */
+        .back-button-container {
+            width: 100%;
+            padding: 10px;
+            background-color: #6a1b9a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        /* Back button style */
+        .back-button {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .back-button i {
+            margin-right: 8px;
+            font-size: 24px;
+        }
+
+        /* Button container */
         .button-container {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
+            padding: 10px;
         }
 
         /* Button style */
         .button {
             display: block;
-            width: 80%;
-            max-width: 400px;
-            padding: 20px;
-            font-size: 24px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            font-size: 28px;
             color: white;
             text-decoration: none;
-            background-color: #6a1b9a; /* Darker purple for button */
+            background-color: #6a1b9a;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             font-weight: bold;
@@ -55,19 +84,40 @@
             background-color: #4a148c;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            .button {
+                font-size: 24px;
+                padding: 20px;
+            }
+
+            .back-button {
+                font-size: 18px;
+            }
+
+            .back-button i {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="button-container">
-        <a href="https://www.facebook.com/marketplace/category/search/?query=Meta%20quest%202" target="_blank"
-            class="button">Meta Quest 2</a>
+    <!-- Back button container that uses JavaScript to go back to the previous page -->
+    <div class="back-button-container">
+        <a href="javascript:history.back()" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
     </div>
 
     <div class="button-container">
-        <a href="https://www.facebook.com/marketplace/category/search?query=Meta%20quest%203s" target="_blank"
-            class="button">Meta Quest 3s</a>
+        <a href="https://www.facebook.com/marketplace/category/search/?query=Meta%20quest%202" target="_blank" class="button">Meta Quest 2</a>
+    </div>
+
+    <div class="button-container">
+        <a href="https://www.facebook.com/marketplace/category/search?query=Meta%20quest%203s" target="_blank" class="button">Meta Quest 3s</a>
     </div>
 
 </body>
