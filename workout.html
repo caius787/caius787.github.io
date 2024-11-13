@@ -16,11 +16,11 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             color: #333;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 50px;
+            padding: 50px 20px;
             position: relative;
         }
 
@@ -30,7 +30,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            width: 90%;
+            width: 100%;
             max-width: 600px;
             position: relative;
             cursor: default;
@@ -44,6 +44,7 @@
         .workout-section h2 {
             text-align: center;
             margin-bottom: 15px;
+            font-size: 1.5em;
         }
 
         .workout-list {
@@ -88,6 +89,7 @@
             right: 20px;
             cursor: move;
             z-index: 10;
+            transition: opacity 0.3s;
         }
 
         .timer-header h2 {
@@ -119,7 +121,7 @@
         }
 
         .timer-button {
-            padding: 3px 5px;
+            padding: 5px 10px;
             font-size: 0.9em;
             cursor: pointer;
             background-color: #28a745;
@@ -127,8 +129,8 @@
             border: none;
             border-radius: 5px;
             transition: background-color 0.3s;
-            width: 30px;
-            height: 30px;
+            min-width: 60px;
+            text-align: center;
         }
 
         .timer-button:hover:not(:disabled) {
@@ -148,10 +150,26 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .timer-box {
-                position: relative;
-                top: auto;
-                right: auto;
-                margin-top: 20px;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                width: 90%;
+                max-width: 300px;
+            }
+
+            .timer-display {
+                font-size: 1.5em;
+                gap: 10px;
+            }
+
+            .timer-button {
+                min-width: 50px;
+                padding: 5px 8px;
+                font-size: 0.8em;
+            }
+
+            .workout-section h2 {
+                font-size: 1.3em;
             }
         }
     </style>
@@ -373,7 +391,7 @@
                     "3x10 bench press"
                 ],
                 "Core": [
-                    "60 situps with weights",
+                    "60 Situps with weights",
                     "2:04 plank",
                     "3x10 seconds superman",
                     "3x20 flutter kicks",
