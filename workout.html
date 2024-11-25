@@ -358,11 +358,51 @@
             // Continue adding more dates as needed
         };
 
+        // Define the base date for time increments
+        const baseDate = new Date("2024-11-10"); // Adjust as needed
+
+        // Function to calculate weeks elapsed since base date
+        function calculateWeeksElapsed(currentDate) {
+            const timeDiff = currentDate - baseDate;
+            const weeksElapsed = Math.floor(timeDiff / (7 * 24 * 60 * 60 * 1000));
+            return weeksElapsed >= 0 ? weeksElapsed : 0;
+        }
+
+        // Function to format date as YYYY-MM-DD
         function getFormattedDate(date) {
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
             const day = String(date.getDate()).padStart(2, '0');
             return `${year}-${month}-${day}`;
+        }
+
+        // Function to adjust timed workouts by weeks elapsed
+        function adjustTimedWorkouts(exercise, weeksElapsed) {
+            // Regex patterns for different time formats
+            const mmssRegex = /(\d+):(\d+)\s*([a-zA-Z]+)/g; // e.g., 2:04 plank
+            const secondsRegex = /(\d+)\s*seconds?/gi; // e.g., 10 seconds
+
+            // Function to increment mm:ss times
+            exercise = exercise.replace(mmssRegex, (match, p1, p2, p3) => {
+                let minutes = parseInt(p1, 10);
+                let seconds = parseInt(p2, 10);
+                let totalSeconds = minutes * 60 + seconds + weeksElapsed;
+
+                // Handle overflow if seconds >=60
+                minutes = Math.floor(totalSeconds / 60);
+                seconds = totalSeconds % 60;
+
+                // Return the updated time with the same descriptor
+                return `${minutes}:${String(seconds).padStart(2, '0')} ${p3}`;
+            });
+
+            // Function to increment 'x seconds' times
+            exercise = exercise.replace(secondsRegex, (match, p1) => {
+                let seconds = parseInt(p1, 10) + weeksElapsed;
+                return `${seconds} seconds`;
+            });
+
+            return exercise;
         }
 
         function initializeWorkouts() {
@@ -408,33 +448,12 @@
 
             const todaysExercises = exercises[workoutType] || ["No exercises for today."];
 
-            // Define base date for plank
-            const basePlankDate = new Date("2024-11-11"); // Adjust as needed
+            // Calculate weeks elapsed since base date
+            const weeksElapsed = calculateWeeksElapsed(today);
 
-            // Calculate weeks elapsed
-            const todayDate = new Date(formattedDate);
-            const timeDiff = todayDate - basePlankDate;
-            const weeksElapsed = Math.floor(timeDiff / (7 * 24 * 60 * 60 * 1000));
-
-            // Function to adjust plank time
-            function adjustPlank(exercise) {
-                const plankRegex = /(\d+):(\d+)\s+plank/i;
-                const match = exercise.match(plankRegex);
-                if (match) {
-                    let minutes = parseInt(match[1], 10);
-                    let seconds = parseInt(match[2], 10);
-                    const totalSeconds = minutes * 60 + seconds + weeksElapsed;
-                    const newMinutes = Math.floor(totalSeconds / 60);
-                    const newSeconds = totalSeconds % 60;
-                    const newPlankTime = `${newMinutes}:${String(newSeconds).padStart(2, '0')} plank`;
-                    return exercise.replace(plankRegex, newPlankTime);
-                }
-                return exercise;
-            }
-
-            // Adjust plank times in todaysExercises
+            // Adjust timings for all timed workouts
             const adjustedExercises = todaysExercises.map(exercise => {
-                return adjustPlank(exercise);
+                return adjustTimedWorkouts(exercise, weeksElapsed);
             });
 
             adjustedExercises.forEach((exercise, index) => {
