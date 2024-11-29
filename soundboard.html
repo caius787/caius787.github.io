@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soundboard</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(45deg, rgba(255, 0, 0, 0.9), rgba(0, 0, 255, 0.9));
+      background-size: 400% 400%;
+      animation: gradientShift 10s infinite;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      gap: 10px;
+      width: 95vw;
+      height: 95vh;
+    }
+
+    .sound-btn {
+      background-color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      white-space: pre-wrap;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .sound-btn:active {
+      transform: scale(1.1);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <button class="sound-btn" id="button-1">YAHOO!</button>
+    <button class="sound-btn" id="button-2">Mission Passed<br>Respect +</button>
+    <button class="sound-btn" id="button-3">Crickets</button>
+    <button class="sound-btn" id="button-4">Air Horn</button>
+    <button class="sound-btn" id="button-5">No</button>
+    <button class="sound-btn" id="button-6">Yes</button>
+    <button class="sound-btn" id="button-7">TOUCHDOWN!</button>
+    <button class="sound-btn" id="button-8">Boi What Da Hail Boi</button>
+    <button class="sound-btn" id="button-9">Windows XP</button>
+    <button class="sound-btn" id="button-10">Text</button>
+    <button class="sound-btn" id="button-11">Sad Trombone</button>
+    <button class="sound-btn" id="button-12">Vine Boom</button>
+    <button class="sound-btn" id="button-13">We’ll Be Right Back</button>
+    <button class="sound-btn" id="button-14">My Name Is Jeff</button>
+    <button class="sound-btn" id="button-15">Goat Scream</button>
+    <button class="sound-btn" id="button-16">Hi How Are Ya</button>
+    <button class="sound-btn" id="button-17">Why Are You Running</button>
+    <button class="sound-btn" id="button-18">FBI OPEN UP</button>
+    <button class="sound-btn" id="button-19">Sad Trombone 2</button>
+  </div>
+
+  <!-- Hidden YouTube Players -->
+  <div class="hidden">
+    <!-- Player containers for all 19 sounds -->
+    <div id="youtube-player-1"></div>
+    <div id="youtube-player-2"></div>
+    <div id="youtube-player-3"></div>
+    <div id="youtube-player-4"></div>
+    <div id="youtube-player-5"></div>
+    <div id="youtube-player-6"></div>
+    <div id="youtube-player-7"></div>
+    <div id="youtube-player-8"></div>
+    <div id="youtube-player-9"></div>
+    <div id="youtube-player-10"></div>
+    <div id="youtube-player-11"></div>
+    <div id="youtube-player-12"></div>
+    <div id="youtube-player-13"></div>
+    <div id="youtube-player-14"></div>
+    <div id="youtube-player-15"></div>
+    <div id="youtube-player-16"></div>
+    <div id="youtube-player-17"></div>
+    <div id="youtube-player-18"></div>
+    <div id="youtube-player-19"></div>
+  </div>
+
+  <script>
+    const playerMap = [
+      { id: '9kmVdKlUDbc', button: 'button-1' },
+      { id: 'uu2AIId3aWk', button: 'button-2' },
+      { id: 'CpGtBnVZLSk', button: 'button-3' },
+      { id: 'UaUa_0qPPgc', button: 'button-4' },
+      { id: 'b4LGBNTeKz0', button: 'button-5' },
+      { id: 'qT1M4-2TD3o', button: 'button-6' },
+      { id: 'kTVggUHghMs', button: 'button-7' },
+      { id: '0XbPotb-scU', button: 'button-8' },
+      { id: '-Z6RdQ2GpZw', button: 'button-9' },
+      { id: 'EAdXXZI6DeY', button: 'button-10' },
+      { id: 'iSqEJwGNRUM', button: 'button-11' },
+      { id: 'TApmI8YtYhc', button: 'button-12' },
+      { id: '1C9h0_cIvLg', button: 'button-13' },
+      { id: '_nce9A5S5uM', button: 'button-14' },
+      { id: 'X78GyIfrSV4', button: 'button-15' },
+      { id: 'YKWRzmUVHHU', button: 'button-16' },
+      { id: 'vSX713CJb3Y', button: 'button-17' },
+      { id: 'QQR7t712Mhg', button: 'button-18' },
+      { id: '_asNhzXq72w', button: 'button-19' },
+    ];
+
+    const players = {};
+
+    // YouTube IFrame API initialization
+    function onYouTubeIframeAPIReady() {
+      playerMap.forEach((item, index) => {
+        players[item.button] = new YT.Player(`youtube-player-${index + 1}`, {
+          videoId: item.id,
+          playerVars: { autoplay: 0, controls: 0, showinfo: 0, modestbranding: 1 },
+        });
+      });
+    }
+
+    // Play from the beginning on button click
+    playerMap.forEach((item) => {
+      document.getElementById(item.button).addEventListener('click', () => {
+        const player = players[item.button];
+        player.seekTo(0); // Reset to the beginning
+        player.playVideo();
+      });
+    });
+
+    // Load the YouTube IFrame API
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  </script>
+</body>
+</html>
