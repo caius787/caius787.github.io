@@ -4,84 +4,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown to Christmas</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <title>Christmas Countdown</title>
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
-            background-color: #9370DB;
+            background-color: hsl(260, 60%, 65%);
             margin: 0;
             padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            width: 100vw;
             box-sizing: border-box;
-            color: white;
         }
 
         .countdown-box {
-            text-align: center;
             background-color: white;
             color: #9370DB;
-            padding: 50px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             font-size: 2em;
+            width: 80%; /* Adjust width for better aesthetics */
+            max-width: 500px; /* Prevent it from getting too wide */
+            padding-bottom: 60px; /* Ensure space for button */
+            position: relative;
         }
 
         .countdown-title {
-            font-size: 2.5em;
+            font-size: 1.5em;
             margin-bottom: 20px;
-            font-family: 'Visby Round', sans-serif; /* Same font as the grid */
-            font-weight: bold; /* Bold, similar to the grid */
+            font-weight: bold;
         }
 
         .countdown-time {
-            font-size: 3em;
+            font-size: 1.5em;
             font-weight: bold;
+            display: flex;
+            gap: 10px;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        h7 {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .alternate-button {
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.9em;
+            padding: 8px 15px;
+            border: none;
+            background-color: #9370DB;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .alternate-button:hover {
+            background-color: #6e52a7;
+            transform: scale(1.05);
+        }
+
+        .alternate-button:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
 
 <body>
-
     <div class="countdown-box">
-        <div class="countdown-title">Christmas</div> <!-- This title matches the label from the grid -->
-        <div class="countdown-time" id="countdown2"></div>
+        <div class="countdown-title">Christmas Countdown</div>
+        <div class="countdown-time" id="countdown"></div>
+        <a href="../mchristmas.html" class="alternate-button">Alternate</a>
     </div>
 
     <script>
-        function countdownToChristmas() {
+        function updateCountdown() {
             const now = new Date();
-            const currentYear = now.getFullYear();
-            const nextChristmas = new Date(`December 25, ${currentYear} 00:00:00`);
-
-            // If the current time is past Christmas this year, countdown to next year's Christmas
-            if (now > nextChristmas) {
-                nextChristmas.setFullYear(currentYear + 1);
+            const targetDate = new Date(`${new Date().getFullYear()}-12-25T00:00:00`);
+            if (now > targetDate) {
+                targetDate.setFullYear(targetDate.getFullYear() + 1); // Move to next year if Christmas has passed
             }
 
-            const timeDifference = nextChristmas - now;
+            const timeDifference = targetDate - now;
 
-            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            let years = 0;
+
+            if (days > 365) {
+                years = Math.floor(days / 365);
+                days = days % 365;
+            }
+
             const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            document.getElementById('countdown2').innerHTML =
-                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+            let countdownText = '';
+            if (years > 0) {
+                countdownText += `
+                <div class="countdown-item">
+                    <div>${years.toString().padStart(2, '0')}</div>
+                    <h7>Years</h7>
+                </div>`;
+            }
+            countdownText += `
+            <div class="countdown-item">
+                <div>${days.toString().padStart(2, '0')}</div>
+                <h7>Days</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${hours.toString().padStart(2, '0')}</div>
+                <h7>Hours</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${minutes.toString().padStart(2, '0')}</div>
+                <h7>Minutes</h7>
+            </div>
+            <div class="countdown-item">
+                <div>${seconds.toString().padStart(2, '0')}</div>
+                <h7>Seconds</h7>
+            </div>`;
 
-            // Repeat every second
-            setTimeout(countdownToChristmas, 1000);
+            document.getElementById('countdown').innerHTML = countdownText;
+
+            setTimeout(updateCountdown, 1000); // Update every second
         }
 
-        countdownToChristmas();
+        updateCountdown();
     </script>
-
 </body>
 
 </html>
