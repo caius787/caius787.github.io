@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            background-color: #e0f7fa; /* Very light blue */
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 5vmin;
+            margin-bottom: 3vmin;
+        }
+
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(6, 8vmin);
+            gap: 1vmin;
+            justify-content: center;
+        }
+
+        .color {
+            width: 8vmin;
+            height: 8vmin;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid gray;
+        }
+
+        .color.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .color:hover {
+            transform: scale(1.1);
+            border-color: black;
+        }
+
+        .board {
+            width: 90vmin;
+            height: 90vmin;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 2vmin;
+            position: relative;
+        }
+
+        .line {
+            position: absolute;
+            background-color: black; /* Black lines */
+            border-radius: 5px;
+        }
+
+        .line.horizontal {
+            width: 100%;
+            height: 2vmin;
+        }
+
+        .line.vertical {
+            width: 2vmin;
+            height: 100%;
+        }
+
+        .line:nth-child(1) { top: 33.33%; left: 0; }
+        .line:nth-child(2) { top: 66.66%; left: 0; }
+        .line:nth-child(3) { top: 0; left: 33.33%; }
+        .line:nth-child(4) { top: 0; left: 66.66%; }
+
+        .cell {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            border: 2px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8vmin;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cell.taken {
+            pointer-events: none;
+        }
+
+        .status {
+            font-size: 4vmin;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 2vmin;
+        }
+    </style>
+</head>
+<body>
+    <!-- Choose Color Page -->
+    <div class="container" id="colorPickerPage">
+        <div class="title">Choose Color</div>
+        <div>Player 1:</div>
+        <div class="color-picker" id="player1Colors"></div>
+        <div>Player 2:</div>
+        <div class="color-picker" id="player2Colors"></div>
+    </div>
+
+    <!-- Tic Tac Toe Board -->
+    <div class="hidden container" id="gameScreen">
+        <div class="status" id="statusMessage"></div>
+        <div class="board" id="gameBoard">
+            <div class="line horizontal"></div>
+            <div class="line horizontal"></div>
+            <div class="line vertical"></div>
+            <div class="line vertical"></div>
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+    </div>
+
+    <script>
+        const player1Colors = document.getElementById("player1Colors");
+        const player2Colors = document.getElementById("player2Colors");
+        const gameScreen = document.getElementById("gameScreen");
+        const colorPickerPage = document.getElementById("colorPickerPage");
+        const statusMessage = document.getElementById("statusMessage");
+        const board = document.getElementById("gameBoard");
+        const cells = board.querySelectorAll(".cell");
+        let player1Color = null;
+        let player2Color = null;
+        let currentPlayer = "X";
+        let boardState = Array(9).fill(null);
+
+        // Winning combinations
+        const winningCombos = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        // Rainbow colors
+        const colors = [
+            "red", "orange", "yellow", "green", "blue", "indigo", "violet",
+            "pink", "teal", "brown", "gray", "black"
+        ];
+
+        // Populate color picker for each player
+        colors.forEach(color => {
+            const colorBox1 = document.createElement("div");
+            const colorBox2 = document.createElement("div");
+            colorBox1.className = "color";
+            colorBox1.style.backgroundColor = color;
+            colorBox2.className = "color";
+            colorBox2.style.backgroundColor = color;
+
+            colorBox1.addEventListener("click", () => {
+                player1Color = color;
+                disableColor(player1Color, player2Colors);
+                checkReadyToPlay();
+            });
+
+            colorBox2.addEventListener("click", () => {
+                player2Color = color;
+                disableColor(player2Color, player1Colors);
+                checkReadyToPlay();
+            });
+
+            player1Colors.appendChild(colorBox1);
+            player2Colors.appendChild(colorBox2);
+        });
+
+        // Disable a color for the other player
+        function disableColor(selectedColor, otherPlayerColors) {
+            const allColors = otherPlayerColors.querySelectorAll(".color");
+            allColors.forEach(color => {
+                if (color.style.backgroundColor === selectedColor) {
+                    color.classList.add("disabled");
+                } else {
+                    color.classList.remove("disabled");
+                }
+            });
+        }
+
+        // Check if both players have chosen colors
+        function checkReadyToPlay() {
+            if (player1Color && player2Color) {
+                colorPickerPage.classList.add("hidden");
+                gameScreen.classList.remove("hidden");
+                updateStatusMessage();
+            }
+        }
+
+        // Update status message
+        function updateStatusMessage() {
+            if (checkWinner() || checkTie()) return;
+
+            const currentColor = currentPlayer === "X" ? player1Color : player2Color;
+            statusMessage.textContent = `${capitalize(currentColor)} to Move`;
+            statusMessage.style.color = currentColor;
+        }
+
+        // Start game interactions
+        board.addEventListener("click", (event) => {
+            const cell = event.target;
+            const index = Array.from(cells).indexOf(cell);
+
+            if (cell.classList.contains("cell") && !cell.classList.contains("taken")) {
+                cell.textContent = currentPlayer;
+                cell.style.color = currentPlayer === "X" ? player1Color : player2Color;
+                cell.classList.add("taken");
+                boardState[index] = currentPlayer;
+
+                if (checkWinner() || checkTie()) return;
+
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+                updateStatusMessage();
+            }
+        });
+
+        // Check for winner
+        function checkWinner() {
+            for (const combo of winningCombos) {
+                const [a, b, c] = combo;
+                if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
+                    const winnerColor = boardState[a] === "X" ? player1Color : player2Color;
+                    statusMessage.textContent = `${capitalize(winnerColor)} Wins!`;
+                    statusMessage.style.color = winnerColor;
+                    board.style.pointerEvents = "none"; // Stop further interactions
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Check for a tie
+        function checkTie() {
+            if (!boardState.includes(null)) {
+                statusMessage.textContent = "It's a Tie!";
+                statusMessage.style.color = "black";
+                return true;
+            }
+            return false;
+        }
+
+        // Capitalize color names
+        function capitalize(color) {
+            return color.charAt(0).toUpperCase() + color.slice(1);
+        }
+    </script>
+</body>
+</html>
