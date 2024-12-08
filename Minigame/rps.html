@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .fullscreen-input {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .fullscreen-input h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .fullscreen-input input {
+            width: 80%;
+            max-width: 600px;
+            padding: 15px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        .fullscreen-input button {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 50%;
+            max-width: 300px;
+        }
+        .fullscreen-input button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .game-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .red-line {
+            width: 5px;
+            height: 100%;
+            background-color: red;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .player-area {
+            width: 50%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .player1 {
+            left: 0;
+        }
+        .player2 {
+            right: 0;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ddd;
+            color: #888;
+            cursor: not-allowed;
+        }
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .turn-instruction {
+            font-size: 18px;
+            font-weight: 600;
+            color: red;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="player1-name-input" class="fullscreen-input">
+        <h2>Player 1, what is your name?</h2>
+        <input type="text" id="player1" placeholder="Enter your name">
+        <button onclick="setPlayer1Name()">Go</button>
+    </div>
+
+    <div id="player2-name-input" class="fullscreen-input hidden">
+        <h2>Player 2, what is your name?</h2>
+        <input type="text" id="player2" placeholder="Enter your name">
+        <button onclick="setPlayer2Name()">Go</button>
+    </div>
+
+    <div class="game-container" id="game-section">
+        <div class="red-line"></div>
+        <div class="player-area player1" id="player1-area">
+            <h2 id="player1-turn"></h2>
+            <div class="turn-instruction hidden" id="player1-instruction"></div>
+            <div class="choices" id="player1-choices">
+                <button onclick="makeChoice('scissors')" id="p1-scissors"><i class="fa-solid fa-hand-scissors"></i> Scissors</button>
+                <button onclick="makeChoice('rock')" id="p1-rock"><i class="fa-solid fa-hand-back-fist"></i> Rock</button>
+                <button onclick="makeChoice('paper')" id="p1-paper"><i class="fa-solid fa-hand"></i> Paper</button>
+            </div>
+        </div>
+        <div class="player-area player2" id="player2-area">
+            <h2 id="player2-turn"></h2>
+            <div class="turn-instruction hidden" id="player2-instruction"></div>
+            <div class="choices" id="player2-choices">
+                <button onclick="makeChoice('scissors')" id="p2-scissors" disabled><i class="fa-solid fa-hand-scissors"></i> Scissors</button>
+                <button onclick="makeChoice('rock')" id="p2-rock" disabled><i class="fa-solid fa-hand-back-fist"></i> Rock</button>
+                <button onclick="makeChoice('paper')" id="p2-paper" disabled><i class="fa-solid fa-hand"></i> Paper</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let player1Name = '';
+        let player2Name = '';
+        let player1Choice = '';
+        let player2Choice = '';
+        let currentPlayer = 1;
+
+        function setPlayer1Name() {
+            player1Name = document.getElementById('player1').value.trim();
+            if (player1Name) {
+                document.getElementById('player1-name-input').classList.add('hidden');
+                document.getElementById('player2-name-input').classList.remove('hidden');
+            }
+        }
+
+        function setPlayer2Name() {
+            player2Name = document.getElementById('player2').value.trim();
+            if (player2Name) {
+                document.getElementById('player2-name-input').classList.add('hidden');
+                document.getElementById('game-section').style.display = 'flex';
+                startGame();
+            }
+        }
+
+        function startGame() {
+            document.getElementById('player1-turn').textContent = `${player1Name}, your turn!`;
+            document.getElementById('player2-instruction').textContent = `${player2Name}, turn around!`;
+            document.getElementById('player2-instruction').classList.remove('hidden');
+            toggleButtons('player1');
+        }
+
+        function toggleButtons(activePlayer) {
+            const player1Buttons = document.querySelectorAll('#player1-choices button');
+            const player2Buttons = document.querySelectorAll('#player2-choices button');
+
+            if (activePlayer === 'player1') {
+                player1Buttons.forEach(btn => btn.disabled = false);
+                player2Buttons.forEach(btn => btn.disabled = true);
+            } else {
+                player1Buttons.forEach(btn => btn.disabled = true);
+                player2Buttons.forEach(btn => btn.disabled = false);
+            }
+        }
+
+        function makeChoice(choice) {
+            if (currentPlayer === 1) {
+                player1Choice = choice;
+                currentPlayer = 2;
+                document.getElementById('player1-turn').textContent = '';
+                document.getElementById('player2-turn').textContent = `${player2Name}, your turn!`;
+                document.getElementById('player1-instruction').textContent = `${player1Name}, turn around!`;
+                document.getElementById('player1-instruction').classList.remove('hidden');
+                document.getElementById('player2-instruction').classList.add('hidden');
+                toggleButtons('player2');
+            } else {
+                player2Choice = choice;
+                currentPlayer = 1;
+                document.getElementById('player2-turn').textContent = '';
+                document.getElementById('player2-instruction').classList.remove('hidden');
+                document.getElementById('player1-instruction').classList.add('hidden');
+                toggleButtons('player1');
+                declareWinner();
+            }
+        }
+
+        function declareWinner() {
+            let result = '';
+            if (player1Choice === player2Choice) {
+                result = "It's a tie!";
+            } else if (
+                (player1Choice === 'rock' && player2Choice === 'scissors') ||
+                (player1Choice === 'scissors' && player2Choice === 'paper') ||
+                (player1Choice === 'paper' && player2Choice === 'rock')
+            ) {
+                result = `${player1Name} wins!`;
+            } else {
+                result = `${player2Name} wins!`;
+            }
+
+            document.body.innerHTML = `
+                <h2>${result}</h2>
+                <p>${player1Name} chose ${player1Choice}</p>
+                <p>${player2Name} chose ${player2Choice}</p>
+            `;
+
+            // Redirect to caius787.github.io after 3 seconds
+            setTimeout(() => {
+                window.location.href = "https://caius787.github.io";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
