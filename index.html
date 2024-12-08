@@ -7,12 +7,10 @@
     <!-- Include Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Use 'Poppins' font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- Existing meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Other head elements -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -48,7 +46,7 @@
 
         .christmas-list {
             display: inline-block;
-            margin: 40px auto; /* Space above and below the link */
+            margin: 40px auto;
             padding: 20px 40px;
             background-color: white;
             color: #9370DB;
@@ -67,17 +65,17 @@
         .container {
             width: 98%;
             margin: 0;
-            padding: 0 15px; /* Add side padding */
+            padding: 0 15px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted min width */
-            gap: 15px; /* Space between boxes */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
             z-index: 10;
         }
 
         .box {
             background-color: white;
             color: #9370DB;
-            padding: 40px 20px; /* Keep height the same */
+            padding: 40px 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -103,7 +101,7 @@
 
         ul li {
             margin: 10px 0;
-            font-size: 1.1em; /* Keep font size */
+            font-size: 1.1em;
         }
 
         ul li a {
@@ -115,12 +113,10 @@
             text-decoration: underline;
         }
 
-        /* Add custom spacing for <br> */
         .spacer {
-            height: 30px; /* Adjust this value to increase/decrease space */
+            height: 30px;
         }
 
-        /* Confetti style */
         .confetti {
             position: absolute;
             border-radius: 50%;
@@ -145,14 +141,13 @@
 
 <body>
     <h1>Welcome to my website!</h1>
-    <div class="spacer"></div> <!-- Spacer for additional gap -->
+    <div class="spacer"></div>
     <h2>Where the most wonderful people are!</h2>
-    <div class="spacer"></div> <!-- Spacer for additional gap -->
+    <div class="spacer"></div>
     <a href="xmas.html" class="christmas-list confetti-link">2024 Christmas List</a>
-    <div class="spacer"></div> <!-- Spacer for additional gap -->
+    <div class="spacer"></div>
 
     <div class="container">
-        <!-- Minecraft Links Box -->
         <div class="box">
             <h4>Minecraft Links</h4>
             <ul>
@@ -169,7 +164,6 @@
             </ul>
         </div>
 
-        <!-- Dad's Links Box -->
         <div class="box">
             <h4>Dad</h4>
             <ul>
@@ -177,56 +171,47 @@
             </ul>
         </div>
 
-<!-- Other Stuff Box -->
-<div class="box">
-    <h4>Other Stuff</h4>
-    <ul>
-        <li><a href="typinggame.html" class="confetti-link">Typing Game</a></li>
-        <li><a href="xmas.html" class="confetti-link">Christmas List</a></li> <!-- Updated link -->
-        <li><a href="countdowns/index.html" class="confetti-link">Countdowns</a></li>
-        <li><a href="teslaquiz/index.html" class="confetti-link">Tesla Quiz</a></li>
-        <li><a href="https://caius787.github.io/soundboard.html" class="confetti-link">Soundboard</a></li>
-    </ul>
-</div>
+        <div class="box">
+            <h4>Other Stuff</h4>
+            <ul>
+                <li><a href="typinggame.html" class="confetti-link">Typing Game</a></li>
+                <li><a href="xmas.html" class="confetti-link">Christmas List</a></li>
+                <li><a href="countdowns/index.html" class="confetti-link">Countdowns</a></li>
+                <li><a href="teslaquiz/index.html" class="confetti-link">Tesla Quiz</a></li>
+                <li><a href="https://caius787.github.io/soundboard.html" class="confetti-link">Soundboard</a></li>
+                <li><a href="https://caius787.github.io/minigame/tic.html" class="confetti-link">Minigames</a></li>
+            </ul>
+        </div>
     </div>
 
     <script>
-        // Handle confetti effect on links
         document.querySelectorAll('.confetti-link').forEach(link => {
             link.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent the link from redirecting immediately
+                event.preventDefault();
                 const linkRect = this.getBoundingClientRect();
 
-                // Generate confetti effect
                 for (let i = 0; i < 100; i++) {
                     let confetti = document.createElement('div');
                     confetti.classList.add('confetti');
                     document.body.appendChild(confetti);
 
-                    // Randomize the size, position, and direction of the confetti
                     let size = Math.random() * 12 + 6 + 'px';
                     confetti.style.width = size;
                     confetti.style.height = size;
-
                     confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
-
-                    // Position confetti at the center of the clicked link
                     confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
                     confetti.style.top = linkRect.top + linkRect.height / 2 + 'px';
 
-                    // Random direction
                     let x = (Math.random() - 0.5) * 700 + 'px';
                     let y = (Math.random() - 0.5) * 700 + 'px';
                     confetti.style.setProperty('--x', x);
                     confetti.style.setProperty('--y', y);
 
-                    // Remove the confetti after animation
                     setTimeout(() => {
                         confetti.remove();
                     }, 800);
                 }
 
-                // Delay the actual link navigation
                 setTimeout(() => {
                     window.location.href = this.href;
                 }, 500);
