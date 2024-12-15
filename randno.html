@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f6e7e6; /* Pastel background */
+            overflow: hidden;
+        }
+
+        .white-box {
+            width: 400px;
+            height: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: absolute;
+            cursor: move; /* Indicates draggable area */
+        }
+
+        .white-box .resizer {
+            width: 10px;
+            height: 10px;
+            background-color: #007BFF;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            cursor: se-resize;
+        }
+
+        .inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .inputs input {
+            width: 45%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .generate-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .generate-button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            font-size: 48px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .result.animate {
+            transform: scale(1.5);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="white-box" id="whiteBox">
+        <h1>Random Number Generator</h1>
+        <div class="inputs">
+            <input type="number" id="min" placeholder="Lowest Number (Default: 0)">
+            <input type="number" id="max" placeholder="Highest Number (Default: 6)">
+        </div>
+        <button class="generate-button" onclick="generateRandom()">Generate!</button>
+        <div class="result" id="result">🎲</div>
+        <div class="resizer"></div>
+    </div>
+
+    <script>
+        const whiteBox = document.getElementById('whiteBox');
+        const resultDiv = document.getElementById('result');
+
+        // Store original position and size
+        const originalPosition = { top: "50%", left: "50%", transform: "translate(-50%, -50%)" };
+        const originalSize = { width: "400px", height: "auto" };
+
+        // Apply original values to the box
+        function resetBox() {
+            whiteBox.style.top = originalPosition.top;
+            whiteBox.style.left = originalPosition.left;
+            whiteBox.style.transform = originalPosition.transform;
+            whiteBox.style.width = originalSize.width;
+            whiteBox.style.height = originalSize.height;
+        }
+
+        // Reset on double-click
+        whiteBox.addEventListener('dblclick', resetBox);
+
+        // Random Number Generator
+        function generateRandom() {
+            const min = parseInt(document.getElementById('min').value) || 0;
+            const max = parseInt(document.getElementById('max').value) || 6;
+
+            if (min > max) {
+                resultDiv.textContent = 'Invalid Input!';
+                resultDiv.style.color = 'red';
+                return;
+            }
+
+            resultDiv.style.color = '#333';
+            resultDiv.textContent = '🎲'; // Reset to dice icon
+            resultDiv.classList.remove('animate');
+
+            setTimeout(() => {
+                const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+                resultDiv.textContent = randomNumber;
+                resultDiv.classList.add('animate');
+            }, 500); // Delay for suspense
+        }
+
+        // Draggable functionality
+        let offsetX, offsetY, isDragging = false;
+
+        whiteBox.addEventListener('mousedown', (e) => {
+            if (e.target.classList.contains('resizer')) return; // Ignore drag when resizing
+            isDragging = true;
+            offsetX = e.clientX - whiteBox.getBoundingClientRect().left;
+            offsetY = e.clientY - whiteBox.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            whiteBox.style.left = `${e.clientX - offsetX}px`;
+            whiteBox.style.top = `${e.clientY - offsetY}px`;
+            whiteBox.style.transform = ""; // Remove centering when moved
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Resizable functionality
+        const resizer = document.querySelector('.resizer');
+        let isResizing = false;
+
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            const newWidth = e.clientX - whiteBox.getBoundingClientRect().left;
+            const newHeight = e.clientY - whiteBox.getBoundingClientRect().top;
+            whiteBox.style.width = `${Math.max(newWidth, 200)}px`; // Set minimum width
+            whiteBox.style.height = `${Math.max(newHeight, 150)}px`; // Set minimum height
+        });
+
+        document.addEventListener('mouseup', () => {
+            isResizing = false;
+        });
+    </script>
+</body>
+
+</html>
