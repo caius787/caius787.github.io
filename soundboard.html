@@ -21,7 +21,7 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
       gap: 10px;
       width: 95vw;
       height: 95vh;
@@ -69,27 +69,28 @@
     <button class="sound-btn" id="button-1">YAHOO!</button>
     <button class="sound-btn" id="button-2">Mission Passed<br>Respect +</button>
     <button class="sound-btn" id="button-3">Crickets</button>
-    <button class="sound-btn" id="button-4">Air Horn</button>
-    <button class="sound-btn" id="button-5">No</button>
-    <button class="sound-btn" id="button-6">Yes</button>
-    <button class="sound-btn" id="button-7">TOUCHDOWN!</button>
-    <button class="sound-btn" id="button-8">Boi What Da Hail Boi</button>
-    <button class="sound-btn" id="button-9">Windows XP</button>
-    <button class="sound-btn" id="button-10">Text</button>
-    <button class="sound-btn" id="button-11">Sad Trombone</button>
-    <button class="sound-btn" id="button-12">Vine Boom</button>
-    <button class="sound-btn" id="button-13">We’ll Be Right Back</button>
-    <button class="sound-btn" id="button-14">My Name Is Jeff</button>
-    <button class="sound-btn" id="button-15">Goat Scream</button>
-    <button class="sound-btn" id="button-16">Hi How Are Ya</button>
-    <button class="sound-btn" id="button-17">Why Are You Running</button>
-    <button class="sound-btn" id="button-18">FBI OPEN UP</button>
-    <button class="sound-btn" id="button-19">Sad Trombone 2</button>
+    <button class="sound-btn" id="button-4">Sad Trombone</button>
+    <button class="sound-btn" id="button-5">Sad Trombone 2</button>
+    <button class="sound-btn" id="button-6">No</button>
+    <button class="sound-btn" id="button-7">Yes</button>
+    <button class="sound-btn" id="button-8">TOUCHDOWN!</button>
+    <button class="sound-btn" id="button-9">Boi What Da Hail Boi</button>
+    <button class="sound-btn" id="button-10">Windows XP</button>
+    <button class="sound-btn" id="button-11">Text</button>
+    <button class="sound-btn" id="button-12">Cartoon Running</button>
+    <button class="sound-btn" id="button-13">Air Horn</button>
+    <button class="sound-btn" id="button-14">Vine Boom</button>
+    <button class="sound-btn" id="button-15">We’ll Be Right Back</button>
+    <button class="sound-btn" id="button-16">My Name Is Jeff</button>
+    <button class="sound-btn" id="button-17">Goat Scream</button>
+    <button class="sound-btn" id="button-18">Hi How Are Ya</button>
+    <button class="sound-btn" id="button-19">Why Are You Running</button>
+    <button class="sound-btn" id="button-20">FBI OPEN UP</button>
   </div>
 
   <!-- Hidden YouTube Players -->
   <div class="hidden">
-    <!-- Player containers for all 19 sounds -->
+    <!-- Player containers for all sounds -->
     <div id="youtube-player-1"></div>
     <div id="youtube-player-2"></div>
     <div id="youtube-player-3"></div>
@@ -109,6 +110,7 @@
     <div id="youtube-player-17"></div>
     <div id="youtube-player-18"></div>
     <div id="youtube-player-19"></div>
+    <div id="youtube-player-20"></div>
   </div>
 
   <script>
@@ -116,22 +118,23 @@
       { id: '9kmVdKlUDbc', button: 'button-1' },
       { id: 'uu2AIId3aWk', button: 'button-2' },
       { id: 'CpGtBnVZLSk', button: 'button-3' },
-      { id: 'UaUa_0qPPgc', button: 'button-4' },
-      { id: 'b4LGBNTeKz0', button: 'button-5' },
-      { id: 'qT1M4-2TD3o', button: 'button-6' },
-      { id: 'kTVggUHghMs', button: 'button-7' },
-      { id: '0XbPotb-scU', button: 'button-8' },
-      { id: '-Z6RdQ2GpZw', button: 'button-9' },
-      { id: 'EAdXXZI6DeY', button: 'button-10' },
-      { id: 'iSqEJwGNRUM', button: 'button-11' },
-      { id: 'TApmI8YtYhc', button: 'button-12' },
-      { id: '1C9h0_cIvLg', button: 'button-13' },
-      { id: '_nce9A5S5uM', button: 'button-14' },
-      { id: 'X78GyIfrSV4', button: 'button-15' },
-      { id: 'YKWRzmUVHHU', button: 'button-16' },
-      { id: 'vSX713CJb3Y', button: 'button-17' },
-      { id: 'QQR7t712Mhg', button: 'button-18' },
-      { id: '_asNhzXq72w', button: 'button-19' },
+      { id: 'iSqEJwGNRUM', button: 'button-4' },
+      { id: '_asNhzXq72w', button: 'button-5' },
+      { id: 'b4LGBNTeKz0', button: 'button-6' },
+      { id: 'qT1M4-2TD3o', button: 'button-7' },
+      { id: 'kTVggUHghMs', button: 'button-8' },
+      { id: '0XbPotb-scU', button: 'button-9' },
+      { id: '-Z6RdQ2GpZw', button: 'button-10' },
+      { id: 'EAdXXZI6DeY', button: 'button-11' },
+      { id: 'igSHbtv52G4', button: 'button-12' },
+      { id: 'UaUa_0qPPgc', button: 'button-13' }, <!-- Restored Air Horn -->
+      { id: 'TApmI8YtYhc', button: 'button-14' },
+      { id: '1C9h0_cIvLg', button: 'button-15' },
+      { id: '_nce9A5S5uM', button: 'button-16' },
+      { id: 'X78GyIfrSV4', button: 'button-17' },
+      { id: 'YKWRzmUVHHU', button: 'button-18' },
+      { id: 'vSX713CJb3Y', button: 'button-19' },
+      { id: 'QQR7t712Mhg', button: 'button-20' },
     ];
 
     const players = {};
@@ -141,7 +144,7 @@
       playerMap.forEach((item, index) => {
         players[item.button] = new YT.Player(`youtube-player-${index + 1}`, {
           videoId: item.id,
-          playerVars: { autoplay: 0, controls: 0, showinfo: 0, modestbranding: 1 },
+          playerVars: { autoplay: 0, start: 0, controls: 0, showinfo: 0, modestbranding: 1 },
         });
       });
     }
