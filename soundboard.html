@@ -127,7 +127,7 @@
       { id: '-Z6RdQ2GpZw', button: 'button-10' },
       { id: 'EAdXXZI6DeY', button: 'button-11' },
       { id: 'igSHbtv52G4', button: 'button-12' },
-      { id: 'UaUa_0qPPgc', button: 'button-13' }, <!-- Restored Air Horn -->
+      { id: 'UaUa_0qPPgc', button: 'button-13' },
       { id: 'TApmI8YtYhc', button: 'button-14' },
       { id: '1C9h0_cIvLg', button: 'button-15' },
       { id: '_nce9A5S5uM', button: 'button-16' },
@@ -138,9 +138,13 @@
     ];
 
     const players = {};
+    let initialized = false;
 
-    // YouTube IFrame API initialization
-    function onYouTubeIframeAPIReady() {
+    // Initialize players on the first interaction
+    function initializePlayers() {
+      if (initialized) return; // Avoid re-initialization
+      initialized = true;
+
       playerMap.forEach((item, index) => {
         players[item.button] = new YT.Player(`youtube-player-${index + 1}`, {
           videoId: item.id,
@@ -152,6 +156,7 @@
     // Play from the beginning on button click
     playerMap.forEach((item) => {
       document.getElementById(item.button).addEventListener('click', () => {
+        initializePlayers(); // Ensure players are initialized
         const player = players[item.button];
         player.seekTo(0); // Reset to the beginning
         player.playVideo();
