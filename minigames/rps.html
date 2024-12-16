@@ -3,289 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
+    <title>Rock Paper Scissors</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="manifest" href="/site.webmanifest">
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #e0f7fa; /* Very light blue */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Lexend', sans-serif;
+            background-color: white;
             margin: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .container {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 4vmin;
-            margin-bottom: 2vmin;
-        }
-
-        .color-picker {
-            display: grid;
-            grid-template-columns: repeat(6, 50px);
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .color {
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-            cursor: pointer;
-            border: 2px solid gray;
-        }
-
-        .color.disabled {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .color:hover {
-            transform: scale(1.1);
-            border-color: black;
-        }
-
-        .board {
-            position: relative;
-            width: 90vmin;
-            height: 90vmin;
+            padding: 0;
+            height: 100vh;
             display: flex;
-            flex-wrap: wrap;
-            align-content: stretch;
-            margin-top: 20px;
-        }
-
-        .line {
-            position: absolute;
-            background-color: black; /* Black lines */
-            border-radius: 5px;
-        }
-
-        .line.horizontal {
-            width: 100%;
-            height: 10px;
-        }
-
-        .line.vertical {
-            width: 10px;
-            height: 100%;
-        }
-
-        .line:nth-child(1) { top: 33.33%; left: 0; }
-        .line:nth-child(2) { top: 66.66%; left: 0; }
-        .line:nth-child(3) { top: 0; left: 33.33%; }
-        .line:nth-child(4) { top: 0; left: 66.66%; }
-
-        .cell {
-            width: 33.33%;
-            height: 33.33%;
-            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 6vmin;
-            font-weight: bold;
+        }
+        .fullscreen-input {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .fullscreen-input h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .fullscreen-input input {
+            width: 80%;
+            max-width: 600px;
+            padding: 15px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        .fullscreen-input button {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 50%;
+            max-width: 300px;
+        }
+        .fullscreen-input button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .game-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .red-line {
+            width: 5px;
+            height: 100%;
+            background-color: red;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .player-area {
+            width: 50%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .player1 {
+            left: 0;
+        }
+        .player2 {
+            right: 0;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
         }
-
-        .cell.taken {
-            pointer-events: none;
+        button:disabled {
+            background-color: #ddd;
+            color: #888;
+            cursor: not-allowed;
         }
-
-        .status {
-            font-size: 3vmin;
-            font-weight: bold;
-            text-align: center;
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .turn-instruction {
+            font-size: 18px;
+            font-weight: 600;
+            color: red;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-    <!-- Choose Color Page -->
-    <div class="container" id="colorPickerPage">
-        <div class="title">Choose Color</div>
-        <div>Player 1:</div>
-        <div class="color-picker" id="player1Colors"></div>
-        <div>Player 2:</div>
-        <div class="color-picker" id="player2Colors"></div>
+    <div id="player1-name-input" class="fullscreen-input">
+        <h2>Player 1, what is your name?</h2>
+        <input type="text" id="player1" placeholder="Enter your name">
+        <button onclick="setPlayer1Name()">Go</button>
     </div>
 
-    <!-- Tic Tac Toe Board -->
-    <div class="hidden container" id="gameScreen">
-        <div class="status" id="statusMessage"></div>
-        <div class="board" id="gameBoard">
-            <div class="line horizontal"></div>
-            <div class="line horizontal"></div>
-            <div class="line vertical"></div>
-            <div class="line vertical"></div>
-            <div class="cell" data-index="0"></div>
-            <div class="cell" data-index="1"></div>
-            <div class="cell" data-index="2"></div>
-            <div class="cell" data-index="3"></div>
-            <div class="cell" data-index="4"></div>
-            <div class="cell" data-index="5"></div>
-            <div class="cell" data-index="6"></div>
-            <div class="cell" data-index="7"></div>
-            <div class="cell" data-index="8"></div>
+    <div id="player2-name-input" class="fullscreen-input hidden">
+        <h2>Player 2, what is your name?</h2>
+        <input type="text" id="player2" placeholder="Enter your name">
+        <button onclick="setPlayer2Name()">Go</button>
+    </div>
+
+    <div class="game-container" id="game-section">
+        <div class="red-line"></div>
+        <div class="player-area player1" id="player1-area">
+            <h2 id="player1-turn"></h2>
+            <div class="turn-instruction hidden" id="player1-instruction"></div>
+            <div class="choices" id="player1-choices">
+                <button onclick="makeChoice('scissors')" id="p1-scissors"><i class="fa-solid fa-hand-scissors"></i> Scissors</button>
+                <button onclick="makeChoice('rock')" id="p1-rock"><i class="fa-solid fa-hand-back-fist"></i> Rock</button>
+                <button onclick="makeChoice('paper')" id="p1-paper"><i class="fa-solid fa-hand"></i> Paper</button>
+            </div>
+        </div>
+        <div class="player-area player2" id="player2-area">
+            <h2 id="player2-turn"></h2>
+            <div class="turn-instruction hidden" id="player2-instruction"></div>
+            <div class="choices" id="player2-choices">
+                <button onclick="makeChoice('scissors')" id="p2-scissors" disabled><i class="fa-solid fa-hand-scissors"></i> Scissors</button>
+                <button onclick="makeChoice('rock')" id="p2-rock" disabled><i class="fa-solid fa-hand-back-fist"></i> Rock</button>
+                <button onclick="makeChoice('paper')" id="p2-paper" disabled><i class="fa-solid fa-hand"></i> Paper</button>
+            </div>
         </div>
     </div>
 
     <script>
-        const player1Colors = document.getElementById("player1Colors");
-        const player2Colors = document.getElementById("player2Colors");
-        const gameScreen = document.getElementById("gameScreen");
-        const colorPickerPage = document.getElementById("colorPickerPage");
-        const statusMessage = document.getElementById("statusMessage");
-        const board = document.getElementById("gameBoard");
-        const cells = board.querySelectorAll(".cell");
-        let player1Color = null;
-        let player2Color = null;
-        let currentPlayer = "X";
-        let boardState = Array(9).fill(null);
+        let player1Name = '';
+        let player2Name = '';
+        let player1Choice = '';
+        let player2Choice = '';
+        let currentPlayer = 1;
 
-        // Winning combinations
-        const winningCombos = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
-
-        // Rainbow colors
-        const colors = [
-            "red", "orange", "yellow", "green", "blue", "indigo", "violet",
-            "pink", "teal", "brown", "gray", "black"
-        ];
-
-        // Populate color picker for each player
-        colors.forEach(color => {
-            const colorBox1 = document.createElement("div");
-            const colorBox2 = document.createElement("div");
-            colorBox1.className = "color";
-            colorBox1.style.backgroundColor = color;
-            colorBox2.className = "color";
-            colorBox2.style.backgroundColor = color;
-
-            colorBox1.addEventListener("click", () => {
-                player1Color = color;
-                disableColor(player1Color, player2Colors);
-                checkReadyToPlay();
-            });
-
-            colorBox2.addEventListener("click", () => {
-                player2Color = color;
-                disableColor(player2Color, player1Colors);
-                checkReadyToPlay();
-            });
-
-            player1Colors.appendChild(colorBox1);
-            player2Colors.appendChild(colorBox2);
-        });
-
-        // Disable a color for the other player
-        function disableColor(selectedColor, otherPlayerColors) {
-            const allColors = otherPlayerColors.querySelectorAll(".color");
-            allColors.forEach(color => {
-                if (color.style.backgroundColor === selectedColor) {
-                    color.classList.add("disabled");
-                } else {
-                    color.classList.remove("disabled");
-                }
-            });
-        }
-
-        // Check if both players have chosen colors
-        function checkReadyToPlay() {
-            if (player1Color && player2Color) {
-                colorPickerPage.classList.add("hidden");
-                gameScreen.classList.remove("hidden");
-                updateStatusMessage();
+        function setPlayer1Name() {
+            player1Name = document.getElementById('player1').value.trim();
+            if (player1Name) {
+                document.getElementById('player1-name-input').classList.add('hidden');
+                document.getElementById('player2-name-input').classList.remove('hidden');
             }
         }
 
-        // Update status message
-        function updateStatusMessage() {
-            if (checkWinner() || checkTie()) return;
-
-            const currentColor = currentPlayer === "X" ? player1Color : player2Color;
-            statusMessage.textContent = `${capitalize(currentColor)} to Move`;
-            statusMessage.style.color = currentColor;
+        function setPlayer2Name() {
+            player2Name = document.getElementById('player2').value.trim();
+            if (player2Name) {
+                document.getElementById('player2-name-input').classList.add('hidden');
+                document.getElementById('game-section').style.display = 'flex';
+                startGame();
+            }
         }
 
-        // Start game interactions
-        board.addEventListener("click", (event) => {
-            const cell = event.target;
-            const index = Array.from(cells).indexOf(cell);
-
-            if (cell.classList.contains("cell") && !cell.classList.contains("taken")) {
-                cell.textContent = currentPlayer;
-                cell.style.color = currentPlayer === "X" ? player1Color : player2Color;
-                cell.classList.add("taken");
-                boardState[index] = currentPlayer;
-
-                if (checkWinner() || checkTie()) return;
-
-                currentPlayer = currentPlayer === "X" ? "O" : "X";
-                updateStatusMessage();
-            }
-        });
-
-        // Check for winner
-        function checkWinner() {
-            for (const combo of winningCombos) {
-                const [a, b, c] = combo;
-                if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
-                    const winnerColor = boardState[a] === "X" ? player1Color : player2Color;
-                    statusMessage.textContent = `${capitalize(winnerColor)} Wins!`;
-                    statusMessage.style.color = winnerColor;
-                    board.style.pointerEvents = "none"; // Stop further interactions
-
-                    // Redirect to rps.html after 1 second
-                    setTimeout(() => {
-                        window.location.href = "rps.html";
-                    }, 1000);
-
-                    return true;
-                }
-            }
-            return false;
+        function startGame() {
+            document.getElementById('player1-turn').textContent = `${player1Name}, your turn!`;
+            document.getElementById('player2-instruction').textContent = `${player2Name}, turn around!`;
+            document.getElementById('player2-instruction').classList.remove('hidden');
+            toggleButtons('player1');
         }
 
-        // Check for a tie
-        function checkTie() {
-            if (!boardState.includes(null)) {
-                statusMessage.textContent = "It's a Tie!";
-                statusMessage.style.color = "black";
+        function toggleButtons(activePlayer) {
+            const player1Buttons = document.querySelectorAll('#player1-choices button');
+            const player2Buttons = document.querySelectorAll('#player2-choices button');
 
-                // Redirect to rps.html after 1 second
-                setTimeout(() => {
-                    window.location.href = "rps.html";
-                }, 1000);
-
-                return true;
+            if (activePlayer === 'player1') {
+                player1Buttons.forEach(btn => btn.disabled = false);
+                player2Buttons.forEach(btn => btn.disabled = true);
+            } else {
+                player1Buttons.forEach(btn => btn.disabled = true);
+                player2Buttons.forEach(btn => btn.disabled = false);
             }
-            return false;
         }
 
-        // Capitalize color names
-        function capitalize(color) {
-            return color.charAt(0).toUpperCase() + color.slice(1);
+        function makeChoice(choice) {
+            if (currentPlayer === 1) {
+                player1Choice = choice;
+                currentPlayer = 2;
+                document.getElementById('player1-turn').textContent = '';
+                document.getElementById('player2-turn').textContent = `${player2Name}, your turn!`;
+                document.getElementById('player1-instruction').textContent = `${player1Name}, turn around!`;
+                document.getElementById('player1-instruction').classList.remove('hidden');
+                document.getElementById('player2-instruction').classList.add('hidden');
+                toggleButtons('player2');
+            } else {
+                player2Choice = choice;
+                currentPlayer = 1;
+                document.getElementById('player2-turn').textContent = '';
+                document.getElementById('player2-instruction').classList.remove('hidden');
+                document.getElementById('player1-instruction').classList.add('hidden');
+                toggleButtons('player1');
+                declareWinner();
+            }
+        }
+
+        function declareWinner() {
+            let result = '';
+            if (player1Choice === player2Choice) {
+                result = "It's a tie!";
+            } else if (
+                (player1Choice === 'rock' && player2Choice === 'scissors') ||
+                (player1Choice === 'scissors' && player2Choice === 'paper') ||
+                (player1Choice === 'paper' && player2Choice === 'rock')
+            ) {
+                result = `${player1Name} wins!`;
+            } else {
+                result = `${player2Name} wins!`;
+            }
+
+            document.body.innerHTML = `
+                <h2>${result}</h2>
+                <p>${player1Name} chose ${player1Choice}</p>
+                <p>${player2Name} chose ${player2Choice}</p>
+            `;
+
+            // Redirect to caius787.github.io after 3 seconds
+            setTimeout(() => {
+                window.location.href = "https://caius787.github.io";
+            }, 3000);
         }
     </script>
 </body>
