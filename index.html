@@ -240,8 +240,12 @@
                     case 'vr':
                         targetPage = 'metaquest.html';
                         break;
+                    case 'help':
+                        alert('Available commands:\n1. glorious\n2. taco\n3. type\n4. workout\n5. vr');
+                        this.value = ''; // Reset the search bar
+                        return;
                     default:
-                        alert('Unknown command. Try "glorious", "taco", "type", "workout", or "vr".');
+                        alert('No Output Available');
                         this.value = ''; // Reset the search bar
                         return;
                 }
