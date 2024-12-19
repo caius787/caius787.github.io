@@ -237,8 +237,14 @@
                         targetPage = 'thai2usa.html';
                         break;
                     case 'local test':
-                        targetPage = 'file:///Users/C/Documents/GitHub/caius787.github.io/index.html';
-                        break;
+                        const localLink = 'file:///Users/C/Documents/GitHub/caius787.github.io/index.html';
+                        navigator.clipboard.writeText(localLink).then(() => {
+                            alert('Local link copied to clipboard!');
+                        }).catch(err => {
+                            alert('Failed to copy the link: ' + err);
+                        });
+                        this.value = ''; // Reset the search bar
+                        return;
                     case 'help':
                         alert('Available commands:\n1. glorious\n2. taco\n3. mc countdown\n4. thai2\n5. local test\n6. workout\n7. vr');
                         this.value = ''; // Reset the search bar
