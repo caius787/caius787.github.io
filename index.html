@@ -236,6 +236,9 @@
                     case 'thai2':
                         targetPage = 'thai2usa.html';
                         break;
+                    case 'dont click button':
+                        targetPage = 'dontclickthebutton.html';
+                        break;
                     case 'local test':
                         const localLink = 'file:///Users/C/Documents/GitHub/caius787.github.io/index.html';
                         navigator.clipboard.writeText(localLink).then(() => {
@@ -246,7 +249,7 @@
                         this.value = ''; // Reset the search bar
                         return;
                     case 'help':
-                        alert('Available commands:\n1. glorious\n2. taco\n3. mc countdown\n4. thai2\n5. local test\n6. workout\n7. vr');
+                        alert('Available commands:\n1. glorious\n2. taco\n3. mc countdown\n4. thai2\n5. dont click button\n6. local test\n7. workout\n8. vr');
                         this.value = ''; // Reset the search bar
                         return;
                     default:

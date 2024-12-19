@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DONT DO IT...</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    button {
+      width: 60vw; /* Button width is 60% of viewport width */
+      height: 20vh; /* Button height is 20% of viewport height */
+      border-radius: 50vw; /* Circular style */
+      font-size: 5vw; /* Even larger responsive font size */
+      font-family: inherit;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      box-shadow: 12px 12px 24px #c5c5c5, -12px -12px 24px #ffffff;
+      cursor: pointer;
+    }
+
+    button::before {
+      content: '';
+      width: 0;
+      height: 20vh; /* Match button height */
+      border-radius: 50vw;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%);
+      transition: .5s ease;
+      display: block;
+      z-index: -1;
+    }
+
+    button:hover::before {
+      width: 60vw; /* Match button width */
+    }
+  </style>
+</head>
+<body>
+  <button id="myButton">DO NOT CLICK THIS BUTTON</button>
+
+  <script>
+    const button = document.getElementById('myButton');
+    
+    button.addEventListener('click', () => {
+      button.textContent = 'Why did you click the button...';
+      setTimeout(() => {
+        window.location.href = 'https://caius787.github.io';
+      }, 10000); // 10 seconds delay
+    });
+  </script>
+</body>
+</html>
