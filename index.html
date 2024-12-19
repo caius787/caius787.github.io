@@ -117,24 +117,56 @@
             height: 30px;
         }
 
-        .confetti {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0;
-            z-index: 1000;
-            animation: spreadConfetti 0.8s ease forwards;
+        .search-label {
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #3D3D3D;
+            padding: 9px;
+            cursor: text;
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
         }
 
-        @keyframes spreadConfetti {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
+        .search-label:hover {
+            border-color: gray;
+        }
 
-            100% {
-                opacity: 0;
-                transform: translate(var(--x), var(--y)) scale(0.5);
-            }
+        .search-label:focus-within {
+            background: #464646;
+            border-color: gray;
+        }
+
+        .search-label input {
+            outline: none;
+            width: 100%;
+            border: none;
+            background: none;
+            color: rgb(162, 162, 162);
+        }
+
+        .slash-icon {
+            position: absolute;
+            right: 7px;
+            border: 1px solid #393838;
+            background: linear-gradient(-225deg, #343434, #6d6d6d);
+            border-radius: 3px;
+            text-align: center;
+            box-shadow: inset 0 -2px 0 0 #3f3f3f, inset 0 0 1px 1px rgb(94, 93, 93), 0 1px 2px 1px rgba(28, 28, 29, 0.4);
+            cursor: pointer;
+            font-size: 12px;
+            width: 15px;
+        }
+
+        .slash-icon:active {
+            box-shadow: inset 0 1px 0 0 #3f3f3f, inset 0 0 1px 1px rgb(94, 93, 93), 0 1px 2px 0 rgba(28, 28, 29, 0.4);
+            text-shadow: 0 1px 0 #7e7e7e;
+            color: transparent;
         }
     </style>
 </head>
@@ -151,15 +183,10 @@
         <div class="box">
             <h4>Minecraft Links</h4>
             <ul>
-                <li><a target="_blank" href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/"
-                        class="confetti-link">they_not_like_us</a></li>
-                <li><a target="_blank" href="https://www.minecraftskins.com/" class="confetti-link">Minecraft Skins</a>
-                </li>
-                <li><a target="_blank"
-                        href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png"
-                        class="confetti-link">Potion Table</a></li>
-                <li><a target="_blank" href="https://www.minecraft.net/en-us" class="confetti-link">Download
-                        Minecraft</a></li>
+                <li><a href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/" class="confetti-link" target="_blank">they_not_like_us</a></li>
+                <li><a href="https://www.minecraftskins.com/" class="confetti-link" target="_blank">Minecraft Skins</a></li>
+                <li><a href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png" class="confetti-link" target="_blank">Potion Table</a></li>
+                <li><a href="https://www.minecraft.net/en-us" class="confetti-link" target="_blank">Download Minecraft</a></li>
                 <li><a href="mcpassenger/passenger.html" class="confetti-link">How To Make An Entity Ride An Entity</a></li>
             </ul>
         </div>
@@ -185,38 +212,43 @@
         </div>
     </div>
 
+    <div class="search-label">
+        <input id="commandInput" type="text" name="text" class="input" placeholder="Command Bar">
+        <kbd class="slash-icon">/</kbd>
+    </div>
+
     <script>
-        document.querySelectorAll('.confetti-link').forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-                const linkRect = this.getBoundingClientRect();
+        document.getElementById('commandInput').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                const input = this.value.trim().toLowerCase(); // Normalize input
+                let targetPage = '';
 
-                for (let i = 0; i < 100; i++) {
-                    let confetti = document.createElement('div');
-                    confetti.classList.add('confetti');
-                    document.body.appendChild(confetti);
-
-                    let size = Math.random() * 12 + 6 + 'px';
-                    confetti.style.width = size;
-                    confetti.style.height = size;
-                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
-                    confetti.style.left = linkRect.left + linkRect.width / 2 + 'px';
-                    confetti.style.top = linkRect.top + linkRect.height / 2 + 'px';
-
-                    let x = (Math.random() - 0.5) * 700 + 'px';
-                    let y = (Math.random() - 0.5) * 700 + 'px';
-                    confetti.style.setProperty('--x', x);
-                    confetti.style.setProperty('--y', y);
-
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 800);
+                // Define mappings for commands
+                switch (input) {
+                    case 'glorious':
+                        targetPage = 'glorious.html';
+                        break;
+                    case 'taco':
+                        targetPage = 'taco.html';
+                        break;
+                    case 'type':
+                        targetPage = 'typinggame.html';
+                        break;
+                    case 'workout':
+                        targetPage = 'workout.html';
+                        break;
+                    case 'vr':
+                        targetPage = 'metaquest.html';
+                        break;
+                    default:
+                        alert('Unknown command. Try "glorious", "taco", "type", "workout", or "vr".');
+                        this.value = ''; // Reset the search bar
+                        return;
                 }
 
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 500);
-            });
+                this.value = ''; // Reset the search bar before redirection
+                window.location.href = targetPage; // Redirect to the target page
+            }
         });
     </script>
 </body>
