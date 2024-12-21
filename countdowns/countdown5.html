@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown to New Years</title>
+    <title>Countdown to New Year's</title>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -21,6 +21,7 @@
             height: 100vh;
             box-sizing: border-box;
             color: white;
+            position: relative; /* For positioning the button */
         }
 
         .countdown-box {
@@ -44,15 +45,35 @@
             font-size: 3em;
             font-weight: bold;
         }
+
+        .copy-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #fff;
+            color: #9370DB;
+            border: 2px solid #9370DB;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background-color: #9370DB;
+            color: white;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="countdown-box">
-        <div class="countdown-title">New Year's</div> <!-- This title matches the label from the grid -->
+        <div class="countdown-title">New Year's</div>
         <div class="countdown-time" id="countdown5"></div>
     </div>
+    <button class="copy-button" id="copyButton">Copy Countdown</button>
 
     <script>
         function countdownToNewYear() {
@@ -67,12 +88,28 @@
             const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            document.getElementById('countdown5').innerHTML =
-                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+            const countdownText = `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+            document.getElementById('countdown5').innerHTML = countdownText;
+
+            // Set the button text for copying
+            document.getElementById('copyButton').dataset.countdown = `Happy ${countdownText} til New Year's!`;
 
             // Repeat every second
             setTimeout(countdownToNewYear, 1000);
         }
+
+        // Function to copy countdown text to clipboard
+        function copyCountdown() {
+            const countdownMessage = document.getElementById('copyButton').dataset.countdown;
+            navigator.clipboard.writeText(countdownMessage).then(() => {
+                alert('Countdown copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy countdown.');
+            });
+        }
+
+        // Attach event listener to the button
+        document.getElementById('copyButton').addEventListener('click', copyCountdown);
 
         countdownToNewYear();
     </script>
