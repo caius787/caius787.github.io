@@ -221,25 +221,56 @@
             if (event.key === 'Enter') {
                 const input = this.value.trim().toLowerCase(); // Normalize input
                 let targetPage = '';
-
+    
                 // Define mappings for commands
-                switch (input) {
-                    case 'glorious':
-                        targetPage = 'glorious.html';
-                        break;
-                    case 'taco':
-                        targetPage = 'taco.html';
-                        break;
-                    case 'mc countdown':
-                        targetPage = 'mchirstmas.html';
-                        break;
-                    case 'thai2':
-                        targetPage = 'thai2usa.html';
-                        break;
-                    case 'dont click button':
-                        targetPage = 'dontclickthebutton.html';
-                        break;
-                    case 'local test':
+                const commands = {
+                    'glorious': 'glorious.html',
+                    'taco': 'taco.html',
+                    'mc countdown': 'mchirstmas.html',
+                    'thai2': 'thai2usa.html',
+                    'local test': null, // Special case for local test
+                    'workout': 'workout.html',
+                    'vr': 'metaquest.html'
+                };
+    
+                if (input === 'help') {
+                    alert('Available commands:\n' + Object.keys(commands).join('\n') + '\nlist');
+                    this.value = ''; // Reset the search bar
+                    return;
+                }
+    
+                if (input === 'list') {
+                    // Create and display the modal with command links
+                    const modal = document.createElement('div');
+                    modal.style.position = 'fixed';
+                    modal.style.top = '50%';
+                    modal.style.left = '50%';
+                    modal.style.transform = 'translate(-50%, -50%)';
+                    modal.style.background = '#fff';
+                    modal.style.color = '#9370DB';
+                    modal.style.padding = '20px';
+                    modal.style.borderRadius = '10px';
+                    modal.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                    modal.style.zIndex = '1000';
+                    modal.style.textAlign = 'center';
+                    modal.innerHTML = '<h3>Command List</h3><ul style="list-style: none; padding: 0;">' +
+                        Object.entries(commands).map(([key, value]) => value 
+                            ? `<li><a href="${value}" target="_blank">${key}</a></li>` 
+                            : `<li>${key} (No link available)</li>`).join('') +
+                        '</ul><button id="closeModal" style="margin-top: 10px; padding: 5px 10px; background: #9370DB; color: white; border: none; border-radius: 5px;">Close</button>';
+                    document.body.appendChild(modal);
+    
+                    // Add close functionality
+                    document.getElementById('closeModal').addEventListener('click', () => {
+                        document.body.removeChild(modal);
+                    });
+    
+                    this.value = ''; // Reset the search bar
+                    return; // Exit early, no redirection
+                }
+    
+                if (input in commands) {
+                    if (input === 'local test') {
                         const localLink = 'file:///Users/C/Documents/GitHub/caius787.github.io/index.html';
                         navigator.clipboard.writeText(localLink).then(() => {
                             alert('Local link copied to clipboard!');
@@ -247,19 +278,20 @@
                             alert('Failed to copy the link: ' + err);
                         });
                         this.value = ''; // Reset the search bar
-                        return;
-                    case 'help':
-                        alert('Available commands:\n1. glorious\n2. taco\n3. mc countdown\n4. thai2\n5. dont click button\n6. local test\n7. workout\n8. vr');
-                        this.value = ''; // Reset the search bar
-                        return;
-                    default:
-                        alert('No Output Available');
-                        this.value = ''; // Reset the search bar
-                        return;
+                        return; // Exit early, no redirection
+                    } else {
+                        targetPage = commands[input];
+                    }
+                } else {
+                    alert('No Output Available');
+                    this.value = ''; // Reset the search bar
+                    return; // Exit early, no redirection
                 }
-
+    
                 this.value = ''; // Reset the search bar before redirection
-                window.location.href = targetPage; // Redirect to the target page
+                if (targetPage) {
+                    window.location.href = targetPage; // Redirect to the target page
+                }
             }
         });
     </script>
