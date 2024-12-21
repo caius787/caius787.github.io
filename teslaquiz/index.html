@@ -147,10 +147,12 @@
 <div class="quiz-container">
     <h1>Tesla Quiz</h1>
 
+    <!-- All Questions -->
     <div id="questions-container"></div>
 
+    <!-- Result Page -->
     <div class="result" id="result">
-        You got <span id="score"></span> out of <span id="total-questions"></span> correct! <br>
+        You got <span id="score"></span> out of 9 correct! <br>
         That is <span id="percentage"></span>% correct! <br>
         Your grade is: <span id="grade"></span> <br>
         <a href="index.html" class="home-btn">Home</a>
@@ -184,6 +186,12 @@
             answer: "Cybertruck"
         },
         {
+            text: "What car is this?",
+            images: ["Y1.jpg", "y2.jpg", "Y3.png"],
+            options: ["Sport Model", "Model X", "Model Eco", "Model Y"],
+            answer: "Model Y"
+        },
+        {
             text: "What type of Tesla is this?",
             images: ["perform.png"],
             options: ["Standard", "Long Range", "Performance"],
@@ -196,15 +204,21 @@
             answer: "Long Range"
         },
         {
-            text: "What car is this?",
-            images: ["Y1.jpg", "y2.jpg", "Y3.png"],
-            options: ["Sport Model", "Model X", "Model Eco", "Model Y"],
-            answer: "Model Y"
+            text: "What type of Tesla is this?",
+            images: ["stan.png"],
+            options: ["Plaid", "Standard", "Long Range", "Performance"],
+            answer: "Standard"
+        },
+        {
+            text: "What type of Tesla is this?",
+            images: ["plaid.png"],
+            options: ["Standard", "Plaid", "Performance", "Long Range"],
+            answer: "Plaid"
         }
     ];
 
     let score = 0;
-    let totalQuestions = questions.length;
+    const totalQuestions = questions.length;
     const currentImageIndex = {};
 
     const renderQuestions = () => {
@@ -264,8 +278,11 @@
                 document.body.style.backgroundColor = "#f0f0f0";
                 document.querySelectorAll(".question-page")[index].classList.remove("active");
                 const nextPage = document.querySelectorAll(".question-page")[index + 1];
-                if (nextPage) nextPage.classList.add("active");
-                else showResult();
+                if (nextPage) {
+                    nextPage.classList.add("active");
+                } else {
+                    showResult();
+                }
             }, 1000);
         } else {
             alert("Please select an option before moving to the next question.");
@@ -282,7 +299,6 @@
         else grade = "F";
 
         document.getElementById("score").textContent = score;
-        document.getElementById("total-questions").textContent = totalQuestions;
         document.getElementById("percentage").textContent = percentage;
         document.getElementById("grade").textContent = grade;
 
