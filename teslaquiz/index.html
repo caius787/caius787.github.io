@@ -90,32 +90,6 @@
             max-height: 300px;
             object-fit: contain;
         }
-        .nav-button {
-            background-color: #cccccc;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: background-color 0.3s ease;
-        }
-        .nav-button:hover {
-            background-color: #bbbbbb;
-        }
-        .nav-button.left {
-            left: 0;
-        }
-        .nav-button.right {
-            right: 0;
-        }
         .result {
             display: none; /* Hidden by default */
             margin-top: 20px;
@@ -253,9 +227,7 @@
     <div id="question9" class="question-page">
         <h3>9. What car is this?</h3>
         <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage()">&#x276E;</button>
             <img id="carImage9" src="y1.jpg" alt="Tesla Model Y" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage()">&#x276F;</button>
         </div>
         <ul class="options">
             <li><input type="radio" id="q9-a" name="q9" value="Model Z"><label for="q9-a">Model Z</label></li>
@@ -280,61 +252,34 @@
 
     function checkAnswer(currentQuestion, correctAnswer) {
         const selectedOption = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
-        const isCorrect = selectedOption && selectedOption.value === correctAnswer;
+        const isCorrect = Array.isArray(correctAnswer)
+            ? correctAnswer.includes(selectedOption?.value)
+            : selectedOption?.value === correctAnswer;
 
         if (selectedOption) {
-            // Flash the background based on correctness
             document.body.style.backgroundColor = isCorrect ? 'lightgreen' : 'lightcoral';
-
-            if (isCorrect) {
-                score++;
-            }
-
+            if (isCorrect) score++;
             setTimeout(() => {
-                // Reset background color and move to the next question
                 document.body.style.backgroundColor = '#f0f0f0';
                 document.getElementById(`question${currentQuestion}`).classList.remove('active');
                 const nextQuestion = document.getElementById(`question${currentQuestion + 1}`);
-                if (nextQuestion) {
-                    nextQuestion.classList.add('active');
-                } else {
-                    showResult();
-                }
-            }, 1000); // Flash color for 1 second
-        } else {
-            alert("Please select an option before proceeding!");
-        }
+                if (nextQuestion) nextQuestion.classList.add('active');
+                else showResult();
+            }, 1000);
+        } else alert("Please select an option before proceeding!");
     }
 
     function showResult() {
         const percentage = (score / 9) * 100;
         document.getElementById('score').textContent = score;
         document.getElementById('percentage').textContent = percentage.toFixed(2);
-        let grade = '';
-        if (percentage >= 90) grade = 'A';
-        else if (percentage >= 80) grade = 'B';
-        else if (percentage >= 70) grade = 'C';
-        else if (percentage >= 60) grade = 'D';
-        else grade = 'F';
-        document.getElementById('grade').textContent = grade;
+        document.getElementById('grade').textContent = percentage >= 90 ? 'A' :
+            percentage >= 80 ? 'B' : percentage >= 70 ? 'C' : percentage >= 60 ? 'D' : 'F';
         document.getElementById('result').style.display = 'block';
     }
 
     function submitQuiz(currentQuestion, correctAnswer) {
         checkAnswer(currentQuestion, correctAnswer);
-    }
-
-    const images9 = ['y1.jpg', 'y2.jpg', 'y3.png'];
-    let currentImageIndex9 = 0;
-
-    function nextImage() {
-        currentImageIndex9 = (currentImageIndex9 + 1) % images9.length;
-        document.getElementById('carImage9').src = images9[currentImageIndex9];
-    }
-
-    function previousImage() {
-        currentImageIndex9 = (currentImageIndex9 - 1 + images9.length) % images9.length;
-        document.getElementById('carImage9').src = images9[currentImageIndex9];
     }
 </script>
 
