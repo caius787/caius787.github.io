@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tesla Quiz</title>
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -128,7 +127,6 @@
         .nav-button.right {
             right: 0;
         }
-        /* Home button style with proper margins */
         .home-btn {
             margin-top: 20px;
             background-color: #e82127;
@@ -167,7 +165,6 @@
 </div>
 
 <script>
-    // Question Data
     const questions = [
         {
             id: 1,
@@ -215,7 +212,7 @@
             id: 7,
             text: "What car is this?",
             images: ["Y1.jpg", "y2.jpg", "Y3.png"],
-            options: ["Model Y", "Model X", "Cybertruck", "Model 3"],
+            options: ["Sport Model", "Model X", "Model Eco", "Model Y"],
             answer: "Model Y"
         }
     ];
@@ -315,5 +312,6 @@
         document.getElementById("result").style.display = "block";
     }
 </script>
+
 </body>
 </html>
