@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tesla Quiz</title>
     <style>
+        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -137,7 +138,7 @@
             border-radius: 5px;
             text-decoration: none;
             display: inline-block;
-            width: calc(100% - 40px); /* Subtract margins */
+            width: calc(100% - 40px);
             font-size: 16px;
             margin-left: 20px;
             margin-right: 20px;
@@ -152,182 +153,138 @@
 <div class="quiz-container">
     <h1>Tesla Quiz</h1>
 
-    <!-- Question 1 -->
-    <div id="question1" class="question-page active">
-        <h3>1. What car is this?</h3>
-        <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(1)">&#x276E;</button>
-            <img id="carImage1" src="model32.png" alt="Tesla Model 3" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(1)">&#x276F;</button>
-        </div>
-        <ul class="options">
-            <li><input type="radio" id="q1-a" name="q1" value="Model 3 Highland"><label for="q1-a">Model 3 Highland</label></li>
-            <li><input type="radio" id="q1-b" name="q1" value="Model Y"><label for="q1-b">Model Y</label></li>
-            <li><input type="radio" id="q1-c" name="q1" value="Model 3"><label for="q1-c">Model 3</label></li>
-            <li><input type="radio" id="q1-d" name="q1" value="Model X"><label for="q1-d">Model X</label></li>
-        </ul>
-        <button class="btn" onclick="checkAnswer(1, 'Model 3')">Next</button>
-    </div>
-
-    <!-- Highland Model 3 Question -->
-    <div id="question2" class="question-page">
-        <h3>2. What car is this?</h3>
-        <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(2)">&#x276E;</button>
-            <img id="carImage2" src="high31.png" alt="Tesla Model 3 Highland" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(2)">&#x276F;</button>
-        </div>
-        <ul class="options">
-            <li><input type="radio" id="q2-a" name="q2" value="Model 3"><label for="q2-a">Model 3</label></li>
-            <li><input type="radio" id="q2-b" name="q2" value="Model Y"><label for="q2-b">Model Y</label></li>
-            <li><input type="radio" id="q2-c" name="q2" value="Model V"><label for="q2-c">Model V</label></li>
-            <li><input type="radio" id="q2-d" name="q2" value="Model 3 Highland"><label for="q2-d">Model 3 Highland</label></li>
-        </ul>
-        <button class="btn" onclick="checkAnswer(2, 'Model 3 Highland')">Next</button>
-    </div>
-
-    <!-- Robotaxi and CyberCab Question -->
-    <div id="question3" class="question-page">
-        <h3>3. What car is this?</h3>
-        <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(3)">&#x276E;</button>
-            <img id="carImage3" src="cybercab.png" alt="Tesla Cybercab" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(3)">&#x276F;</button>
-        </div>
-        <ul class="options">
-            <li><input type="radio" id="q3-a" name="q3" value="Robotaxi"><label for="q3-a">Robotaxi</label></li>
-            <li><input type="radio" id="q3-b" name="q3" value="Cybertruck"><label for="q3-b">Cybertruck</label></li>
-            <li><input type="radio" id="q3-c" name="q3" value="Taxibot"><label for="q3-c">Taxibot</label></li>
-            <li><input type="radio" id="q3-d" name="q3" value="Cybercab"><label for="q3-d">Cybercab</label></li>
-        </ul>
-        <button class="btn" onclick="checkAnswer(3, ['Robotaxi', 'Cybercab'])">Next</button>
-    </div>
-
-    <!-- Cybertruck Question -->
-    <div id="question4" class="question-page">
-        <h3>4. What car is this?</h3>
-        <div class="quiz-image-container">
-            <button class="nav-button left" onclick="previousImage(4)">&#x276E;</button>
-            <img id="carImage4" src="cyber.png" alt="Tesla Cybertruck" class="quiz-image">
-            <button class="nav-button right" onclick="nextImage(4)">&#x276F;</button>
-        </div>
-        <ul class="options">
-            <li><input type="radio" id="q4-a" name="q4" value="Cybertruck"><label for="q4-a">Cybertruck</label></li>
-            <li><input type="radio" id="q4-b" name="q4" value="Model X"><label for="q4-b">Model X</label></li>
-            <li><input type="radio" id="q4-c" name="q4" value="Model Z"><label for="q4-c">Model Z</label></li>
-            <li><input type="radio" id="q4-d" name="q4" value="Model Y"><label for="q4-d">Model Y</label></li>
-        </ul>
-        <button class="btn" onclick="checkAnswer(4, 'Cybertruck')">Next</button>
-    </div>
-
-    <!-- Performance Tesla Question - No Arrows -->
-    <div id="question5" class="question-page">
-        <h3>5. What type of Tesla is this?</h3>
-        <div class="quiz-image-container">
-            <img id="carImage5" src="perform.png" alt="Tesla Performance" class="quiz-image">
-        </div>
-        <ul class="options">
-            <li><input type="radio" id="q5-a" name="q5" value="Standard"><label for="q5-a">Standard</label></li>
-            <li><input type="radio" id="q5-b" name="q5" value="Long Range"><label for="q5-b">Long Range</label></li>
-            <li><input type="radio" id="q5-c" name="q5" value="Performance"><label for="q5-c">Performance</label></li>
-        </ul>
-        <button class="btn" onclick="checkAnswer(5, 'Performance')">Next</button>
-    </div>
-
-    <!-- Long Range Question - No Arrows -->
-    <div id="question6" class="question-page">
-        <h3>6. What type of Tesla is this?</h3>
-        <div class="quiz-image-container">
-            <img id="carImage6" src="long.png" alt="Tesla Long Range" class="quiz-image">
-        </div>
-        <ul class="options">
-            <li><input type="radio" id="q6-a" name="q6" value="Long Range"><label for="q6-a">Long Range</label></li>
-            <li><input type="radio" id="q6-b" name="q6" value="Performance"><label for="q6-b">Performance</label></li>
-            <li><input type="radio" id="q6-c" name="q6" value="Plaid"><label for="q6-c">Plaid</label></li>
-        </ul>
-        <button class="btn" onclick="checkAnswer(6, 'Long Range')">Next</button>
-    </div>
-
-    <!-- Standard Tesla Question - No Arrows -->
-    <div id="question7" class="question-page">
-        <h3>7. What type of Tesla is this?</h3>
-        <div class="quiz-image-container">
-            <img id="carImage7" src="stan.png" alt="Tesla Standard" class="quiz-image">
-        </div>
-        <ul class="options">
-            <li><input type="radio" id="q7-a" name="q7" value="Plaid"><label for="q7-a">Plaid</label></li>
-            <li><input type="radio" id="q7-b" name="q7" value="Standard"><label for="q7-b">Standard</label></li>
-            <li><input type="radio" id="q7-c" name="q7" value="Long Range"><label for="q7-c">Long Range</label></li>
-            <li><input type="radio" id="q7-d" name="q7" value="Performance"><label for="q7-d">Performance</label></li>
-        </ul>
-        <button class="btn" onclick="checkAnswer(7, 'Standard')">Next</button>
-    </div>
-
-    <!-- Plaid Tesla Question - No Arrows -->
-    <div id="question8" class="question-page">
-        <h3>8. What type of Tesla is this?</h3>
-        <div class="quiz-image-container">
-            <img id="carImage8" src="plaid.png" alt="Tesla Plaid" class="quiz-image">
-        </div>
-        <ul class="options">
-            <li><input type="radio" id="q8-a" name="q8" value="Standard"><label for="q8-a">Standard</label></li>
-            <li><input type="radio" id="q8-b" name="q8" value="Plaid"><label for="q8-b">Plaid</label></li>
-            <li><input type="radio" id="q8-c" name="q8" value="Performance"><label for="q8-c">Performance</label></li>
-            <li><input type="radio" id="q8-d" name="q8" value="Long Range"><label for="q8-d">Long Range</label></li>
-        </ul>
-        <button class="btn" onclick="submitQuiz(8, 'Plaid')">Submit</button>
-    </div>
+    <!-- All Questions -->
+    <div id="questions-container"></div>
 
     <!-- Result Page -->
     <div class="result" id="result">
-        You got <span id="score"></span> out of 8 correct! <br>
+        You got <span id="score"></span> out of <span id="total-questions"></span> correct! <br>
         That is <span id="percentage"></span>% correct! <br>
         Your grade is: <span id="grade"></span> <br>
-
         <!-- Home button -->
-        <a href="https://caius787.github.io" class="home-btn">Home</a>
+        <a href="index.html" class="home-btn">Home</a>
     </div>
 </div>
 
 <script>
-    let score = 0;
+    // Question Data
+    const questions = [
+        {
+            id: 1,
+            text: "What car is this?",
+            images: ["model32.png", "model33.png", "model3.png"],
+            options: ["Model 3 Highland", "Model Y", "Model 3", "Model X"],
+            answer: "Model 3"
+        },
+        {
+            id: 2,
+            text: "What car is this?",
+            images: ["high31.png", "high32.png", "high33.png"],
+            options: ["Model 3", "Model Y", "Model V", "Model 3 Highland"],
+            answer: "Model 3 Highland"
+        },
+        {
+            id: 3,
+            text: "What car is this?",
+            images: ["cybercab.png", "robo2.png", "robo3.png"],
+            options: ["Robotaxi", "Cybertruck", "Taxibot", "Cybercab"],
+            answer: ["Robotaxi", "Cybercab"]
+        },
+        {
+            id: 4,
+            text: "What car is this?",
+            images: ["cyber.png", "cyber2.png", "cyber3.png", "cyber4.png"],
+            options: ["Cybertruck", "Model X", "Model Z", "Model Y"],
+            answer: "Cybertruck"
+        },
+        {
+            id: 5,
+            text: "What type of Tesla is this?",
+            images: ["perform.png"],
+            options: ["Standard", "Long Range", "Performance"],
+            answer: "Performance"
+        },
+        {
+            id: 6,
+            text: "What type of Tesla is this?",
+            images: ["long.png"],
+            options: ["Long Range", "Performance", "Plaid"],
+            answer: "Long Range"
+        },
+        {
+            id: 7,
+            text: "What car is this?",
+            images: ["Y1.jpg", "y2.jpg", "Y3.png"],
+            options: ["Model Y", "Model X", "Cybertruck", "Model 3"],
+            answer: "Model Y"
+        }
+    ];
 
-    // Arrays of images for each question
-    const images = {
-        1: ['model32.png', 'model33.png', 'model3.png'],  // Correct image files for Question 1
-        2: ['high31.png', 'high32.png', 'high33.png'],  // Highland question
-        3: ['cybercab.png', 'robo2.png', 'robo3.png'],  // Robotaxi and Cybercab
-        4: ['cyber.png', 'cyber2.png', 'cyber3.png', 'cyber4.png'],  // Cybertruck with new images
-        // No arrows for questions 5, 6, 7, 8
-    };
+    // Shuffle Questions
+    const shuffledQuestions = questions.sort(() => Math.random() - 0.5);
 
-    let currentImageIndex = {1: 0, 2: 0, 3: 0, 4: 0}; // Track images for each question with arrows
+    // Render Questions
+    const container = document.getElementById("questions-container");
+    shuffledQuestions.forEach((q, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.id = `question${index + 1}`;
+        questionDiv.classList.add("question-page");
+        if (index === 0) questionDiv.classList.add("active");
 
+        const imagesHtml = q.images.length > 1
+            ? `<button class="nav-button left" onclick="previousImage(${index + 1})">&#x276E;</button>
+               <img id="carImage${index + 1}" src="${q.images[0]}" class="quiz-image">
+               <button class="nav-button right" onclick="nextImage(${index + 1})">&#x276F;</button>`
+            : `<img src="${q.images[0]}" class="quiz-image">`;
+
+        const optionsHtml = q.options
+            .map((opt, i) => `<li>
+                <input type="radio" id="q${index + 1}-${i}" name="q${index + 1}" value="${opt}">
+                <label for="q${index + 1}-${i}">${opt}</label>
+              </li>`)
+            .join("");
+
+        questionDiv.innerHTML = `
+            <h3>${index + 1}. ${q.text}</h3>
+            <div class="quiz-image-container">${imagesHtml}</div>
+            <ul class="options">${optionsHtml}</ul>
+            <button class="btn" onclick="checkAnswer(${index + 1}, ${JSON.stringify(q.answer)})">Next</button>
+        `;
+        container.appendChild(questionDiv);
+    });
+
+    // Image Navigation
+    const currentImageIndex = {};
     function nextImage(question) {
-        const imageArray = images[question];
+        const imageArray = shuffledQuestions[question - 1].images;
+        if (!currentImageIndex[question]) currentImageIndex[question] = 0;
         currentImageIndex[question] = (currentImageIndex[question] + 1) % imageArray.length;
         document.getElementById(`carImage${question}`).src = imageArray[currentImageIndex[question]];
     }
-
     function previousImage(question) {
-        const imageArray = images[question];
+        const imageArray = shuffledQuestions[question - 1].images;
+        if (!currentImageIndex[question]) currentImageIndex[question] = 0;
         currentImageIndex[question] = (currentImageIndex[question] - 1 + imageArray.length) % imageArray.length;
         document.getElementById(`carImage${question}`).src = imageArray[currentImageIndex[question]];
     }
 
-    function checkAnswer(currentQuestion, correctAnswer) {
-        const selectedOption = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
-        const isCorrect = Array.isArray(correctAnswer) ? correctAnswer.includes(selectedOption?.value) : selectedOption?.value === correctAnswer;
+    // Quiz Logic
+    let score = 0;
+    function checkAnswer(question, correctAnswer) {
+        const selectedOption = document.querySelector(`input[name="q${question}"]:checked`);
+        const isCorrect = Array.isArray(correctAnswer)
+            ? correctAnswer.includes(selectedOption?.value)
+            : selectedOption?.value === correctAnswer;
 
         if (selectedOption) {
-            document.body.style.backgroundColor = isCorrect ? 'lightgreen' : 'lightcoral';
+            document.body.style.backgroundColor = isCorrect ? "lightgreen" : "lightcoral";
             if (isCorrect) score++;
             setTimeout(() => {
-                document.body.style.backgroundColor = '#f0f0f0';
-                document.getElementById(`question${currentQuestion}`).classList.remove('active');
-                const nextQuestion = document.getElementById(`question${currentQuestion + 1}`);
+                document.body.style.backgroundColor = "#f0f0f0";
+                document.getElementById(`question${question}`).classList.remove("active");
+                const nextQuestion = document.getElementById(`question${question + 1}`);
                 if (nextQuestion) {
-                    nextQuestion.classList.add('active');
+                    nextQuestion.classList.add("active");
                 } else {
                     showResult();
                 }
@@ -338,26 +295,25 @@
     }
 
     function showResult() {
-        let percentage = (score / 8) * 100;
-        document.getElementById('score').textContent = score;
-        document.getElementById('percentage').textContent = percentage.toFixed(2);
-        let grade = '';
-        if (percentage >= 90) grade = 'A';
-        else if (percentage >= 85) grade = 'B+';
-        else if (percentage >= 80) grade = 'B';
-        else if (percentage >= 75) grade = 'C+';
-        else if (percentage >= 70) grade = 'C';
-        else if (percentage >= 65) grade = 'D+';
-        else if (percentage >= 60) grade = 'D';
-        else grade = 'F';
-        document.getElementById('grade').textContent = grade;
-        document.getElementById('result').style.display = 'block';
-    }
+        const totalQuestions = shuffledQuestions.length;
+        const percentage = (score / totalQuestions) * 100;
+        document.getElementById("score").textContent = score;
+        document.getElementById("total-questions").textContent = totalQuestions;
+        document.getElementById("percentage").textContent = percentage.toFixed(2);
 
-    function submitQuiz(currentQuestion, correctAnswer) {
-        checkAnswer(currentQuestion, correctAnswer);
+        let grade = "";
+        if (percentage >= 90) grade = "A";
+        else if (percentage >= 85) grade = "B+";
+        else if (percentage >= 80) grade = "B";
+        else if (percentage >= 75) grade = "C+";
+        else if (percentage >= 70) grade = "C";
+        else if (percentage >= 65) grade = "D+";
+        else if (percentage >= 60) grade = "D";
+        else grade = "F";
+
+        document.getElementById("grade").textContent = grade;
+        document.getElementById("result").style.display = "block";
     }
 </script>
-
 </body>
 </html>
