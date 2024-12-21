@@ -18,14 +18,10 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            position: relative;
         }
         h1, h3 {
             text-align: center;
             color: #e82127;
-        }
-        .question {
-            margin-bottom: 20px;
         }
         .options {
             list-style-type: none;
@@ -83,49 +79,13 @@
             text-align: center;
             font-size: 20px;
             font-weight: bold;
-            padding-bottom: 20px;
-        }
-        .quiz-image-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            height: 300px;
-            max-height: 300px;
-            overflow: hidden;
         }
         .quiz-image {
-            width: auto;
-            max-width: 100%;
+            width: 100%;
+            height: auto;
             max-height: 300px;
             object-fit: contain;
-        }
-        .nav-button {
-            background-color: #cccccc;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: background-color 0.3s ease;
-        }
-        .nav-button:hover {
-            background-color: #bbbbbb;
-        }
-        .nav-button.left {
-            left: 0;
-        }
-        .nav-button.right {
-            right: 0;
+            margin-bottom: 20px;
         }
         .home-btn {
             margin-top: 20px;
@@ -217,10 +177,8 @@
         }
     ];
 
-    // Shuffle Questions
     const shuffledQuestions = questions.sort(() => Math.random() - 0.5);
 
-    // Render Questions
     const container = document.getElementById("questions-container");
     shuffledQuestions.forEach((q, index) => {
         const questionDiv = document.createElement("div");
@@ -229,9 +187,7 @@
         if (index === 0) questionDiv.classList.add("active");
 
         const imagesHtml = q.images.length > 1
-            ? `<button class="nav-button left" onclick="previousImage(${index + 1})">&#x276E;</button>
-               <img id="carImage${index + 1}" src="${q.images[0]}" class="quiz-image">
-               <button class="nav-button right" onclick="nextImage(${index + 1})">&#x276F;</button>`
+            ? `<img id="carImage${index + 1}" src="${q.images[0]}" class="quiz-image">`
             : `<img src="${q.images[0]}" class="quiz-image">`;
 
         const optionsHtml = q.options
@@ -243,29 +199,13 @@
 
         questionDiv.innerHTML = `
             <h3>${index + 1}. ${q.text}</h3>
-            <div class="quiz-image-container">${imagesHtml}</div>
+            <div>${imagesHtml}</div>
             <ul class="options">${optionsHtml}</ul>
             <button class="btn" onclick="checkAnswer(${index + 1}, ${JSON.stringify(q.answer)})">Next</button>
         `;
         container.appendChild(questionDiv);
     });
 
-    // Image Navigation
-    const currentImageIndex = {};
-    function nextImage(question) {
-        const imageArray = shuffledQuestions[question - 1].images;
-        if (!currentImageIndex[question]) currentImageIndex[question] = 0;
-        currentImageIndex[question] = (currentImageIndex[question] + 1) % imageArray.length;
-        document.getElementById(`carImage${question}`).src = imageArray[currentImageIndex[question]];
-    }
-    function previousImage(question) {
-        const imageArray = shuffledQuestions[question - 1].images;
-        if (!currentImageIndex[question]) currentImageIndex[question] = 0;
-        currentImageIndex[question] = (currentImageIndex[question] - 1 + imageArray.length) % imageArray.length;
-        document.getElementById(`carImage${question}`).src = imageArray[currentImageIndex[question]];
-    }
-
-    // Quiz Logic
     let score = 0;
     function checkAnswer(question, correctAnswer) {
         const selectedOption = document.querySelector(`input[name="q${question}"]:checked`);
