@@ -79,13 +79,49 @@
             text-align: center;
             font-size: 20px;
             font-weight: bold;
+            padding-bottom: 20px;
+        }
+        .quiz-image-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            height: 300px;
+            max-height: 300px;
+            overflow: hidden;
         }
         .quiz-image {
-            width: 100%;
-            height: auto;
+            width: auto;
+            max-width: 100%;
             max-height: 300px;
             object-fit: contain;
-            margin-bottom: 20px;
+        }
+        .nav-button {
+            background-color: #cccccc;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: background-color 0.3s ease;
+        }
+        .nav-button:hover {
+            background-color: #bbbbbb;
+        }
+        .nav-button.left {
+            left: 0;
+        }
+        .nav-button.right {
+            right: 0;
         }
         .home-btn {
             margin-top: 20px;
@@ -111,15 +147,12 @@
 <div class="quiz-container">
     <h1>Tesla Quiz</h1>
 
-    <!-- All Questions -->
     <div id="questions-container"></div>
 
-    <!-- Result Page -->
     <div class="result" id="result">
         You got <span id="score"></span> out of <span id="total-questions"></span> correct! <br>
         That is <span id="percentage"></span>% correct! <br>
         Your grade is: <span id="grade"></span> <br>
-        <!-- Home button -->
         <a href="index.html" class="home-btn">Home</a>
     </div>
 </div>
@@ -127,49 +160,42 @@
 <script>
     const questions = [
         {
-            id: 1,
             text: "What car is this?",
             images: ["model32.png", "model33.png", "model3.png"],
             options: ["Model 3 Highland", "Model Y", "Model 3", "Model X"],
             answer: "Model 3"
         },
         {
-            id: 2,
             text: "What car is this?",
             images: ["high31.png", "high32.png", "high33.png"],
             options: ["Model 3", "Model Y", "Model V", "Model 3 Highland"],
             answer: "Model 3 Highland"
         },
         {
-            id: 3,
             text: "What car is this?",
             images: ["cybercab.png", "robo2.png", "robo3.png"],
             options: ["Robotaxi", "Cybertruck", "Taxibot", "Cybercab"],
             answer: ["Robotaxi", "Cybercab"]
         },
         {
-            id: 4,
             text: "What car is this?",
             images: ["cyber.png", "cyber2.png", "cyber3.png", "cyber4.png"],
             options: ["Cybertruck", "Model X", "Model Z", "Model Y"],
             answer: "Cybertruck"
         },
         {
-            id: 5,
             text: "What type of Tesla is this?",
             images: ["perform.png"],
             options: ["Standard", "Long Range", "Performance"],
             answer: "Performance"
         },
         {
-            id: 6,
             text: "What type of Tesla is this?",
             images: ["long.png"],
             options: ["Long Range", "Performance", "Plaid"],
             answer: "Long Range"
         },
         {
-            id: 7,
             text: "What car is this?",
             images: ["Y1.jpg", "y2.jpg", "Y3.png"],
             options: ["Sport Model", "Model X", "Model Eco", "Model Y"],
@@ -177,38 +203,56 @@
         }
     ];
 
-    const shuffledQuestions = questions.sort(() => Math.random() - 0.5);
-
-    const container = document.getElementById("questions-container");
-    shuffledQuestions.forEach((q, index) => {
-        const questionDiv = document.createElement("div");
-        questionDiv.id = `question${index + 1}`;
-        questionDiv.classList.add("question-page");
-        if (index === 0) questionDiv.classList.add("active");
-
-        const imagesHtml = q.images.length > 1
-            ? `<img id="carImage${index + 1}" src="${q.images[0]}" class="quiz-image">`
-            : `<img src="${q.images[0]}" class="quiz-image">`;
-
-        const optionsHtml = q.options
-            .map((opt, i) => `<li>
-                <input type="radio" id="q${index + 1}-${i}" name="q${index + 1}" value="${opt}">
-                <label for="q${index + 1}-${i}">${opt}</label>
-              </li>`)
-            .join("");
-
-        questionDiv.innerHTML = `
-            <h3>${index + 1}. ${q.text}</h3>
-            <div>${imagesHtml}</div>
-            <ul class="options">${optionsHtml}</ul>
-            <button class="btn" onclick="checkAnswer(${index + 1}, ${JSON.stringify(q.answer)})">Next</button>
-        `;
-        container.appendChild(questionDiv);
-    });
-
     let score = 0;
-    function checkAnswer(question, correctAnswer) {
-        const selectedOption = document.querySelector(`input[name="q${question}"]:checked`);
+    let totalQuestions = questions.length;
+    const currentImageIndex = {};
+
+    const renderQuestions = () => {
+        const container = document.getElementById("questions-container");
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement("div");
+            questionDiv.classList.add("question-page");
+            if (index === 0) questionDiv.classList.add("active");
+
+            const imagesHtml = q.images.length > 1
+                ? `<button class="nav-button left" onclick="previousImage(${index})">&#x276E;</button>
+                   <img id="carImage${index}" src="${q.images[0]}" class="quiz-image">
+                   <button class="nav-button right" onclick="nextImage(${index})">&#x276F;</button>`
+                : `<img src="${q.images[0]}" class="quiz-image">`;
+
+            const optionsHtml = q.options
+                .map((opt, i) => `
+                    <li>
+                        <input type="radio" id="q${index}-${i}" name="q${index}" value="${opt}">
+                        <label for="q${index}-${i}">${opt}</label>
+                    </li>
+                `)
+                .join("");
+
+            questionDiv.innerHTML = `
+                <h3>${index + 1}. ${q.text}</h3>
+                <div class="quiz-image-container">${imagesHtml}</div>
+                <ul class="options">${optionsHtml}</ul>
+                <button class="btn" onclick="checkAnswer(${index}, ${JSON.stringify(q.answer)})">Next</button>
+            `;
+            container.appendChild(questionDiv);
+        });
+    };
+
+    const nextImage = (index) => {
+        const images = questions[index].images;
+        currentImageIndex[index] = (currentImageIndex[index] + 1) % images.length || 0;
+        document.getElementById(`carImage${index}`).src = images[currentImageIndex[index]];
+    };
+
+    const previousImage = (index) => {
+        const images = questions[index].images;
+        currentImageIndex[index] = (currentImageIndex[index] - 1 + images.length) % images.length || 0;
+        document.getElementById(`carImage${index}`).src = images[currentImageIndex[index]];
+    };
+
+    const checkAnswer = (index, correctAnswer) => {
+        const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
         const isCorrect = Array.isArray(correctAnswer)
             ? correctAnswer.includes(selectedOption?.value)
             : selectedOption?.value === correctAnswer;
@@ -218,39 +262,34 @@
             if (isCorrect) score++;
             setTimeout(() => {
                 document.body.style.backgroundColor = "#f0f0f0";
-                document.getElementById(`question${question}`).classList.remove("active");
-                const nextQuestion = document.getElementById(`question${question + 1}`);
-                if (nextQuestion) {
-                    nextQuestion.classList.add("active");
-                } else {
-                    showResult();
-                }
+                document.querySelectorAll(".question-page")[index].classList.remove("active");
+                const nextPage = document.querySelectorAll(".question-page")[index + 1];
+                if (nextPage) nextPage.classList.add("active");
+                else showResult();
             }, 1000);
         } else {
             alert("Please select an option before moving to the next question.");
         }
-    }
+    };
 
-    function showResult() {
-        const totalQuestions = shuffledQuestions.length;
-        const percentage = (score / totalQuestions) * 100;
-        document.getElementById("score").textContent = score;
-        document.getElementById("total-questions").textContent = totalQuestions;
-        document.getElementById("percentage").textContent = percentage.toFixed(2);
-
+    const showResult = () => {
+        const percentage = ((score / totalQuestions) * 100).toFixed(2);
         let grade = "";
         if (percentage >= 90) grade = "A";
-        else if (percentage >= 85) grade = "B+";
         else if (percentage >= 80) grade = "B";
-        else if (percentage >= 75) grade = "C+";
         else if (percentage >= 70) grade = "C";
-        else if (percentage >= 65) grade = "D+";
         else if (percentage >= 60) grade = "D";
         else grade = "F";
 
+        document.getElementById("score").textContent = score;
+        document.getElementById("total-questions").textContent = totalQuestions;
+        document.getElementById("percentage").textContent = percentage;
         document.getElementById("grade").textContent = grade;
+
         document.getElementById("result").style.display = "block";
-    }
+    };
+
+    renderQuestions();
 </script>
 
 </body>
