@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Visby Round', sans-serif;
-            background-color: white;
+            background-color: #9370DB;
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,29 +16,24 @@
             justify-content: center;
             height: 100vh;
             box-sizing: border-box;
-            color: #9370DB;
-            position: relative;
+            color: white;
+            position: relative; /* Ensure absolute positioning works for the button */
         }
 
         .countdown-box {
             text-align: center;
-            background-color: #9370DB;
-            color: white;
-            padding: 20px;
-            border-radius: 0; /* No rounded corners to fill the screen */
-            box-shadow: none; /* No shadow for a flat full-screen design */
+            background-color: white;
+            color: #9370DB;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             font-size: 2em;
-            width: 100vw;
-            height: 100vh; /* Occupy the full height of the screen */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
 
         .countdown-title {
             font-size: 2.5em;
             margin-bottom: 20px;
+            font-family: 'Visby Round', sans-serif;
             font-weight: bold;
         }
 
@@ -47,65 +42,77 @@
             font-weight: bold;
         }
 
-        .alternate-button {
+        .copy-button {
             position: absolute;
-            bottom: 20px;
-            font-size: 1em;
-            padding: 10px 20px;
-            border: none;
+            top: 20px;
+            right: 20px;
+            background-color: #fff;
+            color: #9370DB;
+            border: 2px solid #9370DB;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .copy-button:hover {
             background-color: #9370DB;
             color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .alternate-button:hover {
-            background-color: #6e52a7;
-            transform: scale(1.05);
-        }
-
-        .alternate-button:active {
-            transform: scale(0.95);
         }
     </style>
 </head>
 
 <body>
+
     <div class="countdown-box">
-        <div class="countdown-title">Countdown to Christmas</div>
-        <div class="countdown-time" id="countdown"></div>
+        <div class="countdown-title">Christmas</div>
+        <div class="countdown-time" id="countdown2"></div>
     </div>
-    <a href="https://caius787.github.io/mchirstmas.html" class="alternate-button">Alternate</a>
+    <button class="copy-button" id="copyButton">Copy Countdown</button>
 
     <script>
-        function updateCountdown() {
+        function countdownToChristmas() {
             const now = new Date();
             const currentYear = now.getFullYear();
-            let targetDate = new Date(`${currentYear}-12-25T00:00:00`);
+            const nextChristmas = new Date(`December 25, ${currentYear} 00:00:00`);
 
-            // If Christmas has passed this year, countdown to next year's Christmas
-            if (now > targetDate) {
-                targetDate.setFullYear(currentYear + 1);
+            // If the current time is past Christmas this year, countdown to next year's Christmas
+            if (now > nextChristmas) {
+                nextChristmas.setFullYear(currentYear + 1);
             }
 
-            const timeDifference = targetDate - now;
+            const timeDifference = nextChristmas - now;
 
             const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-            document.getElementById('countdown').innerHTML =
-                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+            const countdownText = `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+            document.getElementById('countdown2').innerHTML = countdownText;
+
+            // Set the button text for copying
+            document.getElementById('copyButton').dataset.countdown = `Happy ${countdownText} til Christmas!`;
 
             // Repeat every second
-            setTimeout(updateCountdown, 1000);
+            setTimeout(countdownToChristmas, 1000);
         }
 
-        updateCountdown();
+        // Function to copy countdown text to clipboard
+        function copyCountdown() {
+            const countdownMessage = document.getElementById('copyButton').dataset.countdown;
+            navigator.clipboard.writeText(countdownMessage).then(() => {
+                alert('Countdown copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy countdown.');
+            });
+        }
+
+        // Attach event listener to the button
+        document.getElementById('copyButton').addEventListener('click', copyCountdown);
+
+        countdownToChristmas();
     </script>
 
 </body>
