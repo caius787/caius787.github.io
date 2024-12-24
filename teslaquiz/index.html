@@ -18,7 +18,6 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            position: relative;
         }
         h1, h3 {
             text-align: center;
@@ -235,12 +234,27 @@
             <li><input type="radio" id="q9-c" name="q9" value="Model Y"><label for="q9-c">Model Y</label></li>
             <li><input type="radio" id="q9-d" name="q9" value="Ludacris model"><label for="q9-d">Ludacris model</label></li>
         </ul>
-        <button class="btn" onclick="submitQuiz(9, 'Model Y')">Submit</button>
+        <button class="btn" onclick="checkAnswer(9, 'Model Y')">Next</button>
+    </div>
+
+    <!-- Question 10 -->
+    <div id="question10" class="question-page">
+        <h3>10. What car is this?</h3>
+        <div class="quiz-image-container">
+            <img id="carImage10" src="semi2.png" alt="Tesla Semi" class="quiz-image">
+        </div>
+        <ul class="options">
+            <li><input type="radio" id="q10-a" name="q10" value="The Musk Truck"><label for="q10-a">The Musk Truck</label></li>
+            <li><input type="radio" id="q10-b" name="q10" value="Tesla Model B"><label for="q10-b">Tesla Model B</label></li>
+            <li><input type="radio" id="q10-c" name="q10" value="Tesla Semi"><label for="q10-c">Tesla Semi</label></li>
+            <li><input type="radio" id="q10-d" name="q10" value="The Boring Company Big Truck"><label for="q10-d">The Boring Company Big Truck</label></li>
+        </ul>
+        <button class="btn" onclick="submitQuiz(10, 'Tesla Semi')">Submit</button>
     </div>
 
     <!-- Result Page -->
     <div class="result" id="result">
-        You got <span id="score"></span> out of 9 correct! <br>
+        You got <span id="score"></span> out of 10 correct! <br>
         That is <span id="percentage"></span>% correct! <br>
         Your grade is: <span id="grade"></span> <br>
         <a href="index.html" class="btn">Home</a>
@@ -270,7 +284,7 @@
     }
 
     function showResult() {
-        const percentage = (score / 9) * 100;
+        const percentage = (score / 10) * 100;
         document.getElementById('score').textContent = score;
         document.getElementById('percentage').textContent = percentage.toFixed(2);
         document.getElementById('grade').textContent = percentage >= 90 ? 'A' :
