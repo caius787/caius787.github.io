@@ -1,304 +1,152 @@
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Caius's Website</title>
-    <!-- Include Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <head>
+        <meta charset="UTF-8">
+        <title>Caius's Website</title>
+        <!-- Include Google Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Existing meta tags -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="manifest" href="/site.webmanifest">
+        <!-- Existing meta tags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+        <link rel="manifest" href="/site.webmanifest">
 
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #9370DB;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: white;
-            box-sizing: border-box;
-        }
 
-        h1,
-        h2 {
-            margin: 50px 0;
-            padding: 0;
-        }
+    </head>
 
-        a {
-            color: #9370DB;
-            text-decoration: none;
-            position: relative;
-            z-index: 10;
-        }
+    <body>
+        <h1>Welcome to my website!</h1>
+        <div class="spacer"></div>
+        <h2>Where the most wonderful people are!</h2>
+        <div class="spacer"></div>
+        <a href="wlist.html" class="christmas-list confetti-link">Wish list</a>
+        <div class="spacer"></div>
 
-        a:hover {
-            text-decoration: underline;
-        }
+        <div class="container">
+            <div class="box">
+                <h4>Minecraft Links</h4>
+                <ul>
+                    <li><a href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/" class="confetti-link" target="_blank">they_not_like_us</a></li>
+                    <li><a href="https://www.minecraftskins.com/" class="confetti-link" target="_blank">Minecraft Skins</a></li>
+                    <li><a href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png" class="confetti-link" target="_blank">Potion Table</a></li>
+                    <li><a href="https://www.minecraft.net/en-us" class="confetti-link" target="_blank">Download Minecraft</a></li>
+                    <li><a href="mcpassenger/passenger.html" class="confetti-link">How To Make An Entity Ride An Entity</a></li>
+                </ul>
+            </div>
 
-        .christmas-list {
-            display: inline-block;
-            margin: 40px auto;
-            padding: 20px 40px;
-            background-color: white;
-            color: #9370DB;
-            font-size: 2.2em;
-            font-weight: bold;
-            border-radius: 10px;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
+            <div class="box">
+                <h4>Dad</h4>
+                <ul>
+                    <li><a href="https://inthaiguy.github.io/" class="confetti-link">Dad's Website</a></li>
+                    <li><a href="https://www.tropical-islands.com" class="confetti-link">Find Tropical Islands</a></li>
+                </ul>
+            </div>
 
-        .christmas-list:hover {
-            background-color: #f0e6ff;
-        }
-
-        .container {
-            width: 98%;
-            margin: 0;
-            padding: 0 15px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            z-index: 10;
-        }
-
-        .box {
-            background-color: white;
-            color: #9370DB;
-            padding: 40px 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            z-index: 10;
-        }
-
-        .box:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .box h4 {
-            font-size: 1.8em;
-            margin: 0 0 15px 0;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        ul li {
-            margin: 10px 0;
-            font-size: 1.1em;
-        }
-
-        ul li a {
-            color: #9370DB;
-            text-decoration: none;
-        }
-
-        ul li a:hover {
-            text-decoration: underline;
-        }
-
-        .spacer {
-            height: 30px;
-        }
-
-        .search-label {
-            display: flex;
-            align-items: center;
-            box-sizing: border-box;
-            position: relative;
-            border: 1px solid transparent;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #3D3D3D;
-            padding: 9px;
-            cursor: text;
-            width: 90%;
-            max-width: 600px;
-            margin: 40px auto;
-        }
-
-        .search-label:hover {
-            border-color: gray;
-        }
-
-        .search-label:focus-within {
-            background: #464646;
-            border-color: gray;
-        }
-
-        .search-label input {
-            outline: none;
-            width: 100%;
-            border: none;
-            background: none;
-            color: rgb(162, 162, 162);
-        }
-
-        .slash-icon {
-            position: absolute;
-            right: 7px;
-            border: 1px solid #393838;
-            background: linear-gradient(-225deg, #343434, #6d6d6d);
-            border-radius: 3px;
-            text-align: center;
-            box-shadow: inset 0 -2px 0 0 #3f3f3f, inset 0 0 1px 1px rgb(94, 93, 93), 0 1px 2px 1px rgba(28, 28, 29, 0.4);
-            cursor: pointer;
-            font-size: 12px;
-            width: 15px;
-        }
-
-        .slash-icon:active {
-            box-shadow: inset 0 1px 0 0 #3f3f3f, inset 0 0 1px 1px rgb(94, 93, 93), 0 1px 2px 0 rgba(28, 28, 29, 0.4);
-            text-shadow: 0 1px 0 #7e7e7e;
-            color: transparent;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>Welcome to my website!</h1>
-    <div class="spacer"></div>
-    <h2>Where the most wonderful people are!</h2>
-    <div class="spacer"></div>
-    <a href="xmas.html" class="christmas-list confetti-link">2024 Christmas List</a>
-    <div class="spacer"></div>
-
-    <div class="container">
-        <div class="box">
-            <h4>Minecraft Links</h4>
-            <ul>
-                <li><a href="https://mcnames.net/uuid/279aae43-5196-43c5-91e6-a8217acafe40/" class="confetti-link" target="_blank">they_not_like_us</a></li>
-                <li><a href="https://www.minecraftskins.com/" class="confetti-link" target="_blank">Minecraft Skins</a></li>
-                <li><a href="https://www.minecraftxl.com/p/files/minecraft-potions-brewing-system.png" class="confetti-link" target="_blank">Potion Table</a></li>
-                <li><a href="https://www.minecraft.net/en-us" class="confetti-link" target="_blank">Download Minecraft</a></li>
-                <li><a href="mcpassenger/passenger.html" class="confetti-link">How To Make An Entity Ride An Entity</a></li>
-            </ul>
+            <div class="box">
+                <h4>Other Stuff</h4>
+                <ul>
+                    <li><a href="wlist.html" class="confetti-link">WISH LIST</a></li>
+                    <li><a href="countdowns/index.html" class="confetti-link">Countdowns</a></li>
+                    <li><a href="teslaquiz/index.html" class="confetti-link">Tesla Quiz</a></li>
+                    <li><a href="https://caius787.github.io/soundboard.html" class="confetti-link">Soundboard</a></li>
+                    <li><a href="https://caius787.github.io/minigames/" class="confetti-link">Minigames</a></li>
+                    <li><a href="randno.html" class="confetti-link">Random Number Generator</a></li>
+                    <li><a href="instruments/index.html" class="confetti-link">Instruments</a></li> <!-- Added Instruments link -->
+                </ul>
+            </div>
         </div>
 
-        <div class="box">
-            <h4>Dad</h4>
-            <ul>
-                <li><a href="https://inthaiguy.github.io/" class="confetti-link">Dad's Website</a></li>
-                <li><a href="https://www.tropical-islands.com" class="confetti-link">Find Tropical Islands</a></li>
-            </ul>
+        <div class="search-label">
+            <input id="commandInput" type="text" name="text" class="input" placeholder="Command Bar">
+            <kbd class="slash-icon">/</kbd>
         </div>
 
-        <div class="box">
-            <h4>Other Stuff</h4>
-            <ul>
-                <li><a href="xmas.html" class="confetti-link">Christmas List</a></li>
-                <li><a href="countdowns/index.html" class="confetti-link">Countdowns</a></li>
-                <li><a href="teslaquiz/index.html" class="confetti-link">Tesla Quiz</a></li>
-                <li><a href="https://caius787.github.io/soundboard.html" class="confetti-link">Soundboard</a></li>
-                <li><a href="https://caius787.github.io/minigames/" class="confetti-link">Minigames</a></li>
-                <li><a href="randno.html" class="confetti-link">Random Number Generator</a></li>
-                <li><a href="instruments/index.html" class="confetti-link">Instruments</a></li> <!-- Added Instruments link -->
-            </ul>
-        </div>
-    </div>
-
-    <div class="search-label">
-        <input id="commandInput" type="text" name="text" class="input" placeholder="Command Bar">
-        <kbd class="slash-icon">/</kbd>
-    </div>
-
-    <script>
-        document.getElementById('commandInput').addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                const input = this.value.trim().toLowerCase(); // Normalize input
-                let targetPage = '';
-    
-                // Define mappings for commands
-                const commands = {
-                    'glorious': 'glorious.html',
-                    'taco': 'taco.html',
-                    'mc countdown': 'mchirstmas.html',
-                    'thai2': 'thai2usa.html',
-                    'local test': null, // Special case for local test
-                    'workout': 'workout.html',
-                    'vr': 'metaquest.html',
-                    'button': 'dontclickthebutton.html',
-                    'prime': 'prime/index.html' // Added 'prime' command
-                };
-    
-                if (input === 'help') {
-                    alert('Available commands:\n' + Object.keys(commands).join('\n') + '\nlist');
-                    this.value = ''; // Reset the search bar
-                    return;
-                }
-    
-                if (input === 'list') {
-                    // Create and display the modal with command links
-                    const modal = document.createElement('div');
-                    modal.style.position = 'fixed';
-                    modal.style.top = '50%';
-                    modal.style.left = '50%';
-                    modal.style.transform = 'translate(-50%, -50%)';
-                    modal.style.background = '#fff';
-                    modal.style.color = '#9370DB';
-                    modal.style.padding = '20px';
-                    modal.style.borderRadius = '10px';
-                    modal.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-                    modal.style.zIndex = '1000';
-                    modal.style.textAlign = 'center';
-                    modal.innerHTML = '<h3>Command List</h3><ul style="list-style: none; padding: 0;">' +
-                        Object.entries(commands).map(([key, value]) => value 
-                            ? `<li><a href="${value}" target="_blank">${key}</a></li>` 
-                            : `<li>${key} (No link available)</li>`).join('') +
-                        '</ul><button id="closeModal" style="margin-top: 10px; padding: 5px 10px; background: #9370DB; color: white; border: none; border-radius: 5px;">Close</button>';
-                    document.body.appendChild(modal);
-    
-                    // Add close functionality
-                    document.getElementById('closeModal').addEventListener('click', () => {
-                        document.body.removeChild(modal);
-                    });
-    
-                    this.value = ''; // Reset the search bar
-                    return; // Exit early, no redirection
-                }
-    
-                if (input in commands) {
-                    if (input === 'local test') {
-                        const localLink = 'file:///Users/C/Documents/GitHub/caius787.github.io/index.html';
-                        navigator.clipboard.writeText(localLink).then(() => {
-                            alert('Local link copied to clipboard!');
-                        }).catch(err => {
-                            alert('Failed to copy the link: ' + err);
+        <script>
+            document.getElementById('commandInput').addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    const input = this.value.trim().toLowerCase(); // Normalize input
+                    let targetPage = '';
+        
+                    // Define mappings for commands
+                    const commands = {
+                        'glorious': 'glorious.html',
+                        'taco': 'taco.html',
+                        'mc countdown': 'mchirstmas.html',
+                        'thai2': 'thai2usa.html',
+                        'local test': null, // Special case for local test
+                        'workout': 'workout.html',
+                        'vr': 'metaquest.html',
+                        'button': 'dontclickthebutton.html',
+                        'prime': 'prime/index.html' // Added 'prime' command
+                    };
+        
+                    if (input === 'help') {
+                        alert('Available commands:\n' + Object.keys(commands).join('\n') + '\nlist');
+                        this.value = ''; // Reset the search bar
+                        return;
+                    }
+        
+                    if (input === 'list') {
+                        // Create and display the modal with command links
+                        const modal = document.createElement('div');
+                        modal.style.position = 'fixed';
+                        modal.style.top = '50%';
+                        modal.style.left = '50%';
+                        modal.style.transform = 'translate(-50%, -50%)';
+                        modal.style.background = '#fff';
+                        modal.style.color = '#9370DB';
+                        modal.style.padding = '20px';
+                        modal.style.borderRadius = '10px';
+                        modal.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                        modal.style.zIndex = '1000';
+                        modal.style.textAlign = 'center';
+                        modal.innerHTML = '<h3>Command List</h3><ul style="list-style: none; padding: 0;">' +
+                            Object.entries(commands).map(([key, value]) => value 
+                                ? `<li><a href="${value}" target="_blank">${key}</a></li>` 
+                                : `<li>${key} (No link available)</li>`).join('') +
+                            '</ul><button id="closeModal" style="margin-top: 10px; padding: 5px 10px; background: #9370DB; color: white; border: none; border-radius: 5px;">Close</button>';
+                        document.body.appendChild(modal);
+        
+                        // Add close functionality
+                        document.getElementById('closeModal').addEventListener('click', () => {
+                            document.body.removeChild(modal);
                         });
+        
                         this.value = ''; // Reset the search bar
                         return; // Exit early, no redirection
-                    } else {
-                        targetPage = commands[input];
                     }
-                } else {
-                    alert('No Output Available');
-                    this.value = ''; // Reset the search bar
-                    return; // Exit early, no redirection
+        
+                    if (input in commands) {
+                        if (input === 'local test') {
+                            const localLink = 'file:///Users/C/Documents/GitHub/caius787.github.io/index.html';
+                            navigator.clipboard.writeText(localLink).then(() => {
+                                alert('Local link copied to clipboard!');
+                            }).catch(err => {
+                                alert('Failed to copy the link: ' + err);
+                            });
+                            this.value = ''; // Reset the search bar
+                            return; // Exit early, no redirection
+                        } else {
+                            targetPage = commands[input];
+                        }
+                    } else {
+                        alert('No Output Available');
+                        this.value = ''; // Reset the search bar
+                        return; // Exit early, no redirection
+                    }
+        
+                    this.value = ''; // Reset the search bar before redirection
+                    if (targetPage) {
+                        window.location.href = targetPage; // Redirect to the target page
+                    }
                 }
-    
-                this.value = ''; // Reset the search bar before redirection
-                if (targetPage) {
-                    window.location.href = targetPage; // Redirect to the target page
-                }
-            }
-        });
-    </script>
-</body>
+            });
+        </script>
+    </body>
 
-</html>
+    </html>
