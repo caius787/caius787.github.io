@@ -3,79 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Party RSVP</title>
+    <title>Caius Blair's Birthday Party</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        h2 { color: #4CAF50; }
-        input, button { 
-            padding: 10px; 
-            margin: 10px; 
-            font-size: 16px; 
-            border: none; 
-            border-radius: 5px;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        /* Smooth Single-Color Transition */
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            animation: colorFade 30s infinite;
         }
-        .yes { background-color: #4CAF50; color: white; }
-        .no { background-color: #f44336; color: white; }
+
+        @keyframes colorFade {
+            0%   { background-color: #ff4d4d; }  /* Red */
+            20%  { background-color: #ffae42; }  /* Orange */
+            40%  { background-color: #33cc33; }  /* Green */
+            60%  { background-color: #3399ff; }  /* Blue */
+            80%  { background-color: #9933cc; }  /* Purple */
+            100% { background-color: #ff4d4d; }  /* Back to Red */
+        }
+
+        /* Main Content Box */
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 90%;
+        }
+
+        /* Large Birthday Heading */
+        .title {
+            font-size: 60px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Centered Date & Time */
+        .date-time {
+            font-size: 28px;
+            font-weight: 500;
+            margin: 30px 0;
+        }
+
+        /* Section Headers */
+        .section {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        /* Wishlist Section */
+        .wishlist {
+            font-size: 22px;
+            margin-top: 20px;
+        }
+
+        .wishlist a {
+            font-weight: 600;
+            text-decoration: none;
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            transition: 0.3s ease;
+        }
+
+        .wishlist a:hover {
+            color: #004999;
+            border-bottom: 2px solid #004999;
+        }
+
+        /* Google Form Full Height */
+        .form-container {
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 700px; /* Adjusted so it fully displays the form */
+            border-radius: 10px;
+            border: none;
+        }
+
+        /* Copyright Footer */
+        .footer {
+            margin-top: 30px;
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px;
+                max-width: 95%;
+            }
+            .title {
+                font-size: 45px;
+            }
+            .date-time {
+                font-size: 22px;
+            }
+            .section {
+                font-size: 20px;
+            }
+            .wishlist {
+                font-size: 20px;
+            }
+            iframe {
+                height: 800px; /* Adjusted for mobile to avoid cutoff */
+            }
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Name Input Section -->
-    <h2>Enter Your Name</h2>
-    <input type="text" id="nameInput" placeholder="Type your name">
-    <button onclick="submitName()">Submit</button>
-    <p id="errorMessage" style="color: red;"></p>
+    <div class="container">
+        <h1 class="title">🎉 Caius Blair's Birthday Party 🎉</h1>
 
-    <!-- RSVP Section (Hidden by Default) -->
-    <div id="rsvpSection" style="display: none;">
-        <h2>Are you attending the party?</h2>
-        <button class="yes" onclick="sendResponse('Yes')">Yes, I'm attending!</button>
-        <button class="no" onclick="sendResponse('No')">No, I can't make it</button>
+        <p class="date-time"><strong>Date:</strong> 00/00/0000</p>
+        <p class="date-time"><strong>Time:</strong> 1PM - 3PM</p>
+
+        <p class="section">📍 Location:</p>
+        <div style="overflow:hidden;resize:none;max-width:100%;width:100%;height:300px;">
+            <iframe style="height:100%;width:100%;border:0;" frameborder="0"
+                src="https://www.google.com/maps/embed/v1/place?q=dave+and+busters&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8">
+            </iframe>
+        </div>
+
+        <p class="section">📝 RSVP Below:</p>
+        <div class="form-container">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSePAYbb8G20apI8M0aT2qNusVUj_pkTB3XpJfhRJ8sdIlAkjA/viewform?embedded=true">
+            </iframe>
+        </div>
+
+        <p class="wishlist">🎁 Wondering what to get? <a href="wlist.html">Wishlist</a></p>
+
+        <!-- Copyright Section -->
+        <p class="footer">© Cool Copywrite 2025. No Rights Reserved.</p>
     </div>
-
-    <p id="status"></p>
-
-    <script>
-        let userName = "";  // Store the user's name
-
-        function submitName() {
-            let inputName = document.getElementById("nameInput").value.trim();
-
-            if (inputName.length === 0) {
-                document.getElementById("errorMessage").innerText = "Please enter your name.";
-                return;
-            }
-
-            userName = inputName; // Store name
-            document.getElementById("errorMessage").innerText = "";
-            document.getElementById("rsvpSection").style.display = "block"; // Show RSVP section
-        }
-
-        function sendResponse(answer) {
-    let name = document.getElementById("nameInput").value.trim();
-
-    if (!name) {
-        alert("Please enter your name first.");
-        return;
-    }
-
-    document.getElementById("status").innerText = "Submitting response...";
-
-    let url = "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?name=" + encodeURIComponent(name) + "&response=" + encodeURIComponent(answer);
-
-    fetch(url, {
-        method: "GET"
-    })
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById("status").innerText = "Response recorded: " + data;
-    })
-    .catch(error => {
-        document.getElementById("status").innerText = "Error submitting response.";
-        console.error("Fetch error:", error);
-    });
-}
-    </script>
 
 </body>
 </html>
