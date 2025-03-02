@@ -55,10 +55,23 @@
         }
 
         function sendResponse(answer) {
+    let name = userName.trim(); // Ensure name is captured correctly
+
+    if (!name) {
+        alert("Please enter your name first.");
+        return;
+    }
+
     document.getElementById("status").innerText = "Submitting response...";
 
-    fetch("https://script.google.com/macros/s/AKfycbxrWkZWNBFIoDrPTZ4F3KvolWNjbulQl6ehs8slwio1YVq-ox5UjtYyJLn3qWW8lJeS/exec" + encodeURIComponent(userName) + "&response=" + encodeURIComponent(answer), {
-        method: "GET"
+    let url = "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec";
+    let params = new URLSearchParams({
+        name: name,
+        response: answer
+    });
+
+    fetch(`${url}?${params.toString()}`, {
+        method: "GET",
     })
     .then(response => response.text())
     .then(data => {
