@@ -52,31 +52,29 @@
         }
 
         function sendResponse(answer) {
-            if (!userName) {
-                alert("Please enter your name first.");
-                return;
-            }
+    let name = document.getElementById("nameInput").value.trim();
 
-            document.getElementById("status").innerText = "Submitting response...";
+    if (!name) {
+        alert("Please enter your name first.");
+        return;
+    }
 
-            let url = "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec";
-            let params = new URLSearchParams({
-                name: userName,
-                response: answer
-            });
+    document.getElementById("status").innerText = "Submitting response...";
 
-            fetch(`${url}?${params.toString()}`, {
-                method: "GET"
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("status").innerText = "Response recorded: " + data;
-            })
-            .catch(error => {
-                document.getElementById("status").innerText = "Error submitting response.";
-                console.error("Fetch error:", error);
-            });
-        }
+    let url = "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?name=" + encodeURIComponent(name) + "&response=" + encodeURIComponent(answer);
+
+    fetch(url, {
+        method: "GET"
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("status").innerText = "Response recorded: " + data;
+    })
+    .catch(error => {
+        document.getElementById("status").innerText = "Error submitting response.";
+        console.error("Fetch error:", error);
+    });
+}
     </script>
 
 </body>
