@@ -31,8 +31,8 @@
         function sendResponse(answer) {
     document.getElementById("status").innerText = "Submitting response...";
 
-    fetch("https://script.google.com/macros/s/AKfycbyGXsUNHEOjx0PejQ4k8fyc73h63FN7FNtZpTf7Ef9WwOHJLZepYGJLm8_686FkmSLI/exec" + encodeURIComponent(answer), {
-        method: "GET",
+    fetch("https://script.google.com/macros/s/AKfycbyGXsUNHEOjx0PejQ4k8fyc73h63FN7FNtZpTf7Ef9WwOHJLZepYGJLm8_686FkmSLI/exec?response=" + encodeURIComponent(answer), {
+        method: "GET"
     })
     .then(response => response.text())
     .then(data => {
