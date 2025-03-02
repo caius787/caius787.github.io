@@ -20,11 +20,13 @@
 </head>
 <body>
 
+    <!-- Name Input Section -->
     <h2>Enter Your First Name</h2>
     <input type="text" id="nameInput" placeholder="Type your first name">
     <button onclick="submitName()">Submit</button>
     <p id="errorMessage" style="color: red;"></p>
 
+    <!-- RSVP Section (Hidden by Default) -->
     <div id="rsvpSection" style="display: none;">
         <h2>Are you attending the party?</h2>
         <button class="yes" onclick="sendResponse('Yes')">Yes, I'm attending!</button>
@@ -48,13 +50,14 @@
                 document.getElementById("rsvpSection").style.display = "block"; // Show RSVP section
             } else {
                 document.getElementById("errorMessage").innerText = "Name not recognized. Please enter a valid name.";
+                document.getElementById("rsvpSection").style.display = "none"; // Keep RSVP hidden
             }
         }
 
         function sendResponse(answer) {
             document.getElementById("status").innerText = "Submitting response...";
 
-            fetch("https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?name=https://script.google.com/macros/s/AKfycbzXgiiyr228fY0KkDBwYp3na3_XGU7Rfl0rVvFDrl3PyY3Gc5PRqvM4zF2ydyEKIT4/exec" + encodeURIComponent(userName) + "&response=" + encodeURIComponent(answer), {
+            fetch("hhttps://script.google.com/macros/s/AKfycbzXgiiyr228fY0KkDBwYp3na3_XGU7Rfl0rVvFDrl3PyY3Gc5PRqvM4zF2ydyEKIT4/execttps://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?name=" + encodeURIComponent(userName) + "&response=" + encodeURIComponent(answer), {
                 method: "GET"
             })
             .then(response => response.text())
