@@ -21,8 +21,8 @@
 <body>
 
     <!-- Name Input Section -->
-    <h2>Enter Your First Name</h2>
-    <input type="text" id="nameInput" placeholder="Type your first name">
+    <h2>Enter Your Name</h2>
+    <input type="text" id="nameInput" placeholder="Type your name">
     <button onclick="submitName()">Submit</button>
     <p id="errorMessage" style="color: red;"></p>
 
@@ -36,52 +36,47 @@
     <p id="status"></p>
 
     <script>
-        let userName = "";  // Store the valid name
-
-        // Allowed names (converted to lowercase for case-insensitivity)
-        const allowedNames = ["connor", "dara", "jordy", "remy", "sam", "michael", "landon", "ella", "lucy"];
+        let userName = "";  // Store the user's name
 
         function submitName() {
-            let inputName = document.getElementById("nameInput").value.trim().toLowerCase();
+            let inputName = document.getElementById("nameInput").value.trim();
 
-            if (allowedNames.includes(inputName)) {
-                userName = inputName.charAt(0).toUpperCase() + inputName.slice(1); // Capitalize first letter
-                document.getElementById("errorMessage").innerText = "";
-                document.getElementById("rsvpSection").style.display = "block"; // Show RSVP section
-            } else {
-                document.getElementById("errorMessage").innerText = "Name not recognized. Please enter a valid name.";
-                document.getElementById("rsvpSection").style.display = "none"; // Keep RSVP hidden
+            if (inputName.length === 0) {
+                document.getElementById("errorMessage").innerText = "Please enter your name.";
+                return;
             }
+
+            userName = inputName; // Store name
+            document.getElementById("errorMessage").innerText = "";
+            document.getElementById("rsvpSection").style.display = "block"; // Show RSVP section
         }
 
         function sendResponse(answer) {
-    let name = userName.trim(); // Ensure name is captured correctly
+            if (!userName) {
+                alert("Please enter your name first.");
+                return;
+            }
 
-    if (!name) {
-        alert("Please enter your name first.");
-        return;
-    }
+            document.getElementById("status").innerText = "Submitting response...";
 
-    document.getElementById("status").innerText = "Submitting response...";
+            let url = "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec";
+            let params = new URLSearchParams({
+                name: userName,
+                response: answer
+            });
 
-    let url = "https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec";
-    let params = new URLSearchParams({
-        name: name,
-        response: answer
-    });
-
-    fetch(`${url}?${params.toString()}`, {
-        method: "GET",
-    })
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById("status").innerText = "Response recorded: " + data;
-    })
-    .catch(error => {
-        document.getElementById("status").innerText = "Error submitting response.";
-        console.error("Fetch error:", error);
-    });
-}
+            fetch(`${url}?${params.toString()}`, {
+                method: "GET"
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("status").innerText = "Response recorded: " + data;
+            })
+            .catch(error => {
+                document.getElementById("status").innerText = "Error submitting response.";
+                console.error("Fetch error:", error);
+            });
+        }
     </script>
 
 </body>
