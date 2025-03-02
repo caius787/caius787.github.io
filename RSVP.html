@@ -57,9 +57,8 @@
         function sendResponse(answer) {
     document.getElementById("status").innerText = "Submitting response...";
 
-    fetch("https://script.google.com/macros/AKfycbzXgiiyr228fY0KkDBwYp3na3_XGU7Rfl0rVvFDrl3PyY3Gc5PRqvM4zF2ydyEKIT4/YOUR_SCRIPT_URL/exec?name=" + encodeURIComponent(userName) + "&response=" + encodeURIComponent(answer), {
-        method: "GET",
-        mode: "no-cors"  // Fixes potential CORS issues
+    fetch("https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?name=" + encodeURIComponent(userName) + "&response=" + encodeURIComponent(answer), {
+        method: "GET"
     })
     .then(response => response.text())
     .then(data => {
