@@ -7,11 +7,10 @@
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
         h2 { color: #4CAF50; }
-        button { 
-            padding: 10px 20px; 
+        input, button { 
+            padding: 10px; 
             margin: 10px; 
             font-size: 16px; 
-            cursor: pointer; 
             border: none; 
             border-radius: 5px;
         }
@@ -21,28 +20,52 @@
 </head>
 <body>
 
-    <h2>Are you attending the party?</h2>
-    <button class="yes" onclick="sendResponse('Yes')">Yes, I'm attending!</button>
-    <button class="no" onclick="sendResponse('No')">No, I can't make it</button>
+    <h2>Enter Your First Name</h2>
+    <input type="text" id="nameInput" placeholder="Type your first name">
+    <button onclick="submitName()">Submit</button>
+    <p id="errorMessage" style="color: red;"></p>
+
+    <div id="rsvpSection" style="display: none;">
+        <h2>Are you attending the party?</h2>
+        <button class="yes" onclick="sendResponse('Yes')">Yes, I'm attending!</button>
+        <button class="no" onclick="sendResponse('No')">No, I can't make it</button>
+    </div>
 
     <p id="status"></p>
 
     <script>
-        function sendResponse(answer) {
-    document.getElementById("status").innerText = "Submitting response...";
+        let userName = "";  // Store the valid name
 
-    fetch("https://script.google.com/macros/s/AKfycbyGXsUNHEOjx0PejQ4k8fyc73h63FN7FNtZpTf7Ef9WwOHJLZepYGJLm8_686FkmSLI/exec?response=" + encodeURIComponent(answer), {
-        method: "GET"
-    })
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById("status").innerText = "Response recorded: " + data;
-    })
-    .catch(error => {
-        document.getElementById("status").innerText = "Error submitting response.";
-        console.error("Fetch error:", error);
-    });
-}
+        // Allowed names (converted to lowercase for case-insensitivity)
+        const allowedNames = ["connor", "dara", "jordy", "remy", "sam", "michael", "landon", "ella", "lucy"];
+
+        function submitName() {
+            let inputName = document.getElementById("nameInput").value.trim().toLowerCase();
+
+            if (allowedNames.includes(inputName)) {
+                userName = inputName.charAt(0).toUpperCase() + inputName.slice(1); // Capitalize first letter
+                document.getElementById("errorMessage").innerText = "";
+                document.getElementById("rsvpSection").style.display = "block"; // Show RSVP section
+            } else {
+                document.getElementById("errorMessage").innerText = "Name not recognized. Please enter a valid name.";
+            }
+        }
+
+        function sendResponse(answer) {
+            document.getElementById("status").innerText = "Submitting response...";
+
+            fetch("https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?name=https://script.google.com/macros/s/AKfycbzXgiiyr228fY0KkDBwYp3na3_XGU7Rfl0rVvFDrl3PyY3Gc5PRqvM4zF2ydyEKIT4/exec" + encodeURIComponent(userName) + "&response=" + encodeURIComponent(answer), {
+                method: "GET"
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("status").innerText = "Response recorded: " + data;
+            })
+            .catch(error => {
+                document.getElementById("status").innerText = "Error submitting response.";
+                console.error("Fetch error:", error);
+            });
+        }
     </script>
 
 </body>
