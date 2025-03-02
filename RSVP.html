@@ -55,20 +55,21 @@
         }
 
         function sendResponse(answer) {
-            document.getElementById("status").innerText = "Submitting response...";
+    document.getElementById("status").innerText = "Submitting response...";
 
-            fetch("hhttps://script.google.com/macros/s/AKfycbzXgiiyr228fY0KkDBwYp3na3_XGU7Rfl0rVvFDrl3PyY3Gc5PRqvM4zF2ydyEKIT4/execttps://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?name=" + encodeURIComponent(userName) + "&response=" + encodeURIComponent(answer), {
-                method: "GET"
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("status").innerText = "Response recorded: " + data;
-            })
-            .catch(error => {
-                document.getElementById("status").innerText = "Error submitting response.";
-                console.error("Fetch error:", error);
-            });
-        }
+    fetch("https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?name=" + encodeURIComponent(userName) + "&response=" + encodeURIComponent(answer), {
+        method: "GET",
+        mode: "no-cors"  // Fixes potential CORS issues
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("status").innerText = "Response recorded: " + data;
+    })
+    .catch(error => {
+        document.getElementById("status").innerText = "Error submitting response.";
+        console.error("Fetch error:", error);
+    });
+}
     </script>
 
 </body>
