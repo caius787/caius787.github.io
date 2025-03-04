@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caius Blair's Birthday Party</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Caius Blair">
     <meta name="description" content="Caius Blair's Birthday Party">
     <meta name="keywords" content="Caius Blair, Birthday, Party, RSVP">
@@ -12,10 +11,11 @@
     <meta property="og:title" content="Caius Blair's Birthday Party">
     <meta property="og:description" content="RSVP to Caius Blair's Birthday Party">
     <meta property="og:image" content="cheese.png">
-        <link rel="stylesheet" href="./css/main.css">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-        <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -74,14 +74,29 @@
             margin-top: 30px;
         }
 
-        /* Wishlist Section - Slightly Bigger */
+        /* Location Map */
+        .map-container {
+            width: 100%;
+            max-width: 600px; /* Smaller map size */
+            margin: auto;
+            padding: 10px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 250px; /* Smaller height */
+            border-radius: 10px;
+            border: none;
+        }
+
+        /* Wishlist Section */
         .wishlist {
             font-size: 24px;
             margin-top: 25px;
         }
 
         .wishlist a {
-            font-size: 26px; /* Increased link size */
+            font-size: 26px;
             font-weight: 700;
             text-decoration: none;
             color: #0066cc;
@@ -100,7 +115,7 @@
             margin-top: 30px;
         }
 
-        iframe {
+        .form-container iframe {
             width: 100%;
             height: 700px; /* Adjusted so it fully displays the form */
             border-radius: 10px;
@@ -135,11 +150,16 @@
             .wishlist a {
                 font-size: 24px; /* Keep it large on mobile */
             }
-            iframe {
+            .map-container {
+                max-width: 100%;
+            }
+            .map-container iframe {
+                height: 200px; /* Adjust map height for mobile */
+            }
+            .form-container iframe {
                 height: 800px; /* Adjusted for mobile to avoid cutoff */
             }
         }
-
     </style>
 </head>
 <body>
@@ -154,18 +174,23 @@
         <p class="section">📍 Location:</p>
         <p class="date-time">Dave & Buster's Bellevue</p>
         <p class="date-time">11639 NE 4th St, Bellevue, WA 98004</p>
-        <iframe width="639" height="379" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="https://maps.google.com/maps?width=639&amp;height=379&amp;hl=en&amp;q=11639%20NE%204th%20St,%20Bellevue,%20WA%2098004%20%20%20Bellevue+(Dave%20and%20busters)&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe> <a href='https://www.acadoo.de/leistungen/ghostwriter-doktorarbeit/'>Doktorarbeit Coaching</a> <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=1a5bc9884787da972976b8ea35d37db2a801cc39'></script>
-        
+
+        <div class="map-container">
+            <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas"
+                src="https://maps.google.com/maps?width=600&amp;height=250&amp;hl=en&amp;q=11639%20NE%204th%20St,%20Bellevue,%20WA%2098004%20%20%20Bellevue+(Dave%20and%20busters)&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+            </iframe>
+        </div>
+
         <!-- Contact Info Section -->
         <p class="date-time"><strong>📞 Contact Info:</strong> +1 (310) 290-5217</p>
 
-                <p class="wishlist">🎁 Wondering what to get? <a href="/wlist.html">Wishlist</a></p>
+        <p class="wishlist">🎁 Wondering what to get? <a href="/wlist.html">Wishlist</a></p>
+
         <p class="section">📝 RSVP Below:</p>
         <div class="form-container">
             <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSePAYbb8G20apI8M0aT2qNusVUj_pkTB3XpJfhRJ8sdIlAkjA/viewform?embedded=true">
             </iframe>
         </div>
-
 
         <!-- Copyright Section -->
         <p class="footer">© Cool Copywrite 2025. No Rights Reserved.</p>
