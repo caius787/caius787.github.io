@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Power Outage Checker</title>
+  <style>
+    body {
+      background-color: white;
+      color: gray;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      font-size: 4em;
+      margin: 0;
+    }
+    p {
+      font-size: 3em; /* 75% of 4em */
+      opacity: 0.5;
+      margin-top: 0.5em;
+    }
+    #fullscreenBtn {
+      margin-top: 2em;
+      padding: 0.5em 1em;
+      font-size: 1em;
+      background: lightgray;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>is there a power outage?</h1>
+  <p>no</p>
+  <button id="fullscreenBtn">Go Fullscreen</button>
+
+  <script>
+    const button = document.getElementById('fullscreenBtn');
+
+    button.addEventListener('click', () => {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if (document.documentElement.webkitRequestFullscreen) {
+        document.documentElement.webkitRequestFullscreen();
+      } else if (document.documentElement.msRequestFullscreen) {
+        document.documentElement.msRequestFullscreen();
+      }
+
+      button.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
