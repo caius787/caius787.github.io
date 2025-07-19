@@ -175,9 +175,10 @@
         </div>
         
         <div class="instructions">
-            Press the corresponding key to add bills. Press R to reset all counters.
+            Press the corresponding key to add bills<br>
+            <strong>R</strong> to reset | <strong>Enter</strong> to undo last action
         </div>
-        <button style="margin-top: 20px; padding: 8px 16px; background: #ff4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Reset All (⌘+R)</button>
+        <button style="margin-top: 20px; padding: 8px 16px; background: #ff4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Reset All (R)</button>
 
     <script>
         const counts = JSON.parse(localStorage.getItem('moneyCounterCounts')) || {
@@ -195,8 +196,14 @@
             'n': 20,
             'b': 10,
             'v': 5,
-            'c': 1
+            'c': 1,
+            'r': 'reset',
+            'enter': 'undo'
         };
+        
+        // Track input history for undo
+        const inputHistory = [];
+        let lastUndoTime = 0;
 
         function saveToStorage() {
             localStorage.setItem('moneyCounterCounts', JSON.stringify(counts));
@@ -217,6 +224,8 @@
 
         function addBill(denomination) {
             counts[denomination]++;
+            // Add to history
+            inputHistory.push(denomination);
             updateDisplay();
             
             if ('vibrate' in navigator) {
@@ -233,12 +242,39 @@
                 }, 100);
             }
         }
+        
+        function undoLastInput() {
+            const now = Date.now();
+            // Prevent multiple rapid undos
+            if (now - lastUndoTime < 100) return false;
+            lastUndoTime = now;
+            
+            if (inputHistory.length > 0) {
+                const lastDenomination = inputHistory.pop();
+                if (counts[lastDenomination] > 0) {
+                    counts[lastDenomination]--;
+                    updateDisplay();
+                    
+                    // Visual feedback
+                    const element = document.querySelector(`[data-denomination="${lastDenomination}"]`);
+                    if (element) {
+                        element.style.backgroundColor = '#ffebee';
+                        setTimeout(() => {
+                            element.style.backgroundColor = '';
+                        }, 150);
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
 
         function resetAll() {
             if (confirm('Are you sure you want to reset all counters?')) {
                 Object.keys(counts).forEach(key => {
                     counts[key] = 0;
                 });
+                inputHistory.length = 0; // Clear history on reset
                 updateDisplay();
                 
                 document.body.style.backgroundColor = '#ffebee';
@@ -250,17 +286,27 @@
 
         document.addEventListener('keydown', (e) => {
             const key = e.key.toLowerCase();
+            const action = keyMap[key] || keyMap[e.key.toLowerCase()];
             
-            if (key === 'r' && (e.ctrlKey || e.metaKey)) {
+            if (key === 'r') {
                 e.preventDefault();
                 resetAll();
                 return;
+            } else if (key === 'enter') {
+                e.preventDefault();
+                if (!undoLastInput()) {
+                    // If nothing to undo, show a quick visual feedback
+                    document.body.style.backgroundColor = 'rgba(200, 200, 200, 0.5)';
+                    setTimeout(() => {
+                        document.body.style.backgroundColor = '';
+                    }, 100);
+                }
+                return;
             }
             
-            const denomination = keyMap[key];
-            if (denomination) {
+            if (typeof action === 'number') {
                 e.preventDefault();
-                addBill(denomination);
+                addBill(action);
             }
         });
 
