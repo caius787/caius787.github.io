@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        .counter-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 50px;
+        }
+        .total {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+        .denominations {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .denomination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .denomination .key {
+            background: #2c3e50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            min-width: 60px;
+            display: inline-block;
+        }
+        .denomination .count {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .instructions {
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter-container">
+        <h1>Money Counter</h1>
+        <div class="total">$<span id="total">0</span></div>
+        
+        <div class="denominations">
+            <div class="denomination">
+                <span>$100</span>
+                <div class="key">SPACE</div>
+                <span class="count" id="count-100">0</span>
+            </div>
+            <div class="denomination">
+                <span>$50</span>
+                <div class="key">M</div>
+                <span class="count" id="count-50">0</span>
+            </div>
+            <div class="denomination">
+                <span>$20</span>
+                <div class="key">N</div>
+                <span class="count" id="count-20">0</span>
+            </div>
+            <div class="denomination">
+                <span>$10</span>
+                <div class="key">B</div>
+                <span class="count" id="count-10">0</span>
+            </div>
+            <div class="denomination">
+                <span>$5</span>
+                <div class="key">V</div>
+                <span class="count" id="count-5">0</span>
+            </div>
+            <div class="denomination">
+                <span>$1</span>
+                <div class="key">C</div>
+                <span class="count" id="count-1">0</span>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            Press the corresponding key to add bills. Press R to reset all counters.
+        </div>
+    </div>
+
+    <script>
+        const counts = {
+            100: 0,
+            50: 0,
+            20: 0,
+            10: 0,
+            5: 0,
+            1: 0
+        };
+
+        const keyMap = {
+            ' ': 100,
+            'm': 50,
+            'n': 20,
+            'b': 10,
+            'v': 5,
+            'c': 1
+        };
+
+        function updateDisplay() {
+            // Update total
+            const total = Object.entries(counts).reduce((sum, [denom, count]) => {
+                return sum + (parseInt(denom) * count);
+            }, 0);
+            document.getElementById('total').textContent = total.toLocaleString();
+            
+            // Update individual counts
+            Object.entries(counts).forEach(([denom, count]) => {
+                document.getElementById(`count-${denom}`).textContent = count;
+            });
+        }
+
+        function addBill(denomination) {
+            counts[denomination]++;
+            updateDisplay();
+        }
+
+        function resetAll() {
+            Object.keys(counts).forEach(key => {
+                counts[key] = 0;
+            });
+            updateDisplay();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            
+            // Handle reset
+            if (key === 'r') {
+                resetAll();
+                return;
+            }
+            
+            // Handle bill addition
+            const denomination = keyMap[key];
+            if (denomination) {
+                addBill(denomination);
+            }
+        });
+
+        // Initial display
+        updateDisplay();
+    </script>
+</body>
+</html>
