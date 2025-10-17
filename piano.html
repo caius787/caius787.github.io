@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Complete Digital Piano</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fafafa;
+      text-align: center;
+    }
+
+    .piano {
+      position: relative;
+      margin: 50px auto;
+      width: max-content;
+    }
+
+    .white-keys {
+      display: flex;
+    }
+
+    .key {
+      width: 50px;
+      height: 200px;
+      background: white;
+      border: 1px solid #333;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      font-size: 14px;
+      font-weight: bold;
+      padding-bottom: 5px;
+      z-index: 1;
+    }
+
+    .black-key {
+      width: 30px;
+      height: 120px;
+      background: black;
+      color: white;
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      font-size: 12px;
+      padding-bottom: 3px;
+    }
+
+    .key.active {
+      background: #87CEFA !important;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎹 Full Digital Piano</h1>
+<p>
+  White: A S D F G H J K L ; '<br>
+  Black: W E T Y U O P [ ] \<br>
+  <kbd>Enter</kbd> = octave up, <kbd>Shift</kbd> = octave down
+</p>
+
+<div class="piano">
+  <div class="white-keys" id="whiteKeys"></div>
+</div>
+
+<script>
+  let currentOctave = 4;
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const activeOscillators = {};
+
+  const NOTE_FREQUENCIES = {
+    'C': 261.63,
+    'C#': 277.18,
+    'D': 293.66,
+    'D#': 311.13,
+    'E': 329.63,
+    'F': 349.23,
+    'F#': 369.99,
+    'G': 392.00,
+    'G#': 415.30,
+    'A': 440.00,
+    'A#': 466.16,
+    'B': 493.88
+  };
+
+  const WHITE_KEYS = [
+    { key: 'A', note: 'C', octaveOffset: 0 },
+    { key: 'S', note: 'D', octaveOffset: 0 },
+    { key: 'D', note: 'E', octaveOffset: 0 },
+    { key: 'F', note: 'F', octaveOffset: 0 },
+    { key: 'G', note: 'G', octaveOffset: 0 },
+    { key: 'H', note: 'A', octaveOffset: 0 },
+    { key: 'J', note: 'B', octaveOffset: 0 },
+    { key: 'K', note: 'C', octaveOffset: 1 },
+    { key: 'L', note: 'D', octaveOffset: 1 },
+    { key: ';', note: 'E', octaveOffset: 1 },
+    { key: "'", note: 'F', octaveOffset: 1 }
+  ];
+
+  const BLACK_KEYS = [
+    { key: 'W', note: 'C#', leftOf: 'A', octaveOffset: 0 },
+    { key: 'E', note: 'D#', leftOf: 'S', octaveOffset: 0 },
+    { key: 'T', note: 'F#', leftOf: 'F', octaveOffset: 0 },
+    { key: 'Y', note: 'G#', leftOf: 'G', octaveOffset: 0 },
+    { key: 'U', note: 'A#', leftOf: 'H', octaveOffset: 0 },
+    { key: 'O', note: 'C#', leftOf: 'K', octaveOffset: 1 },
+    { key: 'P', note: 'D#', leftOf: 'L', octaveOffset: 1 },
+    { key: '[', note: 'F#', leftOf: "'", octaveOffset: 1 },
+    { key: ']', note: 'G#', leftOf: "'", octaveOffset: 1 },
+    { key: '\\', note: 'A#', leftOf: "'", octaveOffset: 1 }
+  ];
+
+  const whiteKeysDiv = document.getElementById('whiteKeys');
+  const keyToNoteMap = {};
+
+  // Render white keys
+  WHITE_KEYS.forEach(({ key, note, octaveOffset }) => {
+    const el = document.createElement('div');
+    el.className = 'key';
+    el.id = `key-${key}`;
+    el.innerText = key;
+    el.dataset.note = note;
+    el.dataset.octaveOffset = octaveOffset;
+    whiteKeysDiv.appendChild(el);
+    keyToNoteMap[key] = { note, octaveOffset };
+  });
+
+  // Render black keys
+  BLACK_KEYS.forEach(({ key, note, leftOf, octaveOffset }) => {
+    const refEl = document.getElementById(`key-${leftOf}`);
+    if (!refEl) return;
+    const black = document.createElement('div');
+    black.className = 'black-key';
+    black.innerText = key;
+    black.id = `key-${key}`;
+    black.style.left = `${refEl.offsetLeft + 35}px`;
+    black.dataset.note = note;
+    black.dataset.octaveOffset = octaveOffset;
+    whiteKeysDiv.appendChild(black);
+    keyToNoteMap[key] = { note, octaveOffset };
+  });
+
+  function getFrequency(note, octave) {
+    return NOTE_FREQUENCIES[note] * Math.pow(2, octave - 4);
+  }
+
+  function startNote(note, octave, key) {
+    if (activeOscillators[key]) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.frequency.value = getFrequency(note, octave);
+    osc.type = 'sine';
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    activeOscillators[key] = { osc, gain };
+  }
+
+  function stopNote(key) {
+    if (activeOscillators[key]) {
+      const { osc, gain } = activeOscillators[key];
+      gain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.05);
+      setTimeout(() => osc.stop(), 100);
+      delete activeOscillators[key];
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const key = e.key.toUpperCase();
+    if (e.repeat) return;
+
+    if (e.key === 'Enter') {
+      currentOctave = Math.min(7, currentOctave + 1);
+      console.log('Octave ↑', currentOctave);
+      return;
+    }
+
+    if (e.key === 'Shift') {
+      currentOctave = Math.max(1, currentOctave - 1);
+      console.log('Octave ↓', currentOctave);
+      return;
+    }
+
+    if (keyToNoteMap[key]) {
+      const { note, octaveOffset } = keyToNoteMap[key];
+      const actualOctave = currentOctave + octaveOffset;
+      startNote(note, actualOctave, key);
+
+      const el = document.getElementById(`key-${key}`);
+      if (el) el.classList.add('active');
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    const key = e.key.toUpperCase();
+    stopNote(key);
+
+    const el = document.getElementById(`key-${key}`);
+    if (el) el.classList.remove('active');
+  });
+</script>
+
+</body>
+</html>
