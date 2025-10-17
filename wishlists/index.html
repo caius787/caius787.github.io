@@ -6,7 +6,7 @@
     <title>Wish list</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="manifest" href="/site.webmanifest">
@@ -31,33 +31,68 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .back-to-main {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 15px;
+            background-color: #e0d0ff;
+            color: #9370DB;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background 0.3s ease;
+        }
+
+        .back-to-main:hover {
+            background-color: #d0c0f5;
+        }
+
         .main-button {
-    display: inline-block;
-    background-color: #9370DB;
-    color: white;
-    padding: 15px 30px;
-    font-size: 1.5em;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s ease;
-    text-align: center;
-    line-height: 1.2;
-}
+            display: block;
+            background-color: #9370DB;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin: 15px 0;
+            text-align: center;
+            line-height: 1.4;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
 .main-button:hover {
     background-color: #7a5bbf;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .small-text {
-    font-size: 1em; /* Smaller font for second line */
+    font-size: 0.8em;
     display: block;
-    margin-top: 5px;
+    margin-top: 8px;
     font-weight: normal;
-    opacity: 0.8; /* Slightly faded */
+    opacity: 0.9;
+}
+
+.wishlist-links {
+    margin: 30px 0;
+}
+
+h3 {
+    color: #7a5bbf;
+    margin: 30px 0 15px 0;
+    text-align: left;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0e6ff;
 }
 
         .main-button:hover {
@@ -95,16 +130,36 @@
     </style>
 </head>
 <body>
+    <a href="../index.html" class="back-to-main">← Back to Main</a>
+    
     <div class="container">
         <a href="https://www.amazon.com/hz/wishlist/ls/PK393X3I0A9W?ref_=wl_share" class="main-button" target="_blank">
             My extensive and ever-growing Amazon List
             <br>
             <span class="small-text">this button is a link...</span>
         </a>
+
+        <div class="wishlist-links">
+            <a href="fashion.html" class="main-button">
+                Fashion Wishlist
+                <span class="small-text">clothing and accessories I'd love to have</span>
+            </a>
+
+            <a href="unrealistic.html" class="main-button">
+                Unrealistic Wishlist
+                <span class="small-text">things that would be nice but are probably too much</span>
+            </a>
+        </div>
+
+        <h3>Other Items</h3>
         <ul>
+<<<<<<< HEAD:wlist.html
         <li><a href="https://www.ugg.com/kids-big-kids-slippers/tasman-ii-slipper/1019066K.html?dwvar_1019066K_color=CHE" class="small-button" target="_blank">Uggs Tasman size 4K - 5K Chestnut</a></li>
         <li><a href="metaquest.html" class="small-button" target="_blank">Meta Quest </a></li>
         <li><a href="glorious.html" class="small-button" target="_blank">glorious mice</a></li>
+=======
+            <li><a href="glorious.html" class="small-button" target="_blank">Glorious Mice</a></li>
+>>>>>>> 6a939247bc200099e12bcb07670e8561a7cd1e21:wishlists/index.html
         </ul>
     </div>
 </body>

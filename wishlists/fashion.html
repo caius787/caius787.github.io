@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Wishlist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #9370DB;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .back-to-main {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 15px;
+            background-color: #e0d0ff;
+            color: #9370DB;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background 0.3s ease;
+        }
+
+        .back-to-main:hover {
+            background-color: #d0c0f5;
+        }
+
+        .main-button {
+            display: inline-block;
+            background-color: #9370DB;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease;
+            margin: 20px 0;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .main-button:hover {
+            background-color: #7a5bbf;
+        }
+
+        .small-text {
+            font-size: 0.8em;
+            display: block;
+            margin-top: 8px;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        .container {
+            margin: 60px auto 30px;
+            padding: 30px 20px;
+            max-width: 600px;
+            background-color: white;
+            color: #9370DB;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #9370DB;
+        }
+
+        .fashion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .fashion-item {
+            background-color: #f8f5ff;
+            border-radius: 10px;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .fashion-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .fashion-item h3 {
+            margin: 0 0 10px 0;
+            color: #7a5bbf;
+        }
+
+        .fashion-item p {
+            margin: 5px 0;
+            color: #5a4a7d;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-main">← Back to Wishlists</a>
+    
+    <div class="container">
+        <h1>Fashion Wishlist</h1>
+        
+        <a href="#" class="main-button">
+            My Fashion Picks
+            <span class="small-text">clothing and accessories I'd love to have</span>
+        </a>
+
+        <div class="category">
+            <h2>Footwear</h2>
+            <div class="fashion-grid">
+                <a href="https://www.nike.com/t/air-force-1-le-big-kids-shoes-CZDf8b/FV5951-111" class="fashion-item" target="_blank">
+                    <h3>Nike - Air Force 1 LE</h3>
+                </a>
+                <a href="https://www.nike.com/t/kawa-little-big-kids-slides-VXZxnZ/819352-001" class="fashion-item" target="_blank">
+                    <h3>Nike - Kawa Slides</h3>
+                </a>
+                <a href="https://www.nike.com/t/everyday-plus-cushioned-training-crew-socks-6-pairs-vlRw4Q/SX6897-100" class="fashion-item" target="_blank">
+                    <h3>Nike - Everyday Socks (White)</h3>
+                </a>
+                <a href="https://www.nike.com/t/everyday-plus-cushioned-training-crew-socks-6-pairs-vlRw4Q/SX6897-010" class="fashion-item" target="_blank">
+                    <h3>Nike - Everyday Socks (Black)</h3>
+                </a>
+                
+                <a href="https://www.ugg.com/kids-big-kids-slippers/tasman-ii-slipper/1019066K.html?dwvar_1019066K_color=CHE" class="fashion-item" target="_blank">
+                    <h3>UGG - Tasman II Slipper</h3>
+                </a>
+                <a href="https://www.crocs.com/p/kids-classic-clog/206991.html?cgid=clogs&cid=6SW" class="fashion-item" target="_blank">
+                    <h3>Crocs - Classic Clog</h3>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>Tops</h2>
+            <div class="fashion-grid">
+                <a href="https://www.nike.com/t/sportswear-club-fleece-big-kids-sweatshirt-gmnFHl/FD3006-126" class="fashion-item" target="_blank">
+                    <h3>Nike - Sportswear Sweatshirt</h3>
+                </a>
+                <a href="https://oldnavy.gap.com/browse/product.do?pid=8402270621107" class="fashion-item" target="_blank">
+                    <h3>Old Navy - Graphic Tee - Style 1</h3>
+                </a>
+                <a href="https://oldnavy.gap.com/browse/product.do?pid=7019160021107" class="fashion-item" target="_blank">
+                    <h3>Old Navy - Graphic Tee - Style 2</h3>
+                </a>
+
+                <a href="https://us.shein.com/Distressed-Balaclava-Ski-Mask-For-Men-And-Women-Knitted-Balaclava-p-55511542.html" class="fashion-item" target="_blank">
+                    <h3>SHEIN - Distressed Balaclava</h3>
+                </a>
+                <a href="https://www.amazon.com/Balaclava-Beanie-Knitted-Outdoor-Sports/dp/B0DB453SQ1/ref=sr_1_13?crid=1MUCD6VWU6LKY&dib=eyJ2IjoiMSJ9.ofnY6kDEbLpzXdxzowr_mkwl4ImxoTy1daMEdh1AqxFG1LxehH_SRFZoZOiQ4AGCsyj0hon_0vTozDW7N1wj5O_SHJzzD23uoEcIpb7vRYG8e_Akb82A0BANpHsojyG89H_JslAyRAuzTyAeNIX-t_gNBrSWi5lnmGXECjDaLorbu7DBpighZPQk91xUa1iYvTCIgiGrdwM3ezAPQzE89Q6_-msbeqKIpnbcTpb5KCCACVEqg_4ik3EukYp-x-cUcsuSuHAnOIFBlLAsa1aR4_CnsVtFTDBCxUHepAD4nzs.iU-j2W1JqOsHYfKmyQFSQzEo3q8n950UvPlPh47M0s8&dib_tag=se&keywords=knitted+wool+balaclava&qid=1757477734&sprefix=knitted+wool+balaclava%2Caps%2C171&sr=8-13" class="fashion-item" target="_blank">
+                    <h3>Amazon - Knitted Wool Balaclava</h3>
+                </a>
+                <a href="https://oldnavy.gap.com/browse/product.do?pid=681717012" class="fashion-item" target="_blank">
+                    <h3>Old Navy - Oversized Fleece Henley Hoodie</h3>
+                </a>
+                <a href="https://www.amazon.com/RIGWARL-Anti-Slip-Touchscreen-Weather-Running/dp/B0DHRQPCWW/ref=sr_1_3_sspa?crid=L9J8CYTP4WHT&dib=eyJ2IjoiMSJ9.pGkBoDy7uZf999_sqev3fmOW_LlDh2deydK_aHkiLj8zBcYynGD3xTR9dgZNSxSxIxDjyxGBjhXoqFm89LsMj1Rc6sg1wjAEWDGzPkJL4m95JdI-RZYRIjGtoDQdJ0cCdFYzDksvZCA-oOsMAQft2xiG6PpjdZfd_2eOG356auQxCat23So0PkL-9cG5A1NDsYsXN56CsBm0C0pf5Tdrw16SQO5tpkc4xwwtB7YgJ3JjynEHccVLWWkuo2C6o4pUW9T_-SXHE4k4ApEQBkQxjNbZmjP4RhPNXIHwHvgabbY.sTBR0og8Fs2ddEoxD2XM4A2OHrrV-cGNhj6mXAQtunA&dib_tag=se&keywords=kids%2Bwarm%2Bgloves&qid=1757477627&sprefix=kids%2Bwarm%2Bglov%2Caps%2C327&sr=8-3-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1" class="fashion-item" target="_blank">
+                    <h3>Amazon - Kids Warm Gloves (Touchscreen, Anti-Slip)</h3>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>Bottoms</h2>
+            <div class="fashion-grid">
+                <a href="https://oldnavy.gap.com/browse/product.do?pid=8923100321108" class="fashion-item" target="_blank">
+                    <h3>Old Navy - Black Jeans - Skinny</h3>
+                </a>
+                <a href="https://oldnavy.gap.com/browse/product.do?pid=8923100121108" class="fashion-item" target="_blank">
+                    <h3>Old Navy - Black Jeans - Slim</h3>
+                </a>
+                <a href="https://oldnavy.gap.com/browse/product.do?pid=7664160020012" class="fashion-item" target="_blank">
+                    <h3>Old Navy - Black Jeans - Relaxed</h3>
+                </a>
+
+                <a href="https://oldnavy.gap.com/browse/product.do?pid=7017431221107" class="fashion-item" target="_blank">
+                    <h3>Old Navy - Shorts - Style 1</h3>
+                </a>
+                <a href="https://oldnavy.gap.com/browse/product.do?pid=701743132" class="fashion-item" target="_blank">
+                    <h3>Old Navy - Shorts - Style 2</h3>
+                </a>
+                <a href="https://us.shein.com/SUMWON-Relaxed-Fit-Boys-Cargo-Denim-Jeans-With-Utility-Pockets-p-51656506.html" class="fashion-item" target="_blank">
+                    <h3>SHEIN Baggy Cargo Jeans</h3>
+                </a>
+                <a href="https://us.shein.com/SUMWON-Drop-Crotch-Jogger-Pants-Oversized-Relaxed-Fit-p-37776266.html" class="fashion-item" target="_blank">
+                    <h3>SHEIN Drop Crotch Joggers</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

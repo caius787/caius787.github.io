@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unrealistic Wishlist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #9370DB;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .back-to-main {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 15px;
+            background-color: #e0d0ff;
+            color: #9370DB;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background 0.3s ease;
+        }
+
+        .back-to-main:hover {
+            background-color: #d0c0f5;
+        }
+
+        .main-button {
+            display: inline-block;
+            background-color: #9370DB;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease;
+            margin: 20px 0;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .main-button:hover {
+            background-color: #7a5bbf;
+        }
+
+        .small-text {
+            font-size: 0.8em;
+            display: block;
+            margin-top: 8px;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        .container {
+            margin: 60px auto 30px;
+            padding: 30px 20px;
+            max-width: 600px;
+            background-color: white;
+            color: #9370DB;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #9370DB;
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .wishlist-item {
+            background-color: #f8f5ff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .wishlist-item h3 {
+            margin: 0 0 8px 0;
+            color: #7a5bbf;
+        }
+
+        .wishlist-item p {
+            margin: 5px 0;
+            color: #5a4a7d;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-main">← Back to Wishlists</a>
+    
+    <div class="container">
+        <h1>Unrealistic Wishlist</h1>
+        
+        <a href="#" class="main-button">
+            My Wildest Dreams
+            <span class="small-text">things that would be nice but are probably too much</span>
+        </a>
+
+        <div class="wishlist-grid">
+            <a href="metaquest.html" class="wishlist-item" target="_blank">
+                <h3>Meta Quest</h3>
+            </a>
+            <a href="https://www.amazon.com/DJI-Ultralight-Detail-Rich-Cancelling-Microphone/dp/B0DDL8WGH5" class="wishlist-item" target="_blank">
+                <h3>DJI Mic Mini (2 TX + 1 RX + Charging Case)</h3>
+            </a>
+            <a href="https://eboxelectric.com/ebox-2-0-electric-pit-bike.html" class="wishlist-item" target="_blank">
+                <h3>EBOX 2.0 Electric Pit Bike</h3>
+            </a>
+            <a href="https://ronsterrides.com/products/electro-co-rtr" class="wishlist-item" target="_blank">
+                <h3>ETM RTR Electric Pit Bike</h3>
+            </a>
+            <a href="https://eboxelectric.com/ebox-2-0-electric-pit-bike.html" class="wishlist-item" target="_blank">
+                <h3>EBOX 2.0 V2 Electric Pit Bike</h3>
+            </a>
+            <a href="https://riderawrr.com/products/72v-rawrr-mantis-x" class="wishlist-item" target="_blank">
+                <h3>72V Rawrr Mantis X</h3>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
