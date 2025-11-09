@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spelling Bee Game</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-color: #808080;
+            margin: 0;
+            padding: 24px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; margin-top: 0; }
+
+        /* Audio status display */
+        .score-display {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .frame {
+            border: 6px solid #333;
+            border-radius: 16px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 24px auto;
+            padding: 12px;
+            background: #fafafa;
+        }
+        .audio-status {
+            font-size: 32px;
+            line-height: 1;
+            color: #333;
+            text-align: center;
+        }
+        .audio-status.listening {
+            color: #ff6b35;
+            animation: pulse 1s infinite;
+        }
+        .audio-status.correct {
+            color: #2e7d32;
+        }
+        .audio-status.incorrect {
+            color: #c62828;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        #answer {
+            font-size: 24px;
+            padding: 12px 16px;
+            width: 80%;
+            max-width: 520px;
+            border: 2px solid #888;
+            border-radius: 8px;
+        }
+
+        .controls {
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 20px;
+            margin: 4px 8px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .secondary {
+            background-color: #ff6b35;
+            font-size: 18px;
+            padding: 12px 24px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Audio Spelling Bee</h1>
+        <div id="score" class="score-display">0/0</div>
+
+        <div class="frame">
+            <div id="audioStatus" class="audio-status">Press Start to begin</div>
+        </div>
+
+        <div id="game-area" class="hidden">
+            <input id="answer" type="text" autocapitalize="none" autocomplete="off" spellcheck="false"
+                   placeholder="Type the word you hear and press Enter" disabled />
+        </div>
+        <div class="controls">
+            <button id="speak" class="secondary hidden" type="button">🔊 Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Audio elements
+        const wordAudio = new Audio('easywords.mp3');
+        const yourWordAudio = new Audio('yourword.mp3');
+        const correctSound = new Audio('ding-sound-effect_2.mp3');
+        const wrongSound = new Audio('incorrect.swf.mp3');
+
+        // Word timing data - updated to match user's exact list
+        const wordTiming = {
+            'Air': { start: 0.81, end: 1.13 },
+            'Ball': { start: 2.14, end: 2.5 },
+            'Bird': { start: 3.39, end: 3.73 },
+            'Blue': { start: 4.67, end: 5.0 },
+            'Book': { start: 5.92, end: 6.25 },
+            'Big': { start: 6.15, end: 6.48 }, // Added missing timing
+            'Bag': { start: 7.15, end: 7.42 },
+            'Bug': { start: 8.35, end: 8.65 },
+            'Bat': { start: 9.47, end: 9.77 },
+            'Best': { start: 10.63, end: 11.0 },
+            'Baby': { start: 11.97, end: 12.38 },
+            'Bad': { start: 13.31, end: 13.62 },
+            'Cake': { start: 15.93, end: 16.29 },
+            'Car': { start: 17.2, end: 17.51 },
+            'Cat': { start: 18.36, end: 18.67 },
+            'Cool': { start: 19.53, end: 19.92 },
+            'Cry': { start: 20.81, end: 21.14 },
+            'Dad': { start: 22.06, end: 22.38 },
+            'Dog': { start: 23.3, end: 23.6 },
+            'Duck': { start: 24.57, end: 24.96 },
+            'End': { start: 25.86, end: 26.17 },
+            'Eat': { start: 27.06, end: 27.36 },
+            'Eye': { start: 28.32, end: 28.59 },
+            'Fish': { start: 29.62, end: 29.93 },
+            'Foot': { start: 30.82, end: 31.14 },
+            'Face': { start: 32.07, end: 32.41 },
+            'Fire': { start: 33.37, end: 33.74 },
+            'Gold': { start: 34.79, end: 35.19 },
+            'Hand': { start: 36.1, end: 36.46 },
+            'Kiss': { start: 37.52, end: 37.81 },
+            'Milk': { start: 38.83, end: 39.14 },
+            'Mix': { start: 40.03, end: 40.32 },
+            'Mom': { start: 41.28, end: 41.59 },
+            'Moon': { start: 42.54, end: 42.85 },
+            'Mug': { start: 43.83, end: 44.15 },
+            'Noob': { start: 45.1, end: 45.45 },
+            'Pie': { start: 46.46, end: 46.72 },
+            'Pink': { start: 47.74, end: 48.07 },
+            'Rain': { start: 49.03, end: 49.37 },
+            'Red': { start: 50.31, end: 50.62 },
+            'Ruby': { start: 51.52, end: 51.87 },
+            'Run': { start: 52.88, end: 53.19 },
+            'Rat': { start: 54.1, end: 54.38 },
+            'Size': { start: 55.45, end: 55.8 },
+            'Snow': { start: 56.63, end: 56.96 },
+            'Soda': { start: 57.94, end: 58.29 },
+            'Star': { start: 59.34, end: 59.69 },
+            'Suck': { start: 60.74, end: 61.07 },
+            'Sun': { start: 62.04, end: 62.32 },
+            'Tank': { start: 63.36, end: 63.7 },
+            'Town': { start: 64.66, end: 64.99 },
+            'Tree': { start: 65.99, end: 66.32 },
+            'Water': { start: 67.47, end: 67.82 },
+            'Wind': { start: 68.77, end: 69.1 },
+            'Word': { start: 70.05, end: 70.37 }
+        };
+
+        // Create word list from timing data - includes all words from user's list
+        const wordList = [
+            'Air', 'Ball', 'Bird', 'Blue', 'Book', 'Big', 'Bag', 'Bug', 'Bat', 'Best',
+            'Baby', 'Bad', 'Cake', 'Car', 'Cat', 'Cool', 'Cry', 'Dad', 'Dog', 'Duck',
+            'End', 'Eat', 'Eye', 'Fish', 'Foot', 'Face', 'Fire', 'Gold', 'Hand', 'Kiss',
+            'Milk', 'Mix', 'Mom', 'Moon', 'Mug', 'Noob', 'Pie', 'Pink', 'Rain', 'Red',
+            'Ruby', 'Run', 'Rat', 'Size', 'Snow', 'Soda', 'Star', 'Suck', 'Sun', 'Tank',
+            'Town', 'Tree', 'Water', 'Wind', 'Word'
+        ];
+
+        // State
+        let currentWordIndex = 0;
+        let score = 0;
+        let totalAttempted = 0;
+        let canSubmit = false;
+        let hasSubmitted = false;
+        const audioStatus = document.getElementById('audioStatus');
+        const inputEl = document.getElementById('answer');
+        const speakBtn = document.getElementById('speak');
+        const gameArea = document.getElementById('game-area');
+        const scoreDisplay = document.getElementById('score');
+        const startBtn = document.createElement('button');
+        startBtn.textContent = 'Start Game';
+        startBtn.style.padding = '15px 40px';
+        startBtn.style.fontSize = '24px';
+        startBtn.style.marginTop = '20px';
+        document.querySelector('.container').appendChild(startBtn);
+
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = `${score}/${totalAttempted}`;
+        }
+
+        function resetGame() {
+            score = 0;
+            totalAttempted = 0;
+            currentWordIndex = 0;
+            canSubmit = false;
+            hasSubmitted = false;
+            updateScoreDisplay();
+            // Shuffle the word list
+            for (let i = wordList.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [wordList[i], wordList[j]] = [wordList[j], wordList[i]];
+            }
+        }
+
+        function updateAudioStatus(message, className = '') {
+            audioStatus.textContent = message;
+            audioStatus.className = 'audio-status ' + className;
+        }
+
+        function playYourWordAudio() {
+            return new Promise((resolve) => {
+                yourWordAudio.currentTime = 0;
+                yourWordAudio.play().then(() => {
+                    yourWordAudio.onended = resolve;
+                }).catch(e => {
+                    console.log('Could not play yourword.mp3:', e);
+                    resolve(); // Continue even if audio fails
+                });
+            });
+        }
+
+        function playWordAudio(word) {
+            return new Promise((resolve) => {
+                if (!wordTiming[word]) {
+                    console.error('No timing data for word:', word);
+                    resolve();
+                    return;
+                }
+
+                const timing = wordTiming[word];
+                wordAudio.currentTime = timing.start;
+
+                wordAudio.play().then(() => {
+                    const duration = (timing.end - timing.start) * 1000;
+                    setTimeout(() => {
+                        wordAudio.pause();
+                        wordAudio.currentTime = 0;
+                        resolve();
+                    }, duration);
+                }).catch(e => {
+                    console.log('Could not play word audio:', e);
+                    resolve();
+                });
+            });
+        }
+
+        async function playCurrentWord() {
+            const currentWord = wordList[currentWordIndex];
+
+            // Reset submission state
+            canSubmit = false;
+            hasSubmitted = false;
+
+            // Disable input and hide play button during audio
+            inputEl.disabled = true;
+            speakBtn.classList.add('hidden');
+
+            updateAudioStatus(`Playing: "${currentWord}"`, 'listening');
+
+            try {
+                // Play "your word" audio first
+                await playYourWordAudio();
+
+                // Small pause before the word
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // Play the actual word
+                await playWordAudio(currentWord);
+
+                // Word finished playing - enable input and show play button
+                canSubmit = true;
+                inputEl.disabled = false;
+                inputEl.focus();
+                inputEl.value = '';
+                speakBtn.classList.remove('hidden');
+
+                updateAudioStatus('Type the word you heard!', '');
+
+            } catch (e) {
+                console.error('Error playing audio:', e);
+                updateAudioStatus('Error playing audio', 'incorrect');
+
+                // Even on error, enable input for manual retry
+                canSubmit = true;
+                inputEl.disabled = false;
+                inputEl.focus();
+                speakBtn.classList.remove('hidden');
+            }
+        }
+
+        function normalize(s) {
+            return (s || '').trim().toLowerCase();
+        }
+
+        // Homophone pairs - either spelling is accepted as correct
+        const homophoneGroups = {
+            'air': ['air', 'heir'],
+            'ball': ['ball', 'bawl'],
+            'blue': ['blue', 'blew'],
+            'noob': ['noob', 'newb'],
+            'pi': ['pi', 'pie'],
+            'red': ['red', 'read'],
+            'size': ['size', 'sighs'],
+            'sun': ['sun', 'son']
+        };
+
+        function isCorrectSpelling(input, correctWord) {
+            const normalizedInput = normalize(input);
+            const normalizedCorrect = normalize(correctWord);
+
+            // Check if input exactly matches the correct word
+            if (normalizedInput === normalizedCorrect) {
+                return true;
+            }
+
+            // Check if input is a valid homophone alternative
+            for (const [key, variants] of Object.entries(homophoneGroups)) {
+                if (variants.includes(normalizedCorrect) && variants.includes(normalizedInput)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // Handle keyboard input
+        inputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent form submission
+
+                // Only allow submission if word has finished playing and hasn't been submitted yet
+                if (!canSubmit || hasSubmitted) {
+                    return; // Ignore submission attempt
+                }
+
+                hasSubmitted = true;
+                const currentWord = wordList[currentWordIndex];
+                const correct = isCorrectSpelling(inputEl.value, currentWord);
+
+                totalAttempted++;
+                if (correct) {
+                    score++;
+                    updateAudioStatus('Correct! ✓', 'correct');
+                    correctSound.play().catch(e => console.log('Could not play sound:', e));
+
+                    setTimeout(() => {
+                        // Continue to next word
+                        currentWordIndex = (currentWordIndex + 1) % wordList.length;
+                        playCurrentWord();
+                    }, 1500);
+
+                } else {
+                    updateAudioStatus(`Incorrect. The word was "${currentWord}"`, 'incorrect');
+                    wrongSound.play().catch(e => console.log('Could not play sound:', e));
+
+                    setTimeout(() => {
+                        // Continue to next word
+                        currentWordIndex = (currentWordIndex + 1) % wordList.length;
+                        playCurrentWord();
+                    }, 2000);
+                }
+
+                updateScoreDisplay();
+                inputEl.value = '';
+            }
+        });
+
+        speakBtn.addEventListener('click', () => {
+            // Reset submission state for replay
+            canSubmit = false;
+            hasSubmitted = false;
+            inputEl.disabled = true;
+            speakBtn.classList.add('hidden');
+            inputEl.value = '';
+
+            // Replay current word
+            playCurrentWord();
+        });
+
+        // Start button handler
+        startBtn.addEventListener('click', () => {
+            console.log('Start button clicked');
+
+            startBtn.textContent = 'Loading...';
+            startBtn.disabled = true;
+
+            setTimeout(() => {
+                console.log('Game started');
+                startBtn.remove();
+                gameArea.classList.remove('hidden');
+                inputEl.style.pointerEvents = 'auto';
+                inputEl.style.opacity = '1';
+
+                // Reset game state
+                resetGame();
+
+                // Start with first word
+                playCurrentWord();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
