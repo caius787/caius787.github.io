@@ -1,0 +1,479 @@
+/* CSS Variables */
+:root {
+    --bg-color: #1a1a2e;
+    --panel-bg: #16213e;
+    --accent-color: #0f3460;
+    --highlight-color: #e94560;
+    --text-color: #eee;
+    --text-muted: #888;
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --danger-color: #f44336;
+    --border-radius: 8px;
+}
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: var(--panel-bg);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+header h1 {
+    font-size: 1.5rem;
+    color: var(--highlight-color);
+}
+
+#controls {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.control-group label {
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background-color: var(--highlight-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #d63950;
+}
+
+.btn-secondary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #1a4a7a;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #d32f2f;
+}
+
+.btn-small {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Select */
+select {
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--accent-color);
+    background-color: var(--panel-bg);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    min-width: 150px;
+}
+
+/* Main Layout */
+main {
+    display: flex;
+    flex: 1;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+/* Board Container */
+#board-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--panel-bg);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+#game-canvas {
+    border: 2px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    cursor: crosshair;
+    background-color: #222;
+}
+
+#transform-controls {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#selected-piece-name {
+    color: var(--highlight-color);
+}
+
+/* Sidebar */
+#sidebar {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#plate-config,
+#piece-tray {
+    background-color: var(--panel-bg);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+#plate-config h3,
+#piece-tray h3 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--highlight-color);
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+/* Plate Controls */
+#plate-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.plate-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--accent-color);
+    border-radius: var(--border-radius);
+    font-size: 0.85rem;
+    cursor: grab;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.plate-control:hover {
+    background-color: #1a4a7a;
+}
+
+.plate-control.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+.plate-control.drag-over {
+    border-color: var(--highlight-color);
+    background-color: rgba(233, 69, 96, 0.2);
+    box-shadow: 0 0 10px var(--highlight-color);
+}
+
+.plate-drag-handle {
+    cursor: grab;
+    padding: 0 0.25rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    user-select: none;
+}
+
+.plate-drag-handle:hover {
+    color: var(--highlight-color);
+}
+
+.plate-control label {
+    min-width: 50px;
+}
+
+.plate-control select {
+    min-width: 70px;
+    padding: 0.25rem;
+}
+
+.plate-control button {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Piece List */
+#piece-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.piece-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--accent-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.piece-item:hover {
+    background-color: #1a4a7a;
+    transform: scale(1.02);
+}
+
+.piece-item.selected {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 10px var(--highlight-color);
+}
+
+.piece-item.placed {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.piece-item canvas {
+    margin-bottom: 0.25rem;
+}
+
+.piece-item span {
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    background-color: var(--panel-bg);
+    padding: 0.75rem 2rem;
+    border-top: 2px solid var(--accent-color);
+}
+
+#status-bar {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#game-status {
+    color: var(--text-color);
+}
+
+#game-status.success {
+    color: var(--success-color);
+}
+
+#game-status.error {
+    color: var(--danger-color);
+}
+
+#instructions {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+kbd {
+    background-color: var(--accent-color);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background-color: var(--panel-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 2px solid var(--highlight-color);
+}
+
+.modal-content h2 {
+    color: var(--success-color);
+    margin-bottom: 1rem;
+}
+
+.modal-content p {
+    margin-bottom: 1.5rem;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Solving Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.overlay-content {
+    text-align: center;
+    color: var(--text-color);
+}
+
+.overlay-content p {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+}
+
+#solving-stats {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Spinner */
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--accent-color);
+    border-top-color: var(--highlight-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--highlight-color);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    main {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #plate-config,
+    #piece-tray {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    #piece-list {
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    #controls {
+        flex-direction: column;
+    }
+}

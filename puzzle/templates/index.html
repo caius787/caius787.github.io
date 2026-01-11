@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Game</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Puzzle Game</h1>
+            <div id="controls">
+                <div class="control-group">
+                    <label for="board-selector">Board:</label>
+                    <select id="board-selector"></select>
+                </div>
+                <div class="control-group">
+                    <button id="new-game" class="btn btn-primary">New Game</button>
+                    <button id="solve-btn" class="btn btn-secondary">Auto Solve</button>
+                    <button id="hint-btn" class="btn btn-secondary">Hint</button>
+                    <button id="reset-btn" class="btn btn-danger">Reset</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div id="board-container">
+                <canvas id="game-canvas"></canvas>
+                <div id="transform-controls">
+                    <span>Selected piece: <strong id="selected-piece-name">None</strong></span>
+                    <button id="rotate-btn" class="btn btn-small" title="Rotate (R)">Rotate</button>
+                    <button id="flip-btn" class="btn btn-small" title="Flip (F)">Flip</button>
+                    <button id="cancel-btn" class="btn btn-small" title="Cancel (Esc)">Cancel</button>
+                </div>
+            </div>
+
+            <aside id="sidebar">
+                <div id="plate-config">
+                    <h3>Plate Configuration</h3>
+                    <div id="plate-controls"></div>
+                </div>
+
+                <div id="piece-tray">
+                    <h3>Available Pieces (<span id="piece-count">12</span>)</h3>
+                    <div id="piece-list"></div>
+                </div>
+            </aside>
+        </main>
+
+        <footer>
+            <div id="status-bar">
+                <span id="game-status">Select a board configuration and click "New Game"</span>
+            </div>
+            <div id="instructions">
+                <strong>Controls:</strong> Click piece to select | Click board to place |
+                <kbd>R</kbd> Rotate | <kbd>F</kbd> Flip | <kbd>Esc</kbd> Cancel | Right-click to rotate
+            </div>
+        </footer>
+
+        <div id="solving-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <div class="spinner"></div>
+                <p id="solving-status">Solving puzzle...</p>
+                <p id="solving-stats"></p>
+            </div>
+        </div>
+
+        <div id="victory-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Congratulations!</h2>
+                <p>You solved the puzzle!</p>
+                <div class="modal-buttons">
+                    <button id="close-modal-btn" class="btn btn-secondary">View Solution</button>
+                    <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/static/js/main.js"></script>
+</body>
+</html>
