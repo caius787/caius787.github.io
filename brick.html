@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days til landon is unc</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .time-block {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 20px 25px;
+            min-width: 120px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .time-block:hover {
+            transform: scale(1.05);
+        }
+
+        .time-block:nth-child(1) { background: linear-gradient(135deg, #ff6b6b, #ee5a5a); }
+        .time-block:nth-child(2) { background: linear-gradient(135deg, #feca57, #ff9f43); }
+        .time-block:nth-child(3) { background: linear-gradient(135deg, #48dbfb, #0abde3); }
+        .time-block:nth-child(4) { background: linear-gradient(135deg, #ff9ff3, #f368e0); }
+        .time-block:nth-child(5) { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
+
+        .time-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            top: -20px;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        .celebration {
+            font-size: 5rem;
+            margin-top: 30px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .unc-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.25);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .unc-btn:hover {
+            background: rgba(0,0,0,0.35);
+            color: white;
+        }
+
+        .unc-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .unc-definition {
+            display: none;
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            max-width: 300px;
+            color: #333;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s ease;
+            z-index: 100;
+        }
+
+        .unc-definition.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .time-block { min-width: 80px; padding: 15px; }
+            .time-value { font-size: 2rem; }
+            .time-label { font-size: 0.7rem; }
+            .unc-definition { max-width: 90%; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Days til landon is unc</h1>
+        <div class="countdown">
+            <div class="time-block">
+                <div class="time-value" id="days">00</div>
+                <div class="time-label">Days</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Hours</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Minutes</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Seconds</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="milliseconds">000</div>
+                <div class="time-label">Milliseconds</div>
+            </div>
+        </div>
+        <div class="celebration" id="celebration"></div>
+    </div>
+
+    <button class="unc-btn" id="uncBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        what does unc mean?
+    </button>
+    <div class="unc-definition" id="uncDefinition">
+        "Unc" is a TikTok and Gen Z slang term, short for "uncle," used to jokingly or disrespectfully label someone as old, out of touch, or acting beyond their age.
+    </div>
+
+    <script>
+        // Target date: January 27, 2026 at midnight
+        const targetDate = new Date('January 27, 2026 00:00:00').getTime();
+
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const millisecondsEl = document.getElementById('milliseconds');
+        const celebrationEl = document.getElementById('celebration');
+
+        function updateCountdown() {
+            const now = Date.now();
+            const distance = targetDate - now;
+
+            if (distance <= 0) {
+                daysEl.textContent = '00';
+                hoursEl.textContent = '00';
+                minutesEl.textContent = '00';
+                secondsEl.textContent = '00';
+                millisecondsEl.textContent = '000';
+                celebrationEl.textContent = '🎉🎂🎈';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const milliseconds = Math.floor(distance % 1000);
+
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+            millisecondsEl.textContent = String(milliseconds).padStart(3, '0');
+        }
+
+        // Update every 10ms for smooth millisecond display
+        setInterval(updateCountdown, 10);
+        updateCountdown();
+
+        // Confetti
+        const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#1dd1a1', '#a55eea', '#fd79a8'];
+        const shapes = ['circle', 'square', 'triangle'];
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            const size = Math.random() * 10 + 8;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 2;
+
+            confetti.style.left = left + 'vw';
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            confetti.style.backgroundColor = color;
+            confetti.style.animationDuration = duration + 's';
+            confetti.style.animationDelay = delay + 's';
+
+            if (shape === 'circle') {
+                confetti.style.borderRadius = '50%';
+            } else if (shape === 'triangle') {
+                confetti.style.width = '0';
+                confetti.style.height = '0';
+                confetti.style.backgroundColor = 'transparent';
+                confetti.style.borderLeft = size/2 + 'px solid transparent';
+                confetti.style.borderRight = size/2 + 'px solid transparent';
+                confetti.style.borderBottom = size + 'px solid ' + color;
+            }
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        // Create confetti continuously
+        setInterval(createConfetti, 200);
+
+        // Initial burst of confetti
+        for (let i = 0; i < 30; i++) {
+            setTimeout(createConfetti, i * 50);
+        }
+
+        // Unc definition toggle
+        const uncBtn = document.getElementById('uncBtn');
+        const uncDefinition = document.getElementById('uncDefinition');
+
+        uncBtn.addEventListener('click', () => {
+            uncDefinition.classList.toggle('show');
+        });
+    </script>
+</body>
+</html>
