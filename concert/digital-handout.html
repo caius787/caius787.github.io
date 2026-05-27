@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>June Band Concert | Digital Handout</title>
+    <meta
+      name="description"
+      content="Printable digital handout for the Chinook June Band Concert on Wednesday, June 3, 2026."
+    />
+    <link rel="stylesheet" href="./digital-handout.css" />
+  </head>
+  <body>
+    <div class="toolbar">
+      <a href="./index.html">Back to concert site</a>
+      <a class="download" href="./june-band-concert-handout.pdf" download>Download PDF</a>
+      <button type="button" onclick="window.print()">Print handout</button>
+    </div>
+
+    <article class="sheet">
+      <header class="handout-header">
+        <div class="header-copy">
+          <p class="kicker">Chinook Band presents</p>
+          <h1>June Band<br />Concert</h1>
+          <p class="date">Wednesday, June 3, 2026</p>
+        </div>
+        <div class="show-card">
+          <p class="card-label">Concert</p>
+          <strong>6:30-8:00 PM</strong>
+          <p class="early">Earlier than usual</p>
+          <p>Main Gym at Chinook</p>
+          <hr />
+          <p class="card-label">Student arrival</p>
+          <strong class="arrival">6:15-6:25 PM</strong>
+        </div>
+      </header>
+
+      <section class="family-note">
+        <strong>Audience seating reminder</strong>
+        <p>
+          Students sit with their parents or family between performances.
+          Please listen attentively and support every ensemble.
+        </p>
+      </section>
+
+      <div class="columns">
+        <section class="block program">
+          <h2>Performance order</h2>
+          <ol>
+            <li><span>1</span> Heavy Metal</li>
+            <li><span>2</span> Jazz 2</li>
+            <li><span>3</span> Jazz 1</li>
+            <li class="break">Intermission</li>
+            <li><span>4</span> Entry Band</li>
+            <li><span>5</span> Intermediate Band</li>
+            <li><span>6</span> Advanced Band</li>
+          </ol>
+        </section>
+
+        <section class="block setup">
+          <h2>Stage setup</h2>
+          <svg viewBox="0 0 440 280" role="img" aria-label="Digital seating plan for the concert">
+            <g class="audience">
+              <path d="M25 25 Q220 4 415 25" />
+              <path d="M25 37 Q220 16 415 37" />
+              <text x="220" y="34">AUDIENCE</text>
+            </g>
+            <text class="percussion-label" x="220" y="64">PERCUSSION</text>
+            <text class="percussion-items" x="220" y="82">piano  |  drumset  |  vibes  |  marimba  |  drums  |  bells  |  timpani</text>
+            <g class="rows">
+              <path d="M68 163 Q220 61 372 163" />
+              <path d="M95 169 Q220 87 345 169" />
+              <path d="M122 175 Q220 114 318 175" />
+              <path d="M149 181 Q220 140 291 181" />
+              <path class="front" d="M176 187 Q220 165 264 187" />
+            </g>
+            <circle class="conductor" cx="220" cy="208" r="7" />
+            <text class="conductor-text" x="220" y="225">CONDUCTOR</text>
+            <g class="audience bottom">
+              <path d="M25 249 Q220 226 415 249" />
+              <path d="M25 261 Q220 238 415 261" />
+              <text x="220" y="258">AUDIENCE</text>
+            </g>
+          </svg>
+          <p class="rows-note">
+            Concert rows, front to back: <strong>15, 16, 18, 18, 17</strong>.
+            Every chair and all percussion get a stand.
+          </p>
+        </section>
+      </div>
+
+      <div class="columns lower">
+        <section class="block">
+          <h2>What to wear</h2>
+          <ul class="ticks">
+            <li>Chinook music polo</li>
+            <li>Black pants or long black skirt</li>
+            <li>Black socks</li>
+            <li>Black shoes</li>
+          </ul>
+          <h2 class="subhead">Required tutorials</h2>
+          <p><strong>Entry Band:</strong> Thurs., May 28 and Mon., June 1</p>
+          <p><strong>Intermediate:</strong> Fri., May 29 and Tues., June 2</p>
+        </section>
+
+        <section class="block schedule">
+          <h2>Concert-day plan</h2>
+          <dl>
+            <dt>1:20-2:30 PM</dt>
+            <dd>Volunteers set up the main gym.</dd>
+            <dt>6:15-6:25 PM</dt>
+            <dd>Students arrive, get instruments, and go to the main gym.</dd>
+            <dt>6:25 PM</dt>
+            <dd>All musicians in the gym. Do not play yet.</dd>
+            <dt>6:30-8:00 PM</dt>
+            <dd>Concert begins earlier than usual.</dd>
+            <dt>About 8:00 PM</dt>
+            <dd>Each student returns one chair, stand, or percussion item.</dd>
+          </dl>
+        </section>
+      </div>
+
+      <footer class="handout-footer">
+        <strong>Musician reminders:</strong>
+        Leave cases and belongings in your locker, bring your music, and warm
+        up only with your group.
+      </footer>
+    </article>
+    <script>
+      if (new URLSearchParams(window.location.search).has("embed")) {
+        document.body.classList.add("embed");
+      }
+    </script>
+  </body>
+</html>
