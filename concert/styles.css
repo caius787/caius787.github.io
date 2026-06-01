@@ -115,7 +115,6 @@ main,
 .nav a {
   padding: 10px 14px;
   border-radius: 999px;
-  transition: color 170ms ease, background 170ms ease;
 }
 
 .nav a:hover,
@@ -184,12 +183,10 @@ main {
   padding: 0 22px;
   border: 1px solid transparent;
   border-radius: 999px;
-  transition: transform 170ms ease, box-shadow 170ms ease;
 }
 
 .button:hover,
 .button:focus-visible {
-  transform: translateY(-2px);
   outline: none;
 }
 
@@ -250,18 +247,6 @@ main {
   border-bottom: 2px solid rgba(231, 190, 105, 0.28);
   color: var(--brass-light);
   font-size: 2.2rem;
-}
-
-.music-staff span {
-  animation: float-note 2.8s ease-in-out infinite alternate;
-}
-
-.music-staff span:nth-child(2) {
-  animation-delay: -0.9s;
-}
-
-.music-staff span:nth-child(3) {
-  animation-delay: -1.8s;
 }
 
 .hero-poster .label {
@@ -650,7 +635,6 @@ main {
   stroke-width: 14;
   stroke-linecap: round;
   opacity: 0.3;
-  transition: stroke 200ms ease, opacity 200ms ease, stroke-width 200ms ease;
 }
 
 .concert-row.active {
@@ -658,7 +642,6 @@ main {
   stroke: var(--brass);
   stroke-width: 17;
   filter: drop-shadow(0 3px 4px rgba(198, 141, 45, 0.25));
-  animation: row-glow 1.4s ease-in-out infinite alternate;
 }
 
 .conductor {
@@ -689,7 +672,6 @@ main {
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--paper);
-  transition: color 170ms ease, background 170ms ease, border-color 170ms ease;
 }
 
 .row-button:hover,
@@ -912,28 +894,8 @@ main {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  animation: appear 650ms ease forwards;
-}
-
-@keyframes appear {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float-note {
-  to {
-    transform: translateY(-13px) rotate(4deg);
-  }
-}
-
-@keyframes row-glow {
-  to {
-    stroke-width: 20;
-  }
+  opacity: 1;
+  transform: none;
 }
 
 @media (max-width: 960px) {
@@ -1023,15 +985,5 @@ main {
   .site-footer {
     flex-direction: column;
     align-items: flex-start;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.001ms !important;
   }
 }

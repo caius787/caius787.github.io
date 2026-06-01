@@ -45,10 +45,6 @@ if (countdownRoot && countdownEnded) {
   window.setInterval(updateCountdown, 1000);
 }
 
-document.querySelectorAll(".reveal").forEach((element, index) => {
-  element.style.animationDelay = `${index * 75}ms`;
-});
-
 rowButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const row = button.dataset.row;
