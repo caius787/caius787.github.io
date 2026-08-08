@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a0c">
+  <meta name="description" content="Track your DonutSMP auction investments, sales, and profit.">
+  <title>Donut Assets — DonutSMP Portfolio Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0c;
+      --surface: #101114;
+      --surface-2: #16181c;
+      --surface-3: #1d2025;
+      --line: #292c32;
+      --muted: #8c929d;
+      --text: #f4f5f7;
+      --green: #9ef01a;
+      --green-2: #75c900;
+      --red: #ff625d;
+      --amber: #f7c948;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { color-scheme: dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 78% -10%, rgba(158, 240, 26, .08), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+    }
+    button, input, select { font: inherit; }
+    button { color: inherit; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(9,10,12,.88);
+      backdrop-filter: blur(18px);
+    }
+    .nav { height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; font: 700 19px "Space Grotesk", sans-serif; letter-spacing: -.4px; }
+    .brand-mark {
+      width: 34px; height: 34px; border: 6px solid var(--green); border-radius: 50%; position: relative;
+      box-shadow: 0 0 26px rgba(158,240,26,.22); transform: rotate(-8deg);
+    }
+    .brand-mark::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--bg); position: absolute; top: 1px; left: 3px; box-shadow: 7px 8px 0 var(--bg); }
+    .brand span { color: var(--green); }
+    .nav-note { color: var(--muted); font-size: 13px; }
+
+    main { padding: 50px 0 80px; }
+    .eyebrow { color: var(--green); text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: 1.8px; margin: 0 0 12px; }
+    .hero { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 32px; }
+    h1 { font: 700 clamp(36px, 5vw, 62px)/.98 "Space Grotesk", sans-serif; letter-spacing: -3px; margin: 0; max-width: 700px; }
+    .hero-copy { color: var(--muted); max-width: 530px; line-height: 1.55; margin: 16px 0 0; }
+    .primary, .secondary, .ghost, .danger {
+      border: 0; border-radius: 11px; cursor: pointer; font-weight: 700; transition: .18s ease; min-height: 42px; padding: 0 17px;
+    }
+    .primary { background: var(--green); color: #101600; box-shadow: 0 8px 25px rgba(158,240,26,.15); }
+    .primary:hover { background: #adff2f; transform: translateY(-1px); }
+    .secondary { background: var(--surface-3); border: 1px solid var(--line); }
+    .secondary:hover { border-color: #464b55; background: #22262c; }
+    .ghost { background: transparent; color: var(--muted); padding: 0 10px; }
+    .ghost:hover { color: var(--text); }
+    .danger { color: var(--red); background: rgba(255,98,93,.09); padding: 0 12px; }
+
+    .stats { display: grid; grid-template-columns: 1.25fr repeat(4, 1fr); gap: 12px; margin-bottom: 38px; }
+    .stat { min-height: 124px; padding: 21px; border: 1px solid var(--line); background: linear-gradient(145deg, #15171a, #101114); border-radius: var(--radius); }
+    .stat.featured { border-color: rgba(158,240,26,.35); background: linear-gradient(145deg, rgba(158,240,26,.12), #101410 70%); }
+    .stat-label { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; font-weight: 600; }
+    .stat-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+    .stat-value { margin-top: 18px; font: 700 clamp(20px,2.5vw,29px) "Space Grotesk", sans-serif; letter-spacing: -1px; white-space: nowrap; }
+    .positive { color: var(--green); }
+    .negative { color: var(--red); }
+
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin: 0 0 16px; }
+    h2 { font: 700 24px "Space Grotesk", sans-serif; letter-spacing: -.7px; margin: 0; }
+    .section-note { color: var(--muted); font-size: 13px; margin: 5px 0 0; }
+    .toolbar { display: flex; align-items: center; gap: 10px; }
+    .search {
+      width: 220px; height: 42px; border: 1px solid var(--line); border-radius: 11px; padding: 0 14px;
+      color: var(--text); background: var(--surface); outline: none;
+    }
+    .search:focus { border-color: rgba(158,240,26,.65); box-shadow: 0 0 0 3px rgba(158,240,26,.08); }
+
+    .table-wrap { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin-bottom: 42px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 14px 18px; color: var(--muted); font-size: 11px; letter-spacing: .8px; text-transform: uppercase; text-align: left; background: #0d0e10; }
+    td { padding: 16px 18px; border-top: 1px solid var(--line); vertical-align: middle; }
+    .item-cell { display: flex; align-items: center; gap: 13px; min-width: 180px; }
+    .item-icon { width: 42px; height: 42px; object-fit: contain; image-rendering: pixelated; background: #1b1e22; border: 1px solid #2c3036; border-radius: 10px; padding: 6px; }
+    .item-name { font-weight: 700; }
+    .item-category { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .money { font-variant-numeric: tabular-nums; font-weight: 600; }
+    .tiny { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .row-actions { display: flex; justify-content: flex-end; gap: 6px; }
+    .empty { padding: 65px 20px; text-align: center; color: var(--muted); }
+    .empty-icon { width: 54px; height: 54px; border: 2px dashed #343840; border-radius: 16px; display: grid; place-items: center; margin: 0 auto 14px; color: var(--green); font-size: 26px; }
+    .empty strong { color: var(--text); display: block; margin-bottom: 5px; }
+
+
+    dialog { width: min(470px, calc(100% - 28px)); padding: 0; border: 1px solid #343840; border-radius: 18px; background: #121417; color: var(--text); box-shadow: 0 30px 100px rgba(0,0,0,.75); }
+    dialog::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(4px); }
+    .modal-head { padding: 22px 24px 17px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    .modal-head h3 { margin: 0; font: 700 21px "Space Grotesk", sans-serif; }
+    .close { border: 0; background: none; color: var(--muted); font-size: 24px; cursor: pointer; }
+    .form { padding: 22px 24px 24px; }
+    label { display: block; color: var(--muted); font-size: 12px; font-weight: 700; margin: 0 0 8px; }
+    .field { margin-bottom: 17px; }
+    .control { width: 100%; height: 47px; border: 1px solid var(--line); background: #0d0f11; border-radius: 10px; color: var(--text); padding: 0 13px; outline: none; }
+    .control:focus { border-color: var(--green-2); box-shadow: 0 0 0 3px rgba(158,240,26,.08); }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .hint { color: var(--muted); font-size: 12px; line-height: 1.4; margin-top: 7px; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 23px; }
+    .sell-preview { border: 1px solid var(--line); background: #0d0f11; padding: 14px; border-radius: 10px; margin: -3px 0 17px; color: var(--muted); font-size: 13px; }
+    .sell-preview strong { float: right; color: var(--text); }
+    .toast { position: fixed; left: 50%; bottom: 25px; transform: translate(-50%, 20px); background: var(--text); color: #111; padding: 12px 17px; border-radius: 10px; font-weight: 700; font-size: 13px; opacity: 0; pointer-events: none; transition: .2s; z-index: 50; }
+    .toast.show { opacity: 1; transform: translate(-50%,0); }
+    footer { color: #5f646e; font-size: 12px; text-align: center; padding: 40px 0 0; }
+    footer a { color: var(--muted); }
+
+    @media (max-width: 950px) {
+      .stats { grid-template-columns: repeat(3, 1fr); }
+      .stat.featured { grid-column: span 2; }
+    }
+    @media (max-width: 690px) {
+      .shell { width: min(100% - 22px, 1180px); }
+      main { padding-top: 32px; }
+      .hero { display: block; }
+      .hero .primary { width: 100%; margin-top: 22px; }
+      h1 { letter-spacing: -2px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat.featured { grid-column: 1/-1; }
+      .stat { min-height: 108px; padding: 17px; }
+      .section-head { align-items: stretch; flex-direction: column; }
+      .toolbar { width: 100%; }
+      .search { flex: 1; min-width: 0; }
+      table, tbody, tr, td { display: block; }
+      thead { display: none; }
+      tr { border-top: 1px solid var(--line); padding: 15px; position: relative; }
+      tbody tr:first-child { border-top: 0; }
+      td { border: 0; padding: 6px 0; }
+      td:nth-child(2)::before { content: "Purchase price  "; color: var(--muted); }
+      td:nth-child(3)::before { content: "Total invested  "; color: var(--muted); }
+      td:nth-child(4) { display: block; }
+      .row-actions { justify-content: flex-start; padding-top: 7px; }
+    }
+    @media (max-width: 430px) {
+      .nav-note { display: none; }
+      .split { grid-template-columns: 1fr; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell nav">
+      <div class="brand"><i class="brand-mark" aria-hidden="true"></i>Donut <span>Assets</span></div>
+      <div class="nav-note">DonutSMP portfolio tracker</div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Your auction portfolio</p>
+        <h1>Know what your loot is worth.</h1>
+        <p class="hero-copy">Track every DonutSMP auction purchase and completed sale. Your portfolio is saved on this device.</p>
+      </div>
+      <button class="primary" id="heroAdd">+ Add asset</button>
+    </section>
+
+    <section class="stats" aria-label="Portfolio summary">
+      <article class="stat featured"><div class="stat-label">Realized profit <i class="stat-dot"></i></div><div class="stat-value" id="totalProfit">$0</div></article>
+      <article class="stat"><div class="stat-label">Profit today</div><div class="stat-value" id="todayProfit">$0</div></article>
+      <article class="stat"><div class="stat-label">Total invested</div><div class="stat-value" id="totalInvested">$0</div></article>
+      <article class="stat"><div class="stat-label">Items bought</div><div class="stat-value" id="itemsBought">0</div></article>
+      <article class="stat"><div class="stat-label">Items sold</div><div class="stat-value" id="itemsSold">0</div></article>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div><h2>Your assets</h2><p class="section-note">Your open auction purchases.</p></div>
+        <div class="toolbar"><input class="search" id="holdingSearch" type="search" placeholder="Search assets…" aria-label="Search your assets"><button class="primary" id="tableAdd">+ Add asset</button></div>
+      </div>
+      <div class="table-wrap" id="portfolioTable"></div>
+    </section>
+
+    <footer>Not affiliated with DonutSMP.</footer>
+  </main>
+
+  <dialog id="addDialog">
+    <div class="modal-head"><h3>Add an asset</h3><button class="close" data-close="addDialog" aria-label="Close">×</button></div>
+    <form class="form" id="addForm">
+      <div class="field"><label for="assetItem">ITEM</label><select class="control" id="assetItem" required></select></div>
+      <div class="split">
+        <div class="field"><label for="assetPrice">PURCHASE PRICE (EACH)</label><input class="control" id="assetPrice" type="text" inputmode="decimal" placeholder="e.g. 250K or 2.5M" required><div class="hint">K = thousand · M = million · T = trillion</div></div>
+        <div class="field"><label for="assetQty">QUANTITY</label><input class="control" id="assetQty" type="number" min="1" value="1" required><div class="hint" id="qtyHint">Maximum stack: 64</div></div>
+      </div>
+      <div class="form-actions"><button class="secondary" type="button" data-close="addDialog">Cancel</button><button class="primary" type="submit">Add to portfolio</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="sellDialog">
+    <div class="modal-head"><h3>Record a sale</h3><button class="close" data-close="sellDialog" aria-label="Close">×</button></div>
+    <form class="form" id="sellForm">
+      <p class="section-note" id="sellName"></p>
+      <div class="split">
+        <div class="field"><label for="sellPrice">SOLD FOR (EACH)</label><input class="control" id="sellPrice" type="text" inputmode="decimal" placeholder="e.g. 300K or 3M" required><div class="hint">K = thousand · M = million · T = trillion</div></div>
+        <div class="field"><label for="sellQty">QUANTITY</label><input class="control" id="sellQty" type="number" min="1" value="1" required></div>
+      </div>
+      <div class="sell-preview">Estimated sale profit <strong id="saleProfit">$0</strong></div>
+      <div class="form-actions"><button class="secondary" type="button" data-close="sellDialog">Cancel</button><button class="primary" type="submit">Mark as sold</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const ITEMS = [
+      { id:'elytra', name:'Elytra', category:'Popular Investments', stack:1 },
+      { id:'dragon_head', name:'Dragon Head', category:'Popular Investments', stack:64 },
+      { id:'piglin_head', name:'Piglin Head', category:'Popular Investments', stack:64 },
+      { id:'enchanted_golden_apple', name:'Enchanted Golden Apple', category:'Popular Investments', stack:64 },
+      { id:'totem_of_undying', name:'Totem of Undying', category:'Misc', stack:1 },
+      { id:'golden_apple', name:'Golden Apple', category:'Misc', stack:64 },
+      { id:'end_crystal', name:'End Crystal', category:'Misc', stack:64 },
+      { id:'netherite_ingot', name:'Netherite Ingot', category:'Netherite', stack:64 },
+      { id:'netherite_block', name:'Block of Netherite', category:'Netherite', stack:64 },
+      { id:'ancient_debris', name:'Ancient Debris', category:'Netherite', stack:64 },
+      { id:'redstone', name:'Redstone Dust', category:'Most Sold', stack:64 },
+      { id:'hopper', name:'Hopper', category:'Most Sold', stack:64 },
+      { id:'iron_ingot', name:'Iron Ingot', category:'Most Sold', stack:64 },
+      { id:'bone_block', name:'Bone Block', category:'Farming Items', stack:64 },
+      { id:'sea_pickle', name:'Sea Pickle', category:'Farming Items', stack:64 },
+      { id:'sugar_cane', name:'Sugar Cane', category:'Farming Items', stack:64 },
+      { id:'bamboo', name:'Bamboo', category:'Farming Items', stack:64 }
+    ];
+    const CATEGORIES = ['Popular Investments','Misc','Netherite','Most Sold','Farming Items'];
+    const STORE = 'donut-assets-v1';
+    const COOKIE = 'donut_assets_portfolio';
+    let state = loadState();
+    let sellingId = null;
+
+    function readCookie() {
+      if (location.protocol === 'file:') return null;
+      const entry = document.cookie.split('; ').find(row => row.startsWith(`${COOKIE}=`));
+      if (!entry) return null;
+      try { return JSON.parse(decodeURIComponent(entry.slice(COOKIE.length + 1))); }
+      catch { return null; }
+    }
+    function writeCookie(data) {
+      if (location.protocol === 'file:') return;
+      const secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = `${COOKIE}=${encodeURIComponent(JSON.stringify(data))}; Max-Age=31536000; Path=/; SameSite=Lax${secure}`;
+    }
+    function loadState() {
+      const savedCookie = readCookie();
+      if (savedCookie?.holdings && savedCookie?.sales) return savedCookie;
+      try { return JSON.parse(localStorage.getItem(STORE)) || { holdings:[], sales:[] }; }
+      catch { return { holdings:[], sales:[] }; }
+    }
+    function saveState() {
+      localStorage.setItem(STORE, JSON.stringify(state));
+      writeCookie(state);
+      render();
+    }
+    function item(id) { return ITEMS.find(x => x.id === id); }
+    function icon(id) { return `./icons/${id}.png`; }
+    function money(value, decimals = false) {
+      const abs = Math.abs(Number(value) || 0);
+      const places = decimals || abs < 1000 ? 2 : 0;
+      return `${value < 0 ? '-' : ''}$${abs.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:places})}`;
+    }
+    function parseAmount(value) {
+      const cleaned = String(value).trim().replace(/[$,\s]/g, '').toUpperCase();
+      const match = cleaned.match(/^(\d+(?:\.\d+)?)([KMT])?$/);
+      if (!match) return NaN;
+      const multipliers = { K:1e3, M:1e6, T:1e12 };
+      return Number(match[1]) * (multipliers[match[2]] || 1);
+    }
+    function count(value) { return Number(value || 0).toLocaleString('en-US'); }
+    function esc(s) { return String(s).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+    function todayKey() { return new Date().toISOString().slice(0,10); }
+
+    function renderStats() {
+      const invested = state.holdings.reduce((n,h) => n + h.buyPrice*h.qty,0);
+      const realized = state.sales.reduce((n,s) => n + (s.sellPrice-s.buyPrice)*s.qty,0);
+      const today = state.sales.filter(s => s.date === todayKey()).reduce((n,s) => n + (s.sellPrice-s.buyPrice)*s.qty,0);
+      const bought = state.holdings.reduce((n,h)=>n+h.qty,0) + state.sales.reduce((n,s)=>n+s.qty,0);
+      const sold = state.sales.reduce((n,s)=>n+s.qty,0);
+      setMetric('totalProfit', realized, true);
+      setMetric('todayProfit', today, true);
+      document.getElementById('totalInvested').textContent = money(invested);
+      document.getElementById('itemsBought').textContent = count(bought);
+      document.getElementById('itemsSold').textContent = count(sold);
+    }
+    function setMetric(id, value, colored) {
+      const el = document.getElementById(id); el.textContent = money(value);
+      if (colored) el.className = `stat-value ${value < 0 ? 'negative' : value > 0 ? 'positive' : ''}`;
+    }
+
+    function renderPortfolio() {
+      const q = document.getElementById('holdingSearch').value.trim().toLowerCase();
+      const holdings = state.holdings.filter(h => item(h.itemId)?.name.toLowerCase().includes(q));
+      const box = document.getElementById('portfolioTable');
+      if (!holdings.length) {
+        box.innerHTML = `<div class="empty"><div class="empty-icon">+</div><strong>${q ? 'No matching assets' : 'Your portfolio is empty'}</strong>${q ? 'Try another search.' : 'Add your first auction purchase to start tracking profit.'}</div>`;
+        return;
+      }
+      box.innerHTML = `<table><thead><tr><th>Asset</th><th>Purchase price</th><th>Total invested</th><th></th></tr></thead><tbody>${holdings.map(h => {
+        const i=item(h.itemId);
+        return `<tr><td><div class="item-cell"><img class="item-icon" src="${icon(i.id)}" alt="" onerror="this.style.visibility='hidden'"><div><div class="item-name">${esc(i.name)} × ${count(h.qty)}</div><div class="item-category">${esc(i.category)}</div></div></div></td><td><div class="money">${money(h.buyPrice)}</div><div class="tiny">each</div></td><td><div class="money">${money(h.buyPrice*h.qty)}</div></td><td><div class="row-actions"><button class="secondary" onclick="openSell('${h.id}')">Sold for</button><button class="danger" onclick="removeHolding('${h.id}')" aria-label="Remove ${esc(i.name)}">×</button></div></td></tr>`;
+      }).join('')}</tbody></table>`;
+    }
+
+    function render() { renderStats(); renderPortfolio(); }
+
+    function updateAddForm() {
+      const i = item(document.getElementById('assetItem').value);
+      const qty = document.getElementById('assetQty');
+      qty.max = i.stack; if (+qty.value > i.stack) qty.value = i.stack;
+      qty.disabled = i.stack === 1; if (i.stack === 1) qty.value = 1;
+      document.getElementById('qtyHint').textContent = i.stack === 1 ? 'This item is non-stackable.' : `Maximum stack: ${i.stack}`;
+    }
+    function openAdd(id) {
+      if (id) document.getElementById('assetItem').value = id;
+      document.getElementById('assetPrice').value = '';
+      document.getElementById('assetQty').value = 1;
+      updateAddForm(); document.getElementById('addDialog').showModal();
+      setTimeout(()=>document.getElementById('assetPrice').focus(),50);
+    }
+    function openSell(id) {
+      sellingId=id; const h=state.holdings.find(x=>x.id===id); const i=item(h.itemId);
+      document.getElementById('sellName').textContent = `${i.name} · ${h.qty} available · bought for ${money(h.buyPrice)} each`;
+      document.getElementById('sellPrice').value = '';
+      document.getElementById('sellQty').value = h.qty;
+      document.getElementById('sellQty').max = h.qty;
+      updateSalePreview(); document.getElementById('sellDialog').showModal();
+    }
+    function updateSalePreview() {
+      const h=state.holdings.find(x=>x.id===sellingId); if(!h)return;
+      const sellPrice=parseAmount(document.getElementById('sellPrice').value); const el=document.getElementById('saleProfit');
+      if (!Number.isFinite(sellPrice)) { el.textContent='—'; el.className=''; return; }
+      const profit=(sellPrice-h.buyPrice)*(+document.getElementById('sellQty').value||0);
+      el.textContent=`${profit>=0?'+':''}${money(profit)}`; el.className=profit<0?'negative':'positive';
+    }
+    function removeHolding(id) {
+      state.holdings=state.holdings.filter(h=>h.id!==id); saveState(); toast('Asset removed');
+    }
+    function toast(message) {
+      const el=document.getElementById('toast'); el.textContent=message; el.classList.add('show'); clearTimeout(toast.timer); toast.timer=setTimeout(()=>el.classList.remove('show'),2200);
+    }
+
+    document.getElementById('assetItem').innerHTML = CATEGORIES.map(cat => `<optgroup label="${cat}">${ITEMS.filter(i=>i.category===cat).map(i=>`<option value="${i.id}">${i.name}</option>`).join('')}</optgroup>`).join('');
+    document.getElementById('assetItem').addEventListener('change',updateAddForm);
+    document.getElementById('assetPrice').addEventListener('input',e=>e.target.setCustomValidity(''));
+    document.getElementById('addForm').addEventListener('submit',e=>{
+      e.preventDefault(); const i=item(document.getElementById('assetItem').value); const priceInput=document.getElementById('assetPrice'); const buyPrice=parseAmount(priceInput.value); const qty=i.stack===1?1:Math.min(i.stack,Math.max(1,+document.getElementById('assetQty').value));
+      if (!Number.isFinite(buyPrice) || buyPrice < 0) { priceInput.setCustomValidity('Enter a price like 250K, 2.5M, 1T, or a regular number.'); priceInput.reportValidity(); return; }
+      priceInput.setCustomValidity('');
+      state.holdings.unshift({id:crypto.randomUUID(),itemId:i.id,buyPrice,qty,date:todayKey()});
+      saveState(); document.getElementById('addDialog').close(); toast(`${i.name} added`);
+    });
+    document.getElementById('sellForm').addEventListener('submit',e=>{
+      e.preventDefault(); const h=state.holdings.find(x=>x.id===sellingId); if(!h)return;
+      const priceInput=document.getElementById('sellPrice'); const sellPrice=parseAmount(priceInput.value); const qty=Math.min(h.qty,Math.max(1,+document.getElementById('sellQty').value));
+      if (!Number.isFinite(sellPrice) || sellPrice < 0) { priceInput.setCustomValidity('Enter a price like 300K, 3M, 1T, or a regular number.'); priceInput.reportValidity(); return; }
+      priceInput.setCustomValidity('');
+      state.sales.unshift({id:crypto.randomUUID(),itemId:h.itemId,buyPrice:h.buyPrice,sellPrice,qty,date:todayKey()});
+      h.qty-=qty; if(h.qty<=0) state.holdings=state.holdings.filter(x=>x.id!==h.id);
+      saveState(); document.getElementById('sellDialog').close(); toast(`Sale recorded · ${money((sellPrice-h.buyPrice)*qty)} profit`);
+    });
+    document.getElementById('sellPrice').addEventListener('input',updateSalePreview);
+    document.getElementById('sellPrice').addEventListener('input',e=>e.target.setCustomValidity(''));
+    document.getElementById('sellQty').addEventListener('input',updateSalePreview);
+    document.getElementById('holdingSearch').addEventListener('input',renderPortfolio);
+    document.getElementById('heroAdd').addEventListener('click',()=>openAdd());
+    document.getElementById('tableAdd').addEventListener('click',()=>openAdd());
+    document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.close).close()));
+    document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{ if(e.target===d)d.close(); }));
+    writeCookie(state);
+    updateAddForm(); render();
+  </script>
+</body>
+</html>
