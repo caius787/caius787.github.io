@@ -197,7 +197,7 @@
             }, timeUntilNext17th);
         }
 
-        // ✅ Corrected: Calculate time since Oct 17, 2025 00:00 Los Angeles time
+        // Calculate time since Oct 17, 2026 00:00 Los Angeles time
         function calculateTimeSinceBirthday() {
             const now = new Date();
 
@@ -206,8 +206,8 @@
                 new Date(now).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
             );
 
-            // Los Angeles midnight on Oct 17, 2025
-            const birthdayInLA = new Date('2025-10-17T00:00:00-07:00'); // PDT offset
+            // Los Angeles midnight on Oct 17, 2026
+            const birthdayInLA = new Date('2026-10-17T00:00:00-07:00'); // PDT offset
 
             const timeDiff = laNow - birthdayInLA;
 
@@ -296,4 +296,4 @@
 
 </body>
 </html>
-<!--Caius, Oct 17, 2025-->
+<!--Caius, Oct 17, 2026-->
